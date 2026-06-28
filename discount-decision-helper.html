@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Discount Decision Helper — AI Profit Garden</title>
+<meta name="description" content="Decide if a deal is worth it before you say yes. Check the margin and the fit, then get a clear recommendation." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.result-hero{text-align:center;padding:8px 0 4px}
+.result-hero .big{font-family:var(--serif);font-weight:700;font-size:2.4rem;line-height:1.05;color:var(--olive)}
+.result-hero .big.neg{color:var(--danger)}
+.result-hero .big.pos{color:#2F7A4E}
+.result-hero .cap{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.reason-list{list-style:none;margin-top:12px}
+.reason-list li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line);font-size:.92rem}
+.reason-list li:first-child{border-top:none}
+.reason-list .ic{flex:0 0 auto;font-weight:700}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Discount Decision Helper</h1>
+      <p class="app-sub">Decide if a deal is worth it — before you say yes.</p>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card">
+    <h2 class="section-title">About the deal</h2>
+    <p class="section-note">A few quick questions. We'll check the numbers and the fit, then give you a clear, honest recommendation. Your work has real value — let's protect it.</p>
+
+    <form id="form" novalidate>
+      <div class="row">
+        <div class="field">
+          <label for="reg">Your regular price <span class="hint">— what you'd normally charge</span></label>
+          <div class="input-money"><span>$</span>
+            <input id="reg" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="reg-err" />
+          </div>
+          <div class="err-text" id="reg-err">Please enter your regular price (more than 0).</div>
+        </div>
+
+        <div class="field">
+          <label for="disc">Discount they're asking <span class="hint">— %</span></label>
+          <input id="disc" class="input" type="text" inputmode="decimal" placeholder="e.g. 20" autocomplete="off" aria-describedby="disc-err" />
+          <div class="err-text" id="disc-err">Please enter a discount between 0 and 100.</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="cost">Your cost to deliver <span class="hint">— materials, time, fees, etc.</span></label>
+        <div class="input-money"><span>$</span>
+          <input id="cost" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="cost-err" />
+        </div>
+        <div class="err-text" id="cost-err">Please enter your cost (0 or more).</div>
+      </div>
+
+      <div class="field">
+        <label for="oneoff">Is this a one-off, or does it set a precedent?</label>
+        <select id="oneoff" class="select input">
+          <option value="oneoff">A true one-off — others won't expect the same</option>
+          <option value="precedent">It could set a precedent for future pricing</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="fit">Is this a good long-term client fit?</label>
+        <select id="fit" class="select input">
+          <option value="great">Yes — dream client, likely to return or refer</option>
+          <option value="okay">Maybe — too soon to tell</option>
+          <option value="poor">Not really — likely one-and-done or high-maintenance</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="cap">Do you have the capacity to take this on?</label>
+        <select id="cap" class="select input">
+          <option value="yes">Yes — I have room without strain</option>
+          <option value="tight">Tight — I'd have to squeeze it in</option>
+          <option value="no">No — I'm already at (or over) capacity</option>
+        </select>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Help me decide</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <div class="result-hero">
+      <div class="cap">Our recommendation</div>
+      <div class="big" id="r-verdict">—</div>
+      <div id="r-badge" style="margin-top:10px"></div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Discounted price</div><div class="value" id="s-price">$0</div></div>
+      <div class="stat"><div class="label">Profit on this deal</div><div class="value" id="s-profit">$0</div></div>
+      <div class="stat"><div class="label">Margin</div><div class="value" id="s-margin">0%</div></div>
+    </div>
+
+    <div id="r-money" class="callout callout-info mt"></div>
+
+    <h3 class="section-title mt" style="font-size:1.02rem">Why we say that</h3>
+    <ul class="reason-list" id="r-reasons"></ul>
+
+    <div class="verse" id="r-verse" hidden>
+      “The labourer is worthy of their wages.”
+      <cite>Luke 10:7 · your work has real value</cite>
+    </div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save this decision</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy summary</button>
+    </div>
+  </section>
+
+  <!-- SAVED -->
+  <section class="card" id="history-card" hidden>
+    <h2 class="section-title">Saved decisions</h2>
+    <p class="section-note">Kept on this device only.</p>
+    <div id="history"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all saved</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_discount_decision_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var result=$("#result"), histCard=$("#history-card"), hist=$("#history");
+  var last=null;
+
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+
+  function validate(){
+    var ok=true;
+    var reg=$("#reg"), regErr=$("#reg-err");
+    if(reg.value.trim()===""||num(reg.value)<=0){ reg.classList.add("error"); regErr.classList.add("show"); ok=false; }
+    else { reg.classList.remove("error"); regErr.classList.remove("show"); }
+
+    var disc=$("#disc"), discErr=$("#disc-err");
+    var d=num(disc.value);
+    if(disc.value.trim()===""||d<0||d>100){ disc.classList.add("error"); discErr.classList.add("show"); ok=false; }
+    else { disc.classList.remove("error"); discErr.classList.remove("show"); }
+
+    var cost=$("#cost"), costErr=$("#cost-err");
+    if(cost.value.trim()===""||num(cost.value)<0){ cost.classList.add("error"); costErr.classList.add("show"); ok=false; }
+    else { cost.classList.remove("error"); costErr.classList.remove("show"); }
+
+    return ok;
+  }
+
+  function calculate(){
+    if(!validate()){ $(".input.error")&&$(".input.error").focus(); return null; }
+
+    var reg=num($("#reg").value), disc=num($("#disc").value), cost=num($("#cost").value);
+    var oneoff=$("#oneoff").value, fit=$("#fit").value, cap=$("#cap").value;
+
+    var price=reg*(1-disc/100);
+    var profit=price-cost;
+    var margin=price>0?(profit/price*100):0;
+
+    /* score the qualitative answers; combine with margin into a verdict */
+    var score=0; /* higher = more reason to do the deal */
+    var reasons=[];
+
+    // margin reasoning
+    if(profit<0){
+      score-=3;
+      reasons.push(["bad","At this discount you'd actually lose "+money(-profit)+" on the work. That's below your cost to deliver — a deal that takes money out of your pocket."]);
+    }else if(margin<10){
+      score-=1;
+      reasons.push(["warn","Your margin drops to "+margin.toFixed(0)+"% — very thin. You'd be working hard for very little left over."]);
+    }else if(margin<25){
+      score+=0;
+      reasons.push(["ok","A "+margin.toFixed(0)+"% margin is slim but still positive — workable if the relationship is worth it."]);
+    }else{
+      score+=1;
+      reasons.push(["good","Even discounted, you keep a healthy "+margin.toFixed(0)+"% margin. The numbers still work in your favour."]);
+    }
+
+    // precedent
+    if(oneoff==="precedent"){ score-=1; reasons.push(["warn","This could set a precedent — others may expect the same price. Be sure you'd be happy to honour it again."]); }
+    else { score+=1; reasons.push(["good","A genuine one-off, so it won't anchor your future pricing. Easier to make an exception."]); }
+
+    // fit
+    if(fit==="great"){ score+=2; reasons.push(["good","A dream long-term client. A first project at a fair discount can be an investment in a relationship that pays back many times over."]); }
+    else if(fit==="okay"){ score+=0; reasons.push(["ok","The long-term fit is still unclear — so let the numbers, not hope, lead this decision."]); }
+    else { score-=2; reasons.push(["warn","This doesn't look like a strong long-term fit. Discounting for a one-and-done client rarely pays off."]); }
+
+    // capacity
+    if(cap==="yes"){ score+=1; reasons.push(["good","You have the capacity to deliver this well, without straining your other work."]); }
+    else if(cap==="tight"){ score+=0; reasons.push(["ok","Capacity is tight — make sure this deal won't crowd out higher-value work or your rest."]); }
+    else { score-=2; reasons.push(["bad","You're already at capacity. Taking on discounted work now would cost you in quality, energy, or full-price clients."]); }
+
+    /* verdict */
+    var verdict, badge, vclass, moneyMsg, moneyClass, showVerse=false;
+    if(profit<0 || score<=-3){
+      verdict="Politely decline"; vclass="neg";
+      badge='<span class="badge badge-danger">Not this time</span>';
+      moneyMsg=(profit<0)
+        ? "This deal would cost you money to deliver. A warm, gracious no protects your business — and there's no shame in saying it."
+        : "Too many signals point the wrong way. You're allowed to say a kind, confident no.";
+      moneyClass="callout callout-warn mt";
+    }else if(score>=3 && profit>=0){
+      verdict="Go for it"; vclass="pos";
+      badge='<span class="badge badge-sage">Worth it</span>';
+      moneyMsg="The numbers hold and the fit is good. You'd keep "+money(profit)+" on this deal — a confident yes.";
+      moneyClass="callout callout-info mt";
+      showVerse=true;
+    }else{
+      verdict="Negotiate"; vclass="";
+      badge='<span class="badge badge-gold">Worth a conversation</span>';
+      moneyMsg="There's a real deal here, but not at these exact terms. Try meeting in the middle — a smaller discount, a smaller scope, or a bonus instead of a price cut.";
+      moneyClass="callout callout-info mt";
+    }
+
+    $("#s-price").textContent=money(price);
+    var sp=$("#s-profit"); sp.textContent=money(profit); sp.className="value "+(profit>0?"pos":profit<0?"neg":"");
+    $("#s-margin").textContent=(price>0?margin.toFixed(0):"—")+"%";
+
+    var v=$("#r-verdict"); v.textContent=verdict; v.className="big "+vclass;
+    $("#r-badge").innerHTML=badge;
+    var mm=$("#r-money"); mm.textContent=moneyMsg; mm.className=moneyClass;
+
+    var ul=$("#r-reasons"); ul.innerHTML="";
+    var icons={good:"🌿",ok:"•",warn:"⚠️",bad:"✕"};
+    reasons.forEach(function(r){
+      var li=document.createElement("li");
+      li.innerHTML='<span class="ic">'+(icons[r[0]]||"•")+'</span><span>'+r[1]+'</span>';
+      ul.appendChild(li);
+    });
+
+    $("#r-verse").hidden=!showVerse;
+
+    result.hidden=false;
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+
+    last={reg:reg,disc:disc,cost:cost,price:price,profit:profit,margin:margin,verdict:verdict};
+    return last;
+  }
+
+  function todayStr(){
+    return new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  }
+  function getSaved(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setSaved(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+
+  function renderHistory(){
+    var items=getSaved();
+    if(!items.length){ histCard.hidden=true; return; }
+    histCard.hidden=false; hist.innerHTML="";
+    items.forEach(function(it,i){
+      var row=document.createElement("div"); row.className="item";
+      row.innerHTML='<div class="grow"><strong>'+it.verdict+' · '+it.disc+'% off</strong>'+
+        '<small>'+it.date+' · '+money(it.price)+' price · '+money(it.profit)+' profit · '+Math.round(it.margin)+'% margin</small></div>'+
+        '<button class="icon-btn" aria-label="Delete decision">✕</button>';
+      $(".icon-btn",row).onclick=function(){ items.splice(i,1); setSaved(items); renderHistory(); toast("Decision removed"); };
+      hist.appendChild(row);
+    });
+  }
+
+  $("#form").addEventListener("submit",function(e){ e.preventDefault(); calculate(); });
+
+  $("#reset").onclick=function(){
+    $("#form").reset();
+    ["reg","disc","cost"].forEach(function(id){ $("#"+id).classList.remove("error"); });
+    document.querySelectorAll(".err-text").forEach(function(e){ e.classList.remove("show"); });
+    result.hidden=true; last=null;
+    toast("Cleared 🌿");
+    $("#reg").focus();
+  };
+
+  $("#save").onclick=function(){
+    var r=last||calculate(); if(!r) return;
+    var items=getSaved();
+    items.unshift({date:todayStr(),disc:r.disc,price:r.price,profit:r.profit,margin:r.margin,verdict:r.verdict});
+    setSaved(items.slice(0,24)); renderHistory(); toast("Decision saved ✓");
+  };
+
+  $("#copy").onclick=function(){
+    if(!last){ toast("Run a decision first"); return; }
+    var txt="Discount Decision ("+todayStr()+")\n"+
+      "Recommendation: "+last.verdict+"\n"+
+      "Regular price: "+money(last.reg)+"\n"+
+      "Discount: "+last.disc+"%\n"+
+      "Discounted price: "+money(last.price)+"\n"+
+      "Cost to deliver: "+money(last.cost)+"\n"+
+      "Profit: "+money(last.profit)+" ("+last.margin.toFixed(0)+"% margin)";
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Summary copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  $("#clear-all").onclick=function(){ setSaved([]); renderHistory(); toast("All saved decisions cleared"); };
+
+  renderHistory();
+})();
+</script>
+</body>
+</html>

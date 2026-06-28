@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bill Pay Prioritizer — AI Profit Garden</title>
+<meta name="description" content="When cash is tight, see which bills to pay first and why — calm, clear, and protective of your business." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.bill-status{flex:0 0 auto;align-self:center}
+.item .grow .cat{font-size:.78rem;color:var(--muted)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.dot-paid{background:#2F7A4E}.dot-part{background:var(--gold)}.dot-wait{background:var(--danger)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Bill Pay Prioritizer</h1>
+      <p class="app-sub">When cash is tight, see what to pay first — and why.</p>
+    </div>
+  </header>
+
+  <!-- AVAILABLE CASH -->
+  <section class="card">
+    <h2 class="section-title">How much cash do you have right now?</h2>
+    <p class="section-note">Take a breath. We'll line up your bills in a wise order and walk your cash down the list, so nothing important slips through.</p>
+    <div class="field">
+      <label for="cash">Available cash <span class="hint">— what's truly on hand today</span></label>
+      <div class="input-money"><span>$</span>
+        <input id="cash" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="cash-err" />
+      </div>
+      <div class="err-text" id="cash-err">Please enter your available cash (0 or more).</div>
+    </div>
+  </section>
+
+  <!-- ADD BILL -->
+  <section class="card">
+    <h2 class="section-title">Add a bill</h2>
+    <p class="section-note">Name it, give the amount, and choose what kind it is. We'll handle the order.</p>
+    <form id="bill-form" novalidate>
+      <div class="field">
+        <label for="b-name">Bill name</label>
+        <input id="b-name" class="input" type="text" placeholder="e.g. Electric bill" autocomplete="off" aria-describedby="name-err" />
+        <div class="err-text" id="name-err">Please give this bill a name.</div>
+      </div>
+      <div class="row">
+        <div class="field" style="flex:1">
+          <label for="b-amt">Amount</label>
+          <div class="input-money"><span>$</span>
+            <input id="b-amt" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="amt-err" />
+          </div>
+          <div class="err-text" id="amt-err">Please enter an amount greater than 0.</div>
+        </div>
+        <div class="field" style="flex:1">
+          <label for="b-cat">Priority</label>
+          <select id="b-cat" class="select">
+            <option value="0">Keep-the-lights-on essential</option>
+            <option value="1">Payroll or contractors</option>
+            <option value="2">Tax or legal</option>
+            <option value="3">Important supplier</option>
+            <option value="4">Nice-to-have</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary btn-sm">+ Add bill</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- PLAN -->
+  <section class="card" id="plan-card" aria-live="polite">
+    <h2 class="section-title">Your pay-first plan</h2>
+    <p class="section-note">Worked from the top down, in the order that best protects your business.</p>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Available cash</div><div class="value" id="s-cash">$0</div></div>
+      <div class="stat"><div class="label">Total bills</div><div class="value" id="s-total">$0</div></div>
+      <div class="stat"><div class="label">Shortfall</div><div class="value" id="s-short">$0</div></div>
+    </div>
+
+    <div id="list"></div>
+
+    <div id="r-message" class="callout callout-info mt" hidden></div>
+
+    <div class="verse">
+      “The plans of the diligent lead surely to plenty.”
+      <cite>Proverbs 21:5 · calm, careful steps</cite>
+    </div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy plan</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all bills</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_bill_prioritizer_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var CATS=[
+    {name:"Keep-the-lights-on essential", why:"keeps your doors open and work flowing"},
+    {name:"Payroll or contractors", why:"honours the people who help you"},
+    {name:"Tax or legal", why:"keeps you safe and compliant"},
+    {name:"Important supplier", why:"protects key relationships"},
+    {name:"Nice-to-have", why:"can wait without harm"}
+  ];
+  var list=$("#list");
+
+  /* ---------- helpers ---------- */
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+
+  /* ---------- state ---------- */
+  function getState(){ try{return JSON.parse(localStorage.getItem(KEY)||"null")||{cash:0,bills:[]}}catch(e){return {cash:0,bills:[]}} }
+  function setState(s){ try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){} }
+  var state=getState();
+
+  function persist(){ state.cash=num($("#cash").value); setState(state); }
+
+  /* ---------- render ---------- */
+  function render(){
+    var cash=num($("#cash").value);
+    var bills=state.bills.slice();
+    /* sort by category order, keep stable for equal categories */
+    var indexed=bills.map(function(b,i){return {b:b,i:i}});
+    indexed.sort(function(a,b){ return a.b.cat-b.b.cat || a.i-b.i; });
+
+    var total=bills.reduce(function(a,b){return a+b.amt},0);
+    var shortfall=Math.max(0,total-cash);
+
+    $("#s-cash").textContent=money(cash);
+    $("#s-total").textContent=money(total);
+    var shortEl=$("#s-short");
+    shortEl.textContent=money(shortfall);
+    shortEl.className="value"+(shortfall>0?" neg":" pos");
+
+    list.innerHTML="";
+    if(!bills.length){
+      list.innerHTML='<div class="empty"><span class="ico">🧺</span>No bills yet. Add your first one above and we\'ll build your plan.</div>';
+      $("#r-message").hidden=true;
+      return;
+    }
+
+    var remaining=cash;
+    var paidCount=0, partCount=0, waitCount=0;
+    indexed.forEach(function(o){
+      var b=o.b, realIdx=o.i;
+      var covered=Math.min(b.amt, Math.max(0,remaining));
+      remaining-=covered;
+      var statusHtml, dot;
+      if(covered>=b.amt){ statusHtml='<span class="badge badge-sage">Paid in full</span>'; dot="dot-paid"; paidCount++; }
+      else if(covered>0){ statusHtml='<span class="badge badge-gold">Partial · '+money(covered)+'</span>'; dot="dot-part"; partCount++; }
+      else { statusHtml='<span class="badge badge-danger">Must wait</span>'; dot="dot-wait"; waitCount++; }
+
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML=
+        '<div class="grow"><strong><span class="dot '+dot+'"></span>'+escapeHtml(b.name)+' · '+money(b.amt)+'</strong>'+
+        '<small class="cat">'+CATS[b.cat].name+' — '+CATS[b.cat].why+'</small></div>'+
+        '<div class="bill-status">'+statusHtml+'</div>'+
+        '<button class="icon-btn" aria-label="Delete bill" data-idx="'+realIdx+'">✕</button>';
+      $(".icon-btn",row).onclick=function(){ state.bills.splice(realIdx,1); persist(); render(); toast("Bill removed"); };
+      list.appendChild(row);
+    });
+
+    var msg=$("#r-message"); msg.hidden=false;
+    if(shortfall<=0){
+      msg.className="callout callout-info mt";
+      msg.textContent="Good news — you have enough to cover everything. Pay them all with peace, and breathe easy.";
+    }else{
+      msg.className="callout callout-warn mt";
+      msg.textContent="Your cash covers the most important "+(paidCount)+" bill"+(paidCount===1?"":"s")+" in full"+(partCount?", with one partly covered":"")+". The "+waitCount+" lower-priority item"+(waitCount===1?"":"s")+" can wait. This order protects what keeps your business running — and most suppliers will gladly accept a partial payment with a kind note. You're handling this wisely.";
+    }
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}); }
+
+  /* ---------- events ---------- */
+  $("#cash").addEventListener("input",function(){ persist(); render(); });
+  $("#cash").addEventListener("blur",function(){ $("#cash").classList.remove("error"); $("#cash-err").classList.remove("show"); });
+
+  $("#bill-form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var nameEl=$("#b-name"), amtEl=$("#b-amt");
+    var name=nameEl.value.trim(), amt=num(amtEl.value), ok=true;
+    if(!name){ nameEl.classList.add("error"); $("#name-err").classList.add("show"); ok=false; } else { nameEl.classList.remove("error"); $("#name-err").classList.remove("show"); }
+    if(amt<=0){ amtEl.classList.add("error"); $("#amt-err").classList.add("show"); ok=false; } else { amtEl.classList.remove("error"); $("#amt-err").classList.remove("show"); }
+    if(!ok){ (!name?nameEl:amtEl).focus(); return; }
+    state.bills.push({name:name,amt:amt,cat:parseInt($("#b-cat").value,10)});
+    persist();
+    nameEl.value=""; amtEl.value=""; $("#b-cat").value="0";
+    render();
+    toast("Bill added ✓");
+    nameEl.focus();
+  });
+
+  $("#copy").onclick=function(){
+    if(!state.bills.length){ toast("No bills to copy"); return; }
+    var lines=["Bill Pay Plan","Available cash: "+$("#s-cash").textContent,"Total bills: "+$("#s-total").textContent,"Shortfall: "+$("#s-short").textContent,""];
+    Array.prototype.forEach.call(list.querySelectorAll(".item"),function(r){
+      var t=$(".grow strong",r).textContent.trim();
+      var st=$(".bill-status .badge",r).textContent.trim();
+      lines.push("• "+t+" — "+st);
+    });
+    var txt=lines.join("\n");
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Plan copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  $("#clear-all").onclick=function(){
+    state.bills=[]; persist(); render(); toast("All bills cleared 🌿");
+  };
+
+  /* ---------- init ---------- */
+  if(state.cash) $("#cash").value=state.cash;
+  render();
+})();
+</script>
+</body>
+</html>

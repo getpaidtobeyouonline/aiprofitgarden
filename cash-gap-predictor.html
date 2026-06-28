@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cash Gap Predictor — AI Profit Garden</title>
+<meta name="description" content="An early warning before a tight cash week. See your running balance and spot gaps ahead." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.ev-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap}
+.ev-row .input.name{flex:1 1 130px;min-width:0}
+.ev-row .input-money{flex:0 0 120px}
+.ev-row .input.date{flex:0 0 150px}
+.ev-row .icon-btn{flex:0 0 auto}
+.tl-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.tl-row:first-child{border-top:none}
+.tl-row .tl-main{flex:1;min-width:0}
+.tl-row .tl-main strong{display:block;font-size:.95rem}
+.tl-row .tl-main small{color:var(--muted)}
+.tl-row .tl-bal{font-family:var(--serif);font-weight:700;font-size:1.05rem;color:var(--olive);text-align:right;white-space:nowrap}
+.tl-row.gap{background:var(--danger-soft);margin:0 -12px;padding:12px;border-radius:var(--radius-sm);border-top:none}
+.tl-row.gap .tl-bal{color:var(--danger)}
+.tl-flow{font-size:.85rem;font-weight:700;white-space:nowrap}
+.tl-flow.in{color:#2F7A4E}.tl-flow.out{color:var(--danger)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Cash Gap Predictor</h1>
+      <p class="app-sub">An early warning before a tight cash week.</p>
+    </div>
+  </header>
+
+  <!-- SETUP -->
+  <section class="card">
+    <h2 class="section-title">Where you stand today</h2>
+    <p class="section-note">Tell us your current balance and the cushion you'd like to keep. We'll watch the weeks ahead for you.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="balance">Current balance <span class="hint">— in your account now</span></label>
+        <div class="input-money"><span>$</span>
+          <input id="balance" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="balance-err" />
+        </div>
+        <div class="err-text" id="balance-err">Please enter your current balance.</div>
+      </div>
+      <div class="field">
+        <label for="cushion">Safety cushion <span class="hint">— don't dip below this</span></label>
+        <div class="input-money"><span>$</span>
+          <input id="cushion" class="input" type="text" inputmode="decimal" placeholder="500" autocomplete="off" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MONEY IN -->
+  <section class="card">
+    <h2 class="section-title">Money coming in 🌱</h2>
+    <p class="section-note">Invoices due, sales, deposits — anything you expect to receive over the next few weeks.</p>
+    <div id="in-list"></div>
+    <button type="button" class="btn btn-ghost btn-sm" id="add-in">+ Add money in</button>
+  </section>
+
+  <!-- MONEY OUT -->
+  <section class="card">
+    <h2 class="section-title">Money going out 🍂</h2>
+    <p class="section-note">Bills, subscriptions, contractors, taxes — anything you'll need to pay.</p>
+    <div id="out-list"></div>
+    <button type="button" class="btn btn-ghost btn-sm" id="add-out">+ Add money out</button>
+  </section>
+
+  <div class="btn-row" style="margin-top:18px">
+    <button type="button" class="btn btn-primary" id="run">See my cash forecast</button>
+    <button type="button" class="btn btn-ghost" id="reset">Clear all</button>
+  </div>
+
+  <!-- RESULT -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <h2 class="section-title">Your forecast</h2>
+    <p class="section-note" id="r-note"></p>
+
+    <div id="r-warning"></div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Lowest point</div><div class="value" id="s-low">$0</div></div>
+      <div class="stat"><div class="label">That happens around</div><div class="value" id="s-when" style="font-size:1.25rem">—</div></div>
+    </div>
+
+    <h3 class="section-title mt" style="font-size:1rem">Week-by-week timeline</h3>
+    <p class="section-note">Each event in order, with your running balance. Red rows dip below your cushion.</p>
+    <div id="timeline"></div>
+
+    <div class="verse" id="r-verse" hidden>
+      “She watches over the affairs of her household.”
+      <cite>Proverbs 31:27 · wise, steady planning</cite>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_cash_gap_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var inList=$("#in-list"), outList=$("#out-list"), result=$("#result");
+
+  /* ---------- helpers ---------- */
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function fmtDate(s){
+    if(!s) return "No date";
+    var p=s.split("-"); if(p.length!==3) return s;
+    var d=new Date(+p[0],+p[1]-1,+p[2]);
+    if(isNaN(d)) return s;
+    return d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+  }
+  function todayISO(){ var d=new Date(); return d.toISOString().slice(0,10); }
+
+  /* ---------- event rows ---------- */
+  function addRow(listEl,kind,data){
+    data=data||{};
+    var row=document.createElement("div");
+    row.className="ev-row";
+    var ph = kind==="in" ? "What's coming in? (e.g. Client invoice)" : "What's going out? (e.g. Rent)";
+    row.innerHTML=
+      '<input class="input name" type="text" placeholder="'+ph+'" aria-label="Event name" autocomplete="off" />'+
+      '<div class="input-money"><span>$</span><input class="input amt" type="text" inputmode="decimal" placeholder="0.00" aria-label="Amount" autocomplete="off" /></div>'+
+      '<input class="input date" type="date" aria-label="Date" />'+
+      '<button type="button" class="icon-btn" aria-label="Remove">✕</button>';
+    $(".name",row).value=data.name||"";
+    $(".amt",row).value=(data.amt||data.amt===0)?data.amt:"";
+    $(".date",row).value=data.date||"";
+    $(".icon-btn",row).onclick=function(){ row.remove(); };
+    listEl.appendChild(row);
+    return row;
+  }
+
+  function readList(listEl,kind){
+    var out=[];
+    Array.prototype.forEach.call(listEl.querySelectorAll(".ev-row"),function(r){
+      var name=$(".name",r).value.trim(), amt=num($(".amt",r).value), date=$(".date",r).value;
+      if(name||amt||date) out.push({name:name||(kind==="in"?"Money in":"Money out"),amt:Math.abs(amt),date:date,kind:kind});
+    });
+    return out;
+  }
+
+  /* ---------- forecast ---------- */
+  function run(){
+    var balEl=$("#balance"), balErr=$("#balance-err");
+    if(balEl.value.trim()===""){ balEl.classList.add("error"); balErr.classList.add("show"); balEl.focus(); return; }
+    balEl.classList.remove("error"); balErr.classList.remove("show");
+
+    var balance=num(balEl.value);
+    var cushion=num($("#cushion").value);
+
+    var events=readList(inList,"in").concat(readList(outList,"out"));
+    if(!events.length){ toast("Add at least one money-in or money-out event"); return; }
+
+    // sort: dated events by date asc; undated go to the end
+    events.sort(function(a,b){
+      if(!a.date && !b.date) return 0;
+      if(!a.date) return 1;
+      if(!b.date) return -1;
+      return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
+    });
+
+    var running=balance, low=balance, lowDate="today (starting balance)", anyGap=false, firstGap=null;
+    var tl=$("#timeline"); tl.innerHTML="";
+
+    // starting row
+    var startRow=document.createElement("div");
+    startRow.className="tl-row";
+    startRow.innerHTML='<div class="tl-main"><strong>Starting balance</strong><small>Today</small></div>'+
+      '<div class="tl-flow"></div><div class="tl-bal">'+money(running)+'</div>';
+    tl.appendChild(startRow);
+
+    events.forEach(function(ev){
+      running += (ev.kind==="in" ? ev.amt : -ev.amt);
+      var isGap = running < cushion;
+      if(isGap) anyGap=true;
+      if(running < low){ low=running; lowDate=ev.date?fmtDate(ev.date):"after \""+ev.name+"\""; }
+      if(isGap && !firstGap){ firstGap={date:ev.date?fmtDate(ev.date):"after \""+ev.name+"\"", bal:running}; }
+
+      var rowEl=document.createElement("div");
+      rowEl.className="tl-row"+(isGap?" gap":"");
+      var flowCls=ev.kind==="in"?"in":"out";
+      var flowTxt=(ev.kind==="in"?"+":"−")+money(ev.amt).replace("$","$");
+      rowEl.innerHTML=
+        '<div class="tl-main"><strong>'+escapeHtml(ev.name)+'</strong><small>'+(ev.date?fmtDate(ev.date):"No date set")+'</small></div>'+
+        '<div class="tl-flow '+flowCls+'">'+flowTxt+'</div>'+
+        '<div class="tl-bal">'+money(running)+'</div>';
+      tl.appendChild(rowEl);
+    });
+
+    // stat cards
+    var sLow=$("#s-low");
+    sLow.textContent=money(low);
+    sLow.className="value "+(low<0?"neg":low<cushion?"neg":"pos");
+    $("#s-when").textContent=lowDate;
+
+    // warning / takeaway
+    var warn=$("#r-warning"), note=$("#r-note"), verse=$("#r-verse");
+    if(low<0){
+      warn.className="callout callout-warn";
+      warn.innerHTML="<strong>Heads-up:</strong> Your tightest moment is around <strong>"+lowDate+"</strong>, when you'll be at <strong>"+money(low)+"</strong> — below zero. Try to pull an expected payment forward, delay a non-urgent bill, or set aside a buffer now. A little shuffle this week saves stress later. You're catching this early, which is exactly the right move.";
+      note.textContent="Let's look closely — there's a gap worth planning around.";
+      verse.hidden=true;
+    }else if(anyGap){
+      warn.className="callout callout-warn";
+      warn.innerHTML="<strong>Watch this:</strong> Your tightest moment is around <strong>"+(firstGap?firstGap.date:lowDate)+"</strong>, when you'll dip to about <strong>"+money(low)+"</strong> — under your "+money(cushion)+" cushion. You won't run out, but it'll feel tight. Consider nudging a client to pay sooner or spacing out a payment.";
+      note.textContent="You stay above zero, but you'll brush your safety cushion.";
+      verse.hidden=true;
+    }else{
+      warn.className="callout callout-info";
+      warn.innerHTML="<strong>Looking good!</strong> Your balance stays above your "+money(cushion)+" cushion the whole way through. Your lowest point is "+money(low)+" around "+lowDate+". Keep an eye on it, but you've got room to breathe. 🌿";
+      note.textContent="Smooth sailing ahead based on what you've entered.";
+      verse.hidden=false;
+    }
+
+    result.hidden=false;
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+    persist();
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}); }
+
+  /* ---------- persistence ---------- */
+  function persist(){
+    try{
+      localStorage.setItem(KEY,JSON.stringify({
+        balance:$("#balance").value, cushion:$("#cushion").value,
+        ins:readList(inList,"in"), outs:readList(outList,"out")
+      }));
+    }catch(e){}
+  }
+  function load(){
+    try{
+      var d=JSON.parse(localStorage.getItem(KEY)||"null");
+      if(!d) return false;
+      $("#balance").value=d.balance||""; $("#cushion").value=d.cushion||"";
+      (d.ins&&d.ins.length?d.ins:[null]).forEach(function(e){ addRow(inList,"in",e||{}); });
+      (d.outs&&d.outs.length?d.outs:[null]).forEach(function(e){ addRow(outList,"out",e||{}); });
+      return true;
+    }catch(e){ return false; }
+  }
+
+  /* ---------- events ---------- */
+  $("#add-in").onclick=function(){ addRow(inList,"in",{date:""}).querySelector(".name").focus(); };
+  $("#add-out").onclick=function(){ addRow(outList,"out",{date:""}).querySelector(".name").focus(); };
+  $("#run").onclick=run;
+
+  $("#reset").onclick=function(){
+    $("#balance").value=""; $("#cushion").value="";
+    $("#balance").classList.remove("error"); $("#balance-err").classList.remove("show");
+    inList.innerHTML=""; outList.innerHTML="";
+    addRow(inList,"in",{}); addRow(outList,"out",{});
+    result.hidden=true;
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    toast("Cleared 🌿"); $("#balance").focus();
+  };
+
+  /* ---------- init ---------- */
+  if(!load()){ addRow(inList,"in",{}); addRow(outList,"out",{}); }
+})();
+</script>
+</body>
+</html>

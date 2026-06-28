@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Business Health Scorecard — AI Profit Garden</title>
+<meta name="description" content="Answer 10 quick questions about your money habits and get a 0–100 health score with gentle next steps." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.q{padding:16px 0;border-top:1px solid var(--line)}
+.q:first-child{border-top:none;padding-top:4px}
+.q-text{font-weight:700;font-size:.96rem;color:var(--ink);margin-bottom:10px}
+.q-text .num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--sage-soft);color:#3C5240;font-size:.78rem;margin-right:8px;vertical-align:middle}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{flex:1 1 auto;min-width:96px}
+.opt input{position:absolute;opacity:0;width:1px;height:1px}
+.opt label{display:block;text-align:center;cursor:pointer;font-weight:700;font-size:.88rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:999px;padding:10px 12px;transition:all .15s}
+.opt label:hover{border-color:var(--sage)}
+.opt input:focus-visible + label{outline:3px solid var(--ring);outline-offset:2px}
+.opt input:checked + label{background:var(--olive);border-color:var(--olive);color:#fff}
+.ring-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 0 2px}
+.ring{--pct:0;--ring-c:var(--sage);width:170px;height:170px;border-radius:50%;display:grid;place-items:center;
+  background:conic-gradient(var(--ring-c) calc(var(--pct)*1%),var(--line) 0);transition:background .6s ease}
+.ring::before{content:"";position:absolute;width:128px;height:128px;border-radius:50%;background:var(--paper);box-shadow:inset 0 2px 10px rgba(47,74,51,.06)}
+.ring b{position:relative;font-family:var(--serif);font-weight:700;font-size:2.6rem;color:var(--olive);line-height:1}
+.ring small{position:relative;display:block;text-align:center;font-family:var(--sans);font-weight:700;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.band-name{font-family:var(--serif);font-weight:600;font-size:1.5rem;color:var(--olive);text-align:center}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Business Health Scorecard</h1>
+      <p class="app-sub">Ten honest questions. One clear picture of where you stand.</p>
+    </div>
+  </header>
+
+  <!-- QUESTIONS -->
+  <section class="card">
+    <h2 class="section-title">How are your money habits?</h2>
+    <p class="section-note">Answer honestly — there are no wrong answers, just a starting point. Pick the option that's most true for you today.</p>
+
+    <form id="form" novalidate>
+      <div id="questions"></div>
+      <div class="err-text" id="q-err">Please answer every question so your score is accurate.</div>
+      <div class="btn-row mt">
+        <button type="submit" class="btn btn-primary">See my score</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <div class="ring-wrap">
+      <div class="ring" id="ring" role="img" aria-label="Health score"><b id="r-score">0</b><small>out of 100</small></div>
+      <div class="band-name" id="r-band">—</div>
+      <div id="r-badge"></div>
+    </div>
+
+    <div id="r-message" class="callout callout-info mt"></div>
+
+    <div id="r-next" class="mt"></div>
+
+    <div class="verse" id="r-verse" hidden>
+      “She watches over the affairs of her household and does not eat the bread of idleness.”
+      <cite>Proverbs 31:27 · tend it well, and it grows</cite>
+    </div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save this result</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy summary</button>
+    </div>
+  </section>
+
+  <!-- LAST SAVED -->
+  <section class="card" id="saved-card" hidden>
+    <h2 class="section-title">Your last saved result</h2>
+    <p class="section-note">Kept on this device only — a marker to grow from.</p>
+    <div id="saved"></div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_business_health_scorecard_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var qWrap=$("#questions"), result=$("#result"), savedCard=$("#saved-card"), savedEl=$("#saved");
+
+  /* ---------- helpers ---------- */
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function todayStr(){var d=new Date();return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});}
+
+  /* ---------- the 10 questions ----------
+     Each question is worth up to 10 points. Scaled options carry partial credit. */
+  var QUESTIONS=[
+    {id:"separate", area:"Separate business & personal money",
+     q:"Do you keep your business and personal money in separate accounts?",
+     tip:"Open a dedicated business account. It makes every other number easier to read.",
+     opts:[["Yes, fully separate",10],["Mostly",6],["Not really",2],["No",0]]},
+    {id:"track", area:"Track your expenses",
+     q:"Do you track your expenses (so you know where the money goes)?",
+     tip:"Start logging every expense — even a simple note or app counts. Clarity comes fast.",
+     opts:[["Every time",10],["Most of the time",6],["Occasionally",3],["Never",0]]},
+    {id:"profitable", area:"Be profitable",
+     q:"Right now, is your business actually profitable (earning more than it spends)?",
+     tip:"Look for one cost to trim or one offer to add. Even a small surplus changes everything.",
+     opts:[["Yes, comfortably",10],["Just about",6],["Breaking even",4],["No, at a loss",0]]},
+    {id:"margin", area:"Know your profit margin",
+     q:"Do you know your profit margin (what % of revenue you keep)?",
+     tip:"Take last month's profit ÷ revenue × 100. Knowing this one number guides smart pricing.",
+     opts:[["Yes, I know it",10],["Roughly",5],["No idea",0]]},
+    {id:"pricing", area:"Price for profit",
+     q:"Do you set prices to make a healthy profit — not just to match competitors?",
+     tip:"Price from your costs and the value you give, not from what others charge.",
+     opts:[["Yes, on purpose",10],["Somewhat",5],["I copy others",2],["I undercharge",0]]},
+    {id:"salary", area:"Pay yourself a regular salary",
+     q:"Do you pay yourself a regular, predictable amount?",
+     tip:"Decide on a set figure to pay yourself each month — your work deserves wages.",
+     opts:[["Yes, regularly",10],["When I can",5],["Rarely",2],["Never",0]]},
+    {id:"tax", area:"Set money aside for tax",
+     q:"Do you set money aside for tax as you earn?",
+     tip:"Move a slice (often 20–30%) into a separate pot each time you're paid. No nasty surprises.",
+     opts:[["Yes, every time",10],["Sometimes",5],["Never",0]]},
+    {id:"cushion", area:"Build a cash cushion",
+     q:"Do you have at least one month of business expenses saved as a cushion?",
+     tip:"Aim to tuck away a little each month until you've a month (then more) of costs in reserve.",
+     opts:[["3+ months saved",10],["About 1 month",7],["A little",3],["Nothing yet",0]]},
+    {id:"review", area:"Review your numbers monthly",
+     q:"Do you sit down and review your numbers each month?",
+     tip:"Book a gentle 30-minute money date with yourself once a month. It's where growth begins.",
+     opts:[["Every month",10],["Now and then",5],["Almost never",0]]},
+    {id:"streams", area:"Build more than one income stream",
+     q:"Do you have more than one way money comes into your business?",
+     tip:"Explore one additional offer or stream — a course, a product, a service tier.",
+     opts:[["Several streams",10],["Two streams",7],["Just one",3],["Inconsistent",0]]}
+  ];
+  var MAX=QUESTIONS.length*10; // 100
+
+  /* ---------- render questions ---------- */
+  function renderQuestions(saved){
+    qWrap.innerHTML="";
+    QUESTIONS.forEach(function(item,qi){
+      var div=document.createElement("div");
+      div.className="q";
+      var opts=item.opts.map(function(o,oi){
+        var id=item.id+"_"+oi;
+        var checked = saved && saved.answers && saved.answers[item.id]===o[1] ? " checked" : "";
+        return '<div class="opt">'+
+          '<input type="radio" name="'+item.id+'" id="'+id+'" value="'+o[1]+'"'+checked+' />'+
+          '<label for="'+id+'">'+o[0]+'</label></div>';
+      }).join("");
+      div.innerHTML='<div class="q-text"><span class="num">'+(qi+1)+'</span>'+item.q+'</div>'+
+        '<div class="opts">'+opts+'</div>';
+      qWrap.appendChild(div);
+    });
+  }
+
+  /* ---------- read answers ---------- */
+  function readAnswers(){
+    var answers={}, missing=false;
+    QUESTIONS.forEach(function(item){
+      var sel=qWrap.querySelector('input[name="'+item.id+'"]:checked');
+      if(sel){ answers[item.id]=parseInt(sel.value,10); }
+      else { missing=true; }
+    });
+    return {answers:answers, missing:missing};
+  }
+
+  /* ---------- score & interpret ---------- */
+  function band(score){
+    if(score<=40) return {name:"Seedling",badge:'badge-gold',
+      msg:"You're at the very beginning — and that's a good place to be, because every flourishing business started right here. You've spotted what needs attention. Pick just one or two areas below and tend them gently this month. Small, faithful steps will surprise you."};
+    if(score<=70) return {name:"Growing",badge:'badge-sage',
+      msg:"You're growing well — real roots are forming. The habits you've built are paying off. Now strengthen the soft spots below and you'll move from growing to flourishing before long. You're closer than you think."};
+    return {name:"Flourishing",badge:'badge-sage',
+      msg:"Beautiful — your business is on healthy, well-tended ground. Your money habits are strong and steady. Keep nurturing the few areas below to stay resilient, and enjoy the fruit of the work you've put in."};
+  }
+
+  function calculate(){
+    var r=readAnswers();
+    var err=$("#q-err");
+    if(r.missing){
+      err.classList.add("show");
+      var firstMissing=null;
+      QUESTIONS.some(function(it){ if(r.answers[it.id]===undefined){firstMissing=it.id;return true;} return false; });
+      if(firstMissing){ var el=qWrap.querySelector('input[name="'+firstMissing+'"]'); if(el){el.closest(".q").scrollIntoView({behavior:"smooth",block:"center"});} }
+      return null;
+    }
+    err.classList.remove("show");
+
+    var score=QUESTIONS.reduce(function(a,it){return a+r.answers[it.id];},0); // already 0..100
+    var b=band(score);
+
+    /* lowest-scoring areas (out of 10), sorted ascending, take up to 4 that aren't perfect */
+    var weak=QUESTIONS.map(function(it){return {area:it.area,tip:it.tip,val:r.answers[it.id]};})
+      .filter(function(x){return x.val<10;})
+      .sort(function(a,c){return a.val-c.val;})
+      .slice(0,4);
+
+    /* ring */
+    var ring=$("#ring");
+    ring.style.setProperty("--pct",score);
+    ring.style.setProperty("--ring-c", score<=40?"var(--gold)":score<=70?"var(--sage)":"#2F7A4E");
+    $("#r-score").textContent=score;
+    $("#r-band").textContent=b.name;
+    $("#r-badge").innerHTML='<span class="badge '+b.badge+'">'+b.name+'</span>';
+    $("#r-message").textContent=b.msg;
+
+    var next=$("#r-next");
+    if(weak.length){
+      var lis=weak.map(function(w){
+        return '<div class="item"><div class="grow"><strong>'+w.area+'</strong><small>'+w.tip+'</small></div></div>';
+      }).join("");
+      next.innerHTML='<h2 class="section-title" style="font-size:1.05rem">Next steps to tend 🌱</h2>'+
+        '<p class="section-note">Your lowest-scoring areas — gentle places to focus first.</p>'+lis;
+    }else{
+      next.innerHTML='<div class="callout callout-info">Every single area scored top marks — wonderful! Keep doing exactly what you\'re doing.</div>';
+    }
+
+    $("#r-verse").hidden=false;
+
+    result.hidden=false;
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+    return {score:score,band:b.name,answers:r.answers,weak:weak.map(function(w){return w.area;})};
+  }
+
+  /* ---------- saved result ---------- */
+  function getSaved(){ try{return JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){return null} }
+  function setSaved(o){ try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){} }
+
+  function renderSaved(){
+    var s=getSaved();
+    if(!s || !s.saved){ savedCard.hidden=true; return; }
+    savedCard.hidden=false;
+    savedEl.innerHTML='<div class="item"><div class="grow"><strong>'+s.score+' / 100 · '+s.band+'</strong>'+
+      '<small>Saved '+s.date+'</small></div></div>';
+  }
+
+  /* ---------- events ---------- */
+  $("#form").addEventListener("submit",function(e){ e.preventDefault(); calculate(); });
+
+  $("#reset").onclick=function(){
+    renderQuestions(null);
+    result.hidden=true;
+    $("#q-err").classList.remove("show");
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    renderSaved();
+    toast("Cleared 🌿");
+    window.scrollTo({top:0,behavior:"smooth"});
+  };
+
+  $("#save").onclick=function(){
+    var r=calculate(); if(!r) return;
+    setSaved({score:r.score,band:r.band,answers:r.answers,date:todayStr(),saved:true});
+    renderSaved();
+    toast("Result saved ✓");
+  };
+
+  $("#copy").onclick=function(){
+    var weak=$("#r-next").querySelectorAll(".grow strong");
+    var lines=Array.prototype.map.call(weak,function(n){return "• "+n.textContent;}).join("\n");
+    var txt="Business Health Scorecard ("+todayStr()+")\n"+
+      "Score: "+$("#r-score").textContent+"/100 — "+$("#r-band").textContent+"\n"+
+      (lines?("Next steps to tend:\n"+lines):"");
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Summary copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  /* ---------- init ---------- */
+  var saved=getSaved();
+  renderQuestions(saved); // pre-fill last answers if present
+  renderSaved();
+})();
+</script>
+</body>
+</html>

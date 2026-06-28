@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Delegation Decision Helper — AI Profit Garden</title>
+<meta name="description" content="Decide what to keep, automate, or hand to someone else — so you're free to do your best work." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+[hidden]{display:none!important}
+.toggle-grid{display:grid;gap:10px;margin-top:4px}
+.tg{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:11px 14px}
+.tg .tg-label{font-size:.9rem;font-weight:600}
+.tg .tg-label small{display:block;font-weight:400;color:var(--muted);font-size:.78rem}
+/* segmented toggle */
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;flex:0 0 auto;background:#fff}
+.seg button{border:none;background:#fff;color:var(--muted);font-family:inherit;font-weight:700;font-size:.82rem;padding:7px 14px;cursor:pointer}
+.seg button.on-yes{background:var(--sage);color:#fff}
+.seg button.on-no{background:var(--danger);color:#fff}
+.time-seg button{padding:7px 11px}
+.time-seg button.on-time{background:var(--gold);color:#fff}
+/* bucket result */
+.bucket{border-radius:var(--radius);border:1.5px solid var(--line);padding:16px;margin-bottom:14px}
+.bucket.b-keep{border-color:var(--sage);background:linear-gradient(135deg,var(--sage-soft),#fff)}
+.bucket.b-auto{border-color:var(--gold);background:linear-gradient(135deg,var(--gold-soft),#fff)}
+.bucket.b-deleg{border-color:#9DB4C0;background:linear-gradient(135deg,#EAF1F4,#fff)}
+.bucket h3{font-family:var(--serif);font-size:1.15rem;display:flex;align-items:center;gap:8px}
+.bucket.b-keep h3{color:#2F7A4E}.bucket.b-auto h3{color:#7A5520}.bucket.b-deleg h3{color:#3A5A6B}
+.bucket .b-note{font-size:.84rem;color:var(--muted);margin:2px 0 10px}
+.bucket .b-task{padding:9px 0;border-top:1px dashed var(--line)}
+.bucket .b-task:first-of-type{border-top:none}
+.bucket .b-task strong{font-weight:700}
+.bucket .b-task .why{font-size:.82rem;color:var(--muted);margin-top:2px}
+.bucket .b-empty{font-size:.86rem;color:var(--muted);font-style:italic}
+@media print{
+  body::before{display:none}.wrap{max-width:100%;padding:0}.no-print{display:none!important}
+  .card{box-shadow:none;border:none;margin:0;padding:0}.app-header{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Delegation Decision Helper</h1>
+      <p class="app-sub">Decide what to keep, automate, or hand off — and free yourself for your best work.</p>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card no-print">
+    <h2 class="section-title">Weigh up a task</h2>
+    <p class="section-note">You don't have to do it all. Add a task, answer a few quick questions, and we'll suggest whether it's yours to keep, ripe for automating, or ready to hand off.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="task">Task <span class="hint">— something on your plate right now</span></label>
+        <input id="task" class="input" type="text" placeholder="e.g. Scheduling social media posts" autocomplete="off" aria-describedby="task-err" />
+        <div class="err-text" id="task-err">Please name the task.</div>
+      </div>
+
+      <div class="toggle-grid">
+        <div class="tg">
+          <div class="tg-label">Do I enjoy it?<small>Does it light you up, or drain you?</small></div>
+          <div class="seg" data-q="enjoy" role="group" aria-label="Do I enjoy it?">
+            <button type="button" data-v="yes">Yes</button><button type="button" data-v="no">No</button>
+          </div>
+        </div>
+        <div class="tg">
+          <div class="tg-label">Am I uniquely good at it?<small>Is this truly only-you work?</small></div>
+          <div class="seg" data-q="unique" role="group" aria-label="Am I uniquely good at it?">
+            <button type="button" data-v="yes">Yes</button><button type="button" data-v="no">No</button>
+          </div>
+        </div>
+        <div class="tg">
+          <div class="tg-label">Does it grow the business?<small>Does it move the needle on income or impact?</small></div>
+          <div class="seg" data-q="grows" role="group" aria-label="Does it grow the business?">
+            <button type="button" data-v="yes">Yes</button><button type="button" data-v="no">No</button>
+          </div>
+        </div>
+        <div class="tg">
+          <div class="tg-label">Is it repeatable / rule-based?<small>Same steps every time?</small></div>
+          <div class="seg" data-q="rule" role="group" aria-label="Is it repeatable or rule-based?">
+            <button type="button" data-v="yes">Yes</button><button type="button" data-v="no">No</button>
+          </div>
+        </div>
+        <div class="tg">
+          <div class="tg-label">How much time does it take?<small>Across a typical week.</small></div>
+          <div class="seg time-seg" data-q="time" role="group" aria-label="How much time does it take?">
+            <button type="button" data-v="low">A little</button><button type="button" data-v="high">A lot</button>
+          </div>
+        </div>
+      </div>
+      <div class="err-text" id="ans-err">Please answer each question above.</div>
+
+      <div class="btn-row mt">
+        <button type="submit" class="btn btn-primary">+ Add task</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset all</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card" id="result">
+    <div class="no-print" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <h2 class="section-title" style="margin:0">Your action plan</h2>
+      <span class="badge badge-sage" id="r-count">0 tasks</span>
+    </div>
+
+    <div id="buckets" class="mt"></div>
+
+    <div class="verse no-print" id="verse" hidden>
+      “For we are God's handiwork, created to do good works.”
+      <cite>Ephesians 2:10 · do the work only you can do</cite>
+    </div>
+
+    <div class="btn-row mt no-print" id="result-actions" hidden>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy plan</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="print">Print</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_delegation_helper_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var $$=function(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))};
+  var bucketsEl=$("#buckets"), result=$("#result");
+  var tasks=[];
+
+  /* ---------- helpers ---------- */
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function esc(s){var d=document.createElement("div");d.textContent=s==null?"":s;return d.innerHTML;}
+
+  /* ---------- segmented toggles ---------- */
+  $$(".seg").forEach(function(seg){
+    var isTime=seg.classList.contains("time-seg");
+    $$("button",seg).forEach(function(b){
+      b.onclick=function(){
+        $$("button",seg).forEach(function(x){x.classList.remove("on-yes","on-no","on-time")});
+        if(isTime){ b.classList.add("on-time"); }
+        else { b.classList.add(b.dataset.v==="yes"?"on-yes":"on-no"); }
+        seg.dataset.val=b.dataset.v;
+        $("#ans-err").classList.remove("show");
+      };
+    });
+  });
+  function readAnswers(){
+    var a={};
+    var ok=true;
+    $$(".seg").forEach(function(seg){
+      var v=seg.dataset.val;
+      if(!v) ok=false;
+      a[seg.dataset.q]=v;
+    });
+    return ok?a:null;
+  }
+  function clearToggles(){
+    $$(".seg").forEach(function(seg){
+      delete seg.dataset.val;
+      $$("button",seg).forEach(function(x){x.classList.remove("on-yes","on-no","on-time")});
+    });
+  }
+
+  /* ---------- decision logic ---------- */
+  function decide(a){
+    // a: {enjoy,unique,grows,rule,time}
+    var keepScore = (a.unique==="yes"?2:0) + (a.grows==="yes"?1:0) + (a.enjoy==="yes"?1:0);
+    // KEEP: uniquely-you work that grows the business — protect it
+    if(a.unique==="yes" && (a.grows==="yes" || a.enjoy==="yes")){
+      var why="This is only-you work"+(a.grows==="yes"?" that grows the business":"")+
+        (a.enjoy==="yes"?" and you enjoy it":"")+" — guard your time for it.";
+      return {bucket:"keep",why:why};
+    }
+    // AUTOMATE: repeatable/rule-based and not uniquely yours
+    if(a.rule==="yes" && a.unique!=="yes"){
+      var w2="It's repeatable and rule-based — a tool or template can do this for you";
+      w2 += a.time==="high" ? ", saving you serious time." : ".";
+      return {bucket:"automate",why:w2};
+    }
+    // DELEGATE: low-joy / low-uniqueness / time-heavy
+    var reasons=[];
+    if(a.enjoy==="no") reasons.push("it drains you");
+    if(a.unique==="no") reasons.push("someone else can do it well");
+    if(a.time==="high") reasons.push("it eats a lot of your week");
+    if(!reasons.length) reasons.push("it isn't your highest-value work");
+    return {bucket:"delegate",why:"Hand this off — "+reasons.join(", ")+"."};
+  }
+
+  /* ---------- render ---------- */
+  var META={
+    keep:  {title:"🌳 Keep",     note:"High-value, only-you work. Protect your time for these."},
+    automate:{title:"⚙️ Automate", note:"Repeatable and rule-based. Let a tool or template handle it."},
+    delegate:{title:"🤝 Delegate", note:"Hand these off so you're free to do your best work."}
+  };
+  function render(){
+    var count=tasks.length;
+    $("#r-count").textContent=count+" task"+(count===1?"":"s");
+    $("#verse").hidden = count===0;
+    $("#result-actions").hidden = count===0;
+
+    if(!count){
+      bucketsEl.innerHTML='<div class="empty"><span class="ico">🧺</span>No tasks yet. Add one above and we\'ll sort it into Keep, Automate, or Delegate.</div>';
+      return;
+    }
+    var html="";
+    ["keep","automate","delegate"].forEach(function(b){
+      var list=tasks.filter(function(t){return t.bucket===b});
+      var cls=b==="keep"?"b-keep":b==="automate"?"b-auto":"b-deleg";
+      html+='<div class="bucket '+cls+'"><h3>'+META[b].title+' <span class="muted" style="font-size:.8rem;font-weight:400">('+list.length+')</span></h3>';
+      html+='<div class="b-note">'+META[b].note+'</div>';
+      if(!list.length){ html+='<div class="b-empty">Nothing here yet.</div>'; }
+      list.forEach(function(t){
+        var gi=tasks.indexOf(t);
+        html+='<div class="b-task" style="display:flex;gap:10px;align-items:flex-start">'+
+          '<div style="flex:1;min-width:0"><strong>'+esc(t.name)+'</strong><div class="why">'+esc(t.why)+'</div></div>'+
+          '<button type="button" class="icon-btn del" data-i="'+gi+'" aria-label="Remove task">✕</button></div>';
+      });
+      html+='</div>';
+    });
+    bucketsEl.innerHTML=html;
+    $$(".del",bucketsEl).forEach(function(btn){
+      btn.onclick=function(){ tasks.splice(+btn.dataset.i,1); save(); render(); toast("Task removed"); };
+    });
+  }
+
+  function planText(){
+    var t="DELEGATION ACTION PLAN\n("+tasks.length+" task"+(tasks.length===1?"":"s")+")\n";
+    ["keep","automate","delegate"].forEach(function(b){
+      var list=tasks.filter(function(x){return x.bucket===b});
+      t+="\n"+META[b].title.replace(/[^\w ]/g,"").trim().toUpperCase()+":\n";
+      if(!list.length){ t+="  (none)\n"; }
+      list.forEach(function(x){ t+="  • "+x.name+" — "+x.why+"\n"; });
+    });
+    return t;
+  }
+
+  /* ---------- persistence ---------- */
+  function save(){ try{localStorage.setItem(KEY,JSON.stringify(tasks))}catch(e){} }
+  function load(){ try{tasks=JSON.parse(localStorage.getItem(KEY)||"[]")||[]}catch(e){tasks=[]} }
+
+  /* ---------- events ---------- */
+  $("#form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var taskEl=$("#task"), tErr=$("#task-err");
+    var name=taskEl.value.trim();
+    var a=readAnswers();
+    var ok=true;
+    if(!name){ taskEl.classList.add("error"); tErr.classList.add("show"); ok=false; }
+    else { taskEl.classList.remove("error"); tErr.classList.remove("show"); }
+    if(!a){ $("#ans-err").classList.add("show"); ok=false; }
+    if(!ok){ if(!name) taskEl.focus(); return; }
+
+    var d=decide(a);
+    tasks.unshift({name:name,bucket:d.bucket,why:d.why});
+    save(); render();
+    taskEl.value=""; clearToggles();
+    taskEl.focus();
+    toast("Sorted into "+(d.bucket==="keep"?"Keep":d.bucket==="automate"?"Automate":"Delegate")+" 🌿");
+  });
+
+  $("#reset").onclick=function(){
+    tasks=[]; save();
+    $("#task").value=""; $("#task").classList.remove("error"); $("#task-err").classList.remove("show");
+    $("#ans-err").classList.remove("show");
+    clearToggles(); render();
+    toast("Cleared 🌿");
+    $("#task").focus();
+  };
+
+  $("#copy").onclick=function(){
+    if(!tasks.length){ toast("Add a task first"); return; }
+    var txt=planText();
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Plan copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  $("#print").onclick=function(){ window.print(); };
+
+  /* ---------- init ---------- */
+  load(); render();
+})();
+</script>
+</body>
+</html>

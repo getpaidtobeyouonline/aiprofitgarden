@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Business Net Worth Tracker — AI Profit Garden</title>
+<meta name="description" content="See what your business is really worth and watch it grow over time." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.add-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:6px;flex-wrap:wrap}
+.add-row .name{flex:1;min-width:150px}
+.add-row .input-money{flex:0 0 140px}
+.add-row .btn{flex:0 0 auto}
+.list-total{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:2px solid var(--line);font-weight:700}
+.list-total .amt{font-family:var(--serif);font-size:1.15rem;color:var(--olive)}
+.networth-hero{text-align:center;padding:6px 0 2px}
+.networth-hero .cap{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.networth-hero .big{font-family:var(--serif);font-weight:700;font-size:2.8rem;line-height:1;color:var(--olive)}
+.networth-hero .big.pos{color:#2F7A4E}
+.networth-hero .big.neg{color:var(--danger)}
+.delta{font-size:.82rem;font-weight:700;margin-left:6px}
+.delta.up{color:#2F7A4E}.delta.down{color:var(--danger)}.delta.flat{color:var(--muted)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Business Net Worth Tracker</h1>
+      <p class="app-sub">See what your business is really worth — and watch it grow.</p>
+    </div>
+  </header>
+
+  <!-- ASSETS -->
+  <section class="card">
+    <h2 class="section-title">What your business owns <span class="badge badge-sage">Assets</span></h2>
+    <p class="section-note">Cash in the bank, equipment, inventory, money owed to you — anything of value.</p>
+    <form id="asset-form" novalidate>
+      <div class="add-row">
+        <input id="asset-name" class="input name" type="text" placeholder="e.g. Business savings" aria-label="Asset name" autocomplete="off" />
+        <div class="input-money"><span>$</span>
+          <input id="asset-amt" class="input" type="text" inputmode="decimal" placeholder="0.00" aria-label="Asset value" autocomplete="off" />
+        </div>
+        <button type="submit" class="btn btn-ghost btn-sm">+ Add</button>
+      </div>
+      <div class="err-text" id="asset-err">Add a name and a value (0 or more) for this asset.</div>
+    </form>
+    <div id="asset-list"></div>
+    <div class="list-total"><span>Total assets</span><span class="amt" id="asset-total">$0</span></div>
+  </section>
+
+  <!-- LIABILITIES -->
+  <section class="card">
+    <h2 class="section-title">What your business owes <span class="badge badge-gold">Liabilities</span></h2>
+    <p class="section-note">Loans, credit cards, anything still to be paid off. It's all part of the honest picture.</p>
+    <form id="liab-form" novalidate>
+      <div class="add-row">
+        <input id="liab-name" class="input name" type="text" placeholder="e.g. Business credit card" aria-label="Liability name" autocomplete="off" />
+        <div class="input-money"><span>$</span>
+          <input id="liab-amt" class="input" type="text" inputmode="decimal" placeholder="0.00" aria-label="Liability amount" autocomplete="off" />
+        </div>
+        <button type="submit" class="btn btn-ghost btn-sm">+ Add</button>
+      </div>
+      <div class="err-text" id="liab-err">Add a name and an amount (0 or more) for this liability.</div>
+    </form>
+    <div id="liab-list"></div>
+    <div class="list-total"><span>Total liabilities</span><span class="amt" id="liab-total">$0</span></div>
+  </section>
+
+  <!-- NET WORTH -->
+  <section class="card" aria-live="polite">
+    <div class="networth-hero">
+      <div class="cap">Your business net worth</div>
+      <div class="big" id="net-big">$0</div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Total assets</div><div class="value pos" id="s-assets">$0</div></div>
+      <div class="stat"><div class="label">Total liabilities</div><div class="value" id="s-liabs">$0</div></div>
+      <div class="stat"><div class="label">Net worth</div><div class="value" id="s-net">$0</div></div>
+    </div>
+    <div class="callout callout-info" id="net-msg"></div>
+
+    <div class="verse" id="net-verse" hidden>
+      “A good person leaves an inheritance — and builds something that lasts.”
+      <cite>Proverbs 13:22 · rooted and growing</cite>
+    </div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="snapshot">Save today's snapshot</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="reset">Clear everything</button>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="card" id="history-card" hidden>
+    <h2 class="section-title">Your net worth over time</h2>
+    <p class="section-note">Saved on this device only. Each snapshot shows how you've grown since the last one.</p>
+    <div id="history"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-snaps">Clear all snapshots</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_business_net_worth_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+
+  var state={assets:[], liabs:[]};
+
+  /* ---------- helpers ---------- */
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
+  function dateStr(d){ d=d||new Date(); return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); }
+
+  /* ---------- persistence ---------- */
+  function saveState(){ try{ localStorage.setItem(KEY+"_state",JSON.stringify(state)); }catch(e){} }
+  function loadState(){
+    try{ var d=JSON.parse(localStorage.getItem(KEY+"_state")||"null"); if(d){ state.assets=d.assets||[]; state.liabs=d.liabs||[]; } }catch(e){}
+  }
+  function getSnaps(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setSnaps(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+
+  /* ---------- totals ---------- */
+  function totalAssets(){ return state.assets.reduce(function(a,x){return a+x.amt},0); }
+  function totalLiabs(){ return state.liabs.reduce(function(a,x){return a+x.amt},0); }
+
+  /* ---------- render lists ---------- */
+  function renderList(which){
+    var arr = which==="assets"?state.assets:state.liabs;
+    var el = $(which==="assets"?"#asset-list":"#liab-list");
+    if(!arr.length){
+      el.innerHTML='<div class="empty"><span class="ico">'+(which==="assets"?"🌱":"📋")+'</span>'+
+        (which==="assets"?"No assets yet. Add what your business owns above.":"Nothing owed yet — wonderful! Add anything you do owe above.")+'</div>';
+      return;
+    }
+    el.innerHTML="";
+    arr.forEach(function(it,i){
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML='<div class="grow"><strong>'+esc(it.name)+'</strong></div>'+
+        '<div class="amt" style="font-family:var(--serif);font-weight:700;color:var(--olive)">'+money(it.amt)+'</div>'+
+        '<button class="icon-btn" aria-label="Remove '+esc(it.name)+'">✕</button>';
+      $(".icon-btn",row).onclick=function(){ arr.splice(i,1); saveState(); renderAll(); toast("Removed"); };
+      el.appendChild(row);
+    });
+  }
+
+  /* ---------- render summary ---------- */
+  function renderSummary(){
+    var a=totalAssets(), l=totalLiabs(), net=a-l;
+    $("#asset-total").textContent=money(a);
+    $("#liab-total").textContent=money(l);
+    $("#s-assets").textContent=money(a);
+    $("#s-liabs").textContent=money(l);
+    var sNet=$("#s-net"); sNet.textContent=money(net);
+    sNet.className="value "+(net>0?"pos":net<0?"neg":"");
+    var big=$("#net-big"); big.textContent=money(net);
+    big.className="big "+(net>0?"pos":net<0?"neg":"");
+
+    var msg=$("#net-msg"), verse=$("#net-verse");
+    if(a===0 && l===0){
+      msg.className="callout callout-info";
+      msg.textContent="Add what your business owns and owes above to see what it's truly worth today. 🌿";
+      verse.hidden=true;
+    }else if(net>0){
+      msg.className="callout callout-info";
+      msg.textContent="Your business is worth "+money(net)+" right now — what you own outweighs what you owe. That's solid ground to keep growing from.";
+      verse.hidden=false;
+    }else if(net<0){
+      msg.className="callout callout-warn";
+      msg.textContent="Right now you owe a little more than you own. That's common early on — every payment you make and every asset you build moves this number up. Keep tending it.";
+      verse.hidden=true;
+    }else{
+      msg.className="callout callout-info";
+      msg.textContent="You're exactly at zero — a clean balance point. From here, every step forward grows your worth.";
+      verse.hidden=true;
+    }
+  }
+
+  /* ---------- render history ---------- */
+  function renderHistory(){
+    var snaps=getSnaps();
+    var card=$("#history-card"), hist=$("#history");
+    if(!snaps.length){ card.hidden=true; return; }
+    card.hidden=false;
+    hist.innerHTML="";
+    snaps.forEach(function(s,i){
+      /* compare against the NEXT (older) snapshot */
+      var older=snaps[i+1];
+      var deltaHtml="";
+      if(older){
+        var diff=s.net-older.net;
+        var cls=diff>0?"up":diff<0?"down":"flat";
+        var arrow=diff>0?"▲":diff<0?"▼":"▶";
+        deltaHtml='<span class="delta '+cls+'">'+arrow+' '+money(Math.abs(diff))+'</span>';
+      }else{
+        deltaHtml='<span class="delta flat">first snapshot 🌱</span>';
+      }
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML='<div class="grow"><strong>'+money(s.net)+' net worth '+deltaHtml+'</strong>'+
+        '<small>'+esc(s.date)+' · '+money(s.assets)+' owned · '+money(s.liabs)+' owed</small></div>'+
+        '<button class="icon-btn" aria-label="Delete snapshot">✕</button>';
+      $(".icon-btn",row).onclick=function(){ var arr=getSnaps(); arr.splice(i,1); setSnaps(arr); renderHistory(); toast("Snapshot removed"); };
+      hist.appendChild(row);
+    });
+  }
+
+  function renderAll(){ renderList("assets"); renderList("liabs"); renderSummary(); }
+
+  /* ---------- add handlers ---------- */
+  function wireAdd(formSel,nameSel,amtSel,errSel,arrKey){
+    $(formSel).addEventListener("submit",function(e){
+      e.preventDefault();
+      var nameEl=$(nameSel), amtEl=$(amtSel), err=$(errSel);
+      var name=nameEl.value.trim(), amt=num(amtEl.value);
+      var bad = !name || amtEl.value.trim()==="" || amt<0;
+      if(bad){
+        nameEl.classList.toggle("error",!name);
+        amtEl.classList.toggle("error",amtEl.value.trim()===""||amt<0);
+        err.classList.add("show");
+        (!name?nameEl:amtEl).focus();
+        return;
+      }
+      nameEl.classList.remove("error"); amtEl.classList.remove("error"); err.classList.remove("show");
+      state[arrKey].push({name:name,amt:amt});
+      saveState(); renderAll();
+      nameEl.value=""; amtEl.value=""; nameEl.focus();
+      toast("Added 🌿");
+    });
+  }
+  wireAdd("#asset-form","#asset-name","#asset-amt","#asset-err","assets");
+  wireAdd("#liab-form","#liab-name","#liab-amt","#liab-err","liabs");
+
+  /* ---------- snapshot ---------- */
+  $("#snapshot").onclick=function(){
+    var a=totalAssets(), l=totalLiabs();
+    if(a===0 && l===0){ toast("Add some assets or liabilities first"); return; }
+    var snaps=getSnaps();
+    snaps.unshift({date:dateStr(), assets:a, liabs:l, net:a-l});
+    setSnaps(snaps.slice(0,60));
+    renderHistory();
+    toast("Snapshot saved ✓");
+    $("#history-card").scrollIntoView({behavior:"smooth",block:"start"});
+  };
+
+  /* ---------- reset / clear ---------- */
+  $("#reset").onclick=function(){
+    state.assets=[]; state.liabs=[];
+    saveState(); renderAll();
+    toast("Cleared 🌿");
+  };
+  $("#clear-snaps").onclick=function(){
+    setSnaps([]); renderHistory(); toast("All snapshots cleared");
+  };
+
+  /* ---------- init ---------- */
+  loadState();
+  renderAll();
+  renderHistory();
+})();
+</script>
+</body>
+</html>

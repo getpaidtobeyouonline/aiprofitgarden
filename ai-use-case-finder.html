@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Use-Case Finder — AI Profit Garden</title>
+<meta name="description" content="Spot the handful of tasks in your business AI should be handling this week." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.area-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:6px}
+.area{display:flex;align-items:center;gap:10px;background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:11px 13px;cursor:pointer;transition:border-color .15s,background .15s}
+.area:hover{border-color:var(--sage)}
+.area.on{border-color:var(--sage);background:var(--sage-soft)}
+.area input{flex:0 0 auto;width:18px;height:18px;accent-color:var(--olive);cursor:pointer}
+.area .nm{flex:1;font-weight:700;font-size:.92rem}
+.area .ico{font-size:1.1rem}
+.area .hrs{flex:0 0 64px}
+.area .hrs input{width:100%;font-family:inherit;font-size:.86rem;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:9px;padding:6px 8px;text-align:center}
+.area .hrs input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.uc{display:flex;gap:13px;padding:15px 0;border-top:1px solid var(--line)}
+.uc:first-child{border-top:none}
+.uc .rank{flex:0 0 auto;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-weight:700;background:var(--gold-soft);color:#7A5520;font-size:.95rem}
+.uc .body{flex:1;min-width:0}
+.uc .body strong{display:block;font-size:1.02rem;color:var(--olive)}
+.uc .body .how{font-size:.9rem;color:var(--ink);margin-top:3px}
+.uc .body .saved{font-size:.82rem;color:var(--muted);margin-top:5px;font-weight:600}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">AI Use-Case Finder</h1>
+      <p class="app-sub">Spot the 5 tasks AI should be doing for you this week.</p>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card">
+    <h2 class="section-title">Where does your time go?</h2>
+    <p class="section-note">Tick the areas of your business that apply. If you like, add roughly how many hours each one eats each week — we'll prioritise where AI helps most.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label>Your business areas <span class="hint">— check all that apply</span></label>
+        <div class="area-grid" id="area-grid"></div>
+        <div class="err-text" id="area-err">Please tick at least one area to get your tailored list.</div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Find my AI use-cases</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <h2 class="section-title">Your top AI use-cases this week</h2>
+    <p class="section-note" id="r-intro">Start with one. Small steps, steady fruit.</p>
+    <div id="uc-list"></div>
+
+    <div class="callout callout-info mt" id="r-saved-total"></div>
+
+    <div class="verse">
+      “She sets about her work vigorously; her arms are strong for her tasks.”
+      <cite>Proverbs 31:17 · work smarter, not harder</cite>
+    </div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save this list</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy list</button>
+    </div>
+  </section>
+
+  <!-- EMPTY STATE -->
+  <section class="card" id="empty-card">
+    <div class="empty">
+      <span class="ico">🌱</span>
+      Tick a few business areas above and we'll plant your first AI to-do list.
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_ai_use_case_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var grid=$("#area-grid"), result=$("#result"), emptyCard=$("#empty-card"), ucList=$("#uc-list");
+
+  /* ---------- helpers ---------- */
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function hrLabel(h){ return h===1?"1 hour":h+" hours"; }
+
+  /* ---------- business areas & their AI use-cases ----------
+     baseSave = typical hours/week AI can claw back for that area
+     when the member enters her own hours, we use a share of HER hours instead. */
+  var AREAS=[
+    {id:"content",  ico:"✍️", name:"Content writing", baseSave:2.5,
+      uc:{title:"Draft your blog posts & long content from a quick outline",
+          how:"Open your AI tool, paste 3–4 bullet points, and ask it to draft the piece in your voice. You edit — it does the heavy lifting."}},
+    {id:"email",    ico:"✉️", name:"Email", baseSave:2,
+      uc:{title:"Draft your weekly emails & replies",
+          how:"Give AI the gist (\"warm reminder about Friday's class\") and let it write the first draft. Tweak the tone and send."}},
+    {id:"service",  ico:"💬", name:"Customer service", baseSave:1.5,
+      uc:{title:"Summarise customer feedback & build a reply template library",
+          how:"Paste recent questions and ask AI to group them and draft friendly answers you can reuse."}},
+    {id:"schedule", ico:"📅", name:"Scheduling & planning", baseSave:1,
+      uc:{title:"Turn your goals into a realistic weekly plan",
+          how:"Tell AI your priorities and hours available; ask it to lay them out across the week with time-blocks."}},
+    {id:"books",    ico:"🧾", name:"Bookkeeping prep", baseSave:1.5,
+      uc:{title:"Sort & categorise your expenses before bookkeeping",
+          how:"Paste a list of expenses and ask AI to group them by category and flag anything unusual to review."}},
+    {id:"research", ico:"🔍", name:"Research", baseSave:2,
+      uc:{title:"Summarise research & competitor pages into key takeaways",
+          how:"Paste an article or notes and ask AI for the 5 things that matter most for your decision."}},
+    {id:"design",   ico:"🎨", name:"Design & visuals", baseSave:1.5,
+      uc:{title:"Generate visual ideas, captions & colour directions",
+          how:"Describe your brand and ask AI for layout ideas, headline options, or a palette to hand your designer."}},
+    {id:"social",   ico:"📱", name:"Social media", baseSave:2.5,
+      uc:{title:"Batch a week of social posts from one idea",
+          how:"Give AI one core message and ask for 7 post variations across your platforms, with hashtags."}}
+  ];
+
+  /* ---------- build checkboxes ---------- */
+  function buildGrid(state){
+    grid.innerHTML="";
+    AREAS.forEach(function(a){
+      var s=(state&&state[a.id])||null;
+      var lab=document.createElement("label");
+      lab.className="area"+(s&&s.on?" on":"");
+      lab.innerHTML=
+        '<input type="checkbox" data-id="'+a.id+'" '+(s&&s.on?"checked":"")+' aria-label="'+a.name+'" />'+
+        '<span class="ico" aria-hidden="true">'+a.ico+'</span>'+
+        '<span class="nm">'+a.name+'</span>'+
+        '<span class="hrs"><input type="text" inputmode="decimal" placeholder="hrs" data-hrs="'+a.id+'" value="'+(s&&s.hrs?s.hrs:"")+'" aria-label="Weekly hours on '+a.name+'" /></span>';
+      var cb=$("input[type=checkbox]",lab);
+      cb.addEventListener("change",function(){ lab.classList.toggle("on",cb.checked); });
+      // don't toggle checkbox when typing in the hours box
+      $("input[data-hrs]",lab).addEventListener("click",function(e){ e.preventDefault(); e.stopPropagation(); this.focus(); });
+      grid.appendChild(lab);
+    });
+  }
+
+  function readSelection(){
+    var out=[];
+    AREAS.forEach(function(a){
+      var cb=grid.querySelector('input[data-id="'+a.id+'"]');
+      var hb=grid.querySelector('input[data-hrs="'+a.id+'"]');
+      if(cb&&cb.checked){
+        out.push({id:a.id, hrs:num(hb&&hb.value)});
+      }
+    });
+    return out;
+  }
+
+  /* ---------- build prioritized use-cases ---------- */
+  function buildUseCases(sel){
+    var anyHrs=sel.some(function(s){return s.hrs>0});
+    var list=sel.map(function(s){
+      var a=AREAS.filter(function(x){return x.id===s.id})[0];
+      // if she gave hours, estimate ~55% of those hours saved; else use base estimate
+      var saved = s.hrs>0 ? Math.round(s.hrs*0.55*2)/2 : a.baseSave;
+      if(saved<0.5) saved=0.5;
+      return {title:a.uc.title, how:a.uc.how, saved:saved, hrs:s.hrs};
+    });
+    // rank by hours saved (desc); if no hours given, keep area order (already sensible)
+    if(anyHrs) list.sort(function(x,y){return y.saved-x.saved});
+    return {list:list.slice(0,5), anyHrs:anyHrs, totalSaved:list.slice(0,5).reduce(function(a,b){return a+b.saved},0)};
+  }
+
+  function render(sel){
+    var data=buildUseCases(sel);
+    ucList.innerHTML="";
+    data.list.forEach(function(u,i){
+      var row=document.createElement("div");
+      row.className="uc";
+      row.innerHTML=
+        '<div class="rank">'+(i+1)+'</div>'+
+        '<div class="body"><strong>'+u.title+'</strong>'+
+        '<div class="how">How to start: '+u.how+'</div>'+
+        '<div class="saved">≈ '+hrLabel(u.saved)+'/week back in your pocket</div></div>';
+      ucList.appendChild(row);
+    });
+    var tot=$("#r-saved-total");
+    tot.textContent = "If you put these to work, you could reclaim around "+hrLabel(Math.round(data.totalSaved*2)/2)+
+      " every week"+(data.anyHrs?" — based on the hours you shared.":" — a gentle estimate to start.");
+    $("#r-intro").textContent = data.anyHrs
+      ? "Ranked by the time you'll save most. Start at the top."
+      : "Start with one. Small steps, steady fruit.";
+    result.hidden=false; emptyCard.hidden=true;
+    return data;
+  }
+
+  /* ---------- persistence ---------- */
+  function saveState(){
+    var st={};
+    AREAS.forEach(function(a){
+      var cb=grid.querySelector('input[data-id="'+a.id+'"]');
+      var hb=grid.querySelector('input[data-hrs="'+a.id+'"]');
+      st[a.id]={on:!!(cb&&cb.checked), hrs:(hb&&hb.value)||""};
+    });
+    try{ localStorage.setItem(KEY,JSON.stringify(st)); }catch(e){}
+  }
+  function loadState(){
+    try{ return JSON.parse(localStorage.getItem(KEY)||"null"); }catch(e){ return null; }
+  }
+
+  /* ---------- events ---------- */
+  $("#form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var sel=readSelection();
+    var err=$("#area-err");
+    if(!sel.length){ err.classList.add("show"); grid.scrollIntoView({behavior:"smooth",block:"center"}); return; }
+    err.classList.remove("show");
+    render(sel);
+    saveState();
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+
+  $("#reset").onclick=function(){
+    buildGrid(null);
+    result.hidden=true; emptyCard.hidden=false;
+    $("#area-err").classList.remove("show");
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    toast("Cleared 🌿");
+  };
+
+  $("#save").onclick=function(){
+    saveState();
+    toast("List saved ✓");
+  };
+
+  $("#copy").onclick=function(){
+    var lines=["My AI Use-Case List — this week",""];
+    Array.prototype.forEach.call(ucList.querySelectorAll(".uc"),function(uc,i){
+      lines.push((i+1)+". "+$(".body strong",uc).textContent);
+      lines.push("   "+$(".body .how",uc).textContent);
+      lines.push("   "+$(".body .saved",uc).textContent);
+      lines.push("");
+    });
+    lines.push($("#r-saved-total").textContent);
+    var txt=lines.join("\n");
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("List copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  /* ---------- init ---------- */
+  var st=loadState();
+  buildGrid(st);
+  if(st && Object.keys(st).some(function(k){return st[k].on})){
+    render(readSelection());
+  }
+})();
+</script>
+</body>
+</html>

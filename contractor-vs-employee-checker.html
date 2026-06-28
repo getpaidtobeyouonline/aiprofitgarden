@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contractor vs Employee Checker — AI Profit Garden</title>
+<meta name="description" content="A simple, plain-English guide to help you think through whether a worker leans contractor or employee." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.result-hero{text-align:center;padding:8px 0 4px}
+.result-hero .big{font-family:var(--serif);font-weight:700;font-size:2.2rem;line-height:1.15;color:var(--olive)}
+.result-hero .cap{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.q{padding:16px 0;border-top:1px solid var(--line)}
+.q:first-child{border-top:none}
+.q .qtext{font-weight:700;font-size:.96rem;margin-bottom:4px}
+.q .qhint{font-size:.82rem;color:var(--muted);margin-bottom:10px}
+.choices{display:flex;gap:10px}
+.choices label{flex:1;cursor:pointer}
+.choices input{position:absolute;opacity:0;width:1px;height:1px}
+.choices .pill{display:block;text-align:center;padding:10px 12px;border:1.5px solid var(--line);border-radius:999px;font-weight:700;font-size:.9rem;color:var(--ink);background:var(--cream);transition:.15s}
+.choices input:focus-visible + .pill{outline:3px solid var(--ring);outline-offset:2px}
+.choices label.yes input:checked + .pill{background:var(--sage-soft);border-color:var(--sage);color:#2F4A33}
+.choices label.no input:checked + .pill{background:var(--gold-soft);border-color:var(--gold);color:#7A5520}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Contractor vs Employee Checker</h1>
+      <p class="app-sub">A simple guide to classify your team correctly.</p>
+    </div>
+  </header>
+
+  <!-- INTRO -->
+  <section class="card">
+    <h2 class="section-title">Let's think it through together</h2>
+    <p class="section-note">Answer these plain-English questions about how you work with this person. The more "yes" answers, the more the working relationship <em>leans</em> toward employee. This is a gentle guide to help you spot which way the wind is blowing — not a legal ruling.</p>
+    <form id="form">
+      <div id="questions"></div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">See my leaning</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <div class="result-hero">
+      <div class="cap">Your gentle leaning</div>
+      <div class="big" id="r-verdict">—</div>
+      <div id="r-badge" style="margin-top:10px"></div>
+    </div>
+
+    <div class="bar mt" aria-hidden="true"><i id="r-bar"></i></div>
+    <p class="section-note center" id="r-score" style="margin-top:8px"></p>
+
+    <div id="r-message" class="callout callout-info mt"></div>
+  </section>
+
+  <!-- DISCLAIMER -->
+  <section class="card">
+    <p class="section-note mt-0" style="margin-bottom:0">🌿 <strong>Please read:</strong> This is an educational guide using common worker-classification factors (behavioral control, financial control, and the nature of the relationship). It is <strong>not</strong> legal or tax advice and is <strong>not</strong> a verdict. Getting classification wrong can carry real consequences, so please confirm with your accountant or an employment attorney before you decide.</p>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_contractor_checker_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+
+  // Each "yes" leans toward EMPLOYEE.
+  var QUESTIONS=[
+    {id:"hours", text:"Do you set their exact working hours?", hint:"Behavioral control — telling someone when to work points toward employee."},
+    {id:"how", text:"Do you control how the work is done, not just the result?", hint:"Behavioral control — a contractor usually decides their own methods."},
+    {id:"train", text:"Do you train them on how to do the work?", hint:"Behavioral control — training in your way of doing things points toward employee."},
+    {id:"tools", text:"Do you provide their tools and equipment?", hint:"Financial control — contractors typically bring their own tools."},
+    {id:"expenses", text:"Do you reimburse their business expenses?", hint:"Financial control — contractors usually cover their own costs."},
+    {id:"exclusive", text:"Do they work only for you (not for other clients)?", hint:"Relationship — contractors generally serve several clients."},
+    {id:"ongoing", text:"Is the work ongoing or indefinite, rather than a set project?", hint:"Relationship — an open-ended arrangement points toward employee."},
+    {id:"core", text:"Is their work a core, everyday part of your business?", hint:"Relationship — central, continuous work points toward employee."},
+    {id:"benefits", text:"Do you offer them benefits (paid time off, insurance, etc.)?", hint:"Relationship — benefits are a hallmark of employment."},
+    {id:"integrated", text:"Do you require them to do the work personally (no subcontracting)?", hint:"A contractor can often send someone else; an employee can't."}
+  ];
+
+  function render(saved){
+    var box=$("#questions"); box.innerHTML="";
+    QUESTIONS.forEach(function(q,i){
+      var prev = saved && saved[q.id];
+      var div=document.createElement("div");
+      div.className="q";
+      div.innerHTML=
+        '<div class="qtext">'+(i+1)+'. '+q.text+'</div>'+
+        '<div class="qhint">'+q.hint+'</div>'+
+        '<div class="choices" role="radiogroup" aria-label="'+q.text.replace(/"/g,'')+'">'+
+          '<label class="yes"><input type="radio" name="'+q.id+'" value="yes"'+(prev==="yes"?" checked":"")+'><span class="pill">Yes</span></label>'+
+          '<label class="no"><input type="radio" name="'+q.id+'" value="no"'+(prev==="no"?" checked":"")+'><span class="pill">No</span></label>'+
+        '</div>';
+      box.appendChild(div);
+    });
+  }
+
+  function readAnswers(){
+    var out={}, yes=0, answered=0;
+    QUESTIONS.forEach(function(q){
+      var sel=document.querySelector('input[name="'+q.id+'"]:checked');
+      if(sel){ out[q.id]=sel.value; answered++; if(sel.value==="yes") yes++; }
+    });
+    return {answers:out, yes:yes, answered:answered};
+  }
+
+  function evaluate(){
+    var r=readAnswers();
+    var total=QUESTIONS.length;
+    var pct = total ? (r.yes/total*100) : 0;
+
+    var verdict, badge, msg;
+    if(r.yes<=3){
+      verdict="Likely a contractor";
+      badge='<span class="badge badge-sage">Leans contractor</span>';
+      msg="Most signs point toward an independent contractor — they seem to control how and when they work, use their own tools, and operate independently. Keep a written contract and have them invoice you, and you'll be on solid ground. (Still worth a quick check with your accountant.)";
+    }else if(r.yes<=6){
+      verdict="Leaning employee — check carefully";
+      badge='<span class="badge badge-gold">Mixed signals</span>';
+      msg="This one's genuinely in-between. Some answers point to contractor, others to employee. When it's this close, the safest path is to talk it through with your accountant or an employment attorney before deciding — misclassifying can be costly to undo.";
+    }else{
+      verdict="Likely should be an employee";
+      badge='<span class="badge badge-danger">Leans employee</span>';
+      msg="Lots of signs point toward an employment relationship — you appear to control the how, when, and where, and the work looks ongoing and central to your business. If you're treating them as a contractor, please get this reviewed by a professional soon so you can set it up correctly.";
+    }
+
+    $("#r-verdict").textContent=verdict;
+    $("#r-badge").innerHTML=badge;
+    $("#r-bar").style.width=pct+"%";
+    $("#r-score").textContent=r.yes+" of "+total+" answers leaned toward employee"+(r.answered<total?" ("+(total-r.answered)+" left blank — answering all gives a clearer picture)":"");
+    $("#r-message").textContent=msg;
+
+    $("#result").hidden=false;
+    $("#result").scrollIntoView({behavior:"smooth",block:"start"});
+    return r;
+  }
+
+  function save(answers){ try{ localStorage.setItem(KEY,JSON.stringify(answers)); }catch(e){} }
+
+  $("#form").addEventListener("submit",function(e){ e.preventDefault(); var r=evaluate(); save(r.answers); toast("Saved ✓"); });
+
+  $("#form").addEventListener("change",function(){ save(readAnswers().answers); });
+
+  $("#reset").onclick=function(){
+    QUESTIONS.forEach(function(q){ var sel=document.querySelector('input[name="'+q.id+'"]:checked'); if(sel) sel.checked=false; });
+    $("#result").hidden=true;
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    toast("Cleared 🌿");
+    window.scrollTo({top:0,behavior:"smooth"});
+  };
+
+  /* ---------- init ---------- */
+  var saved=null;
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||"null"); }catch(e){}
+  render(saved);
+})();
+</script>
+</body>
+</html>

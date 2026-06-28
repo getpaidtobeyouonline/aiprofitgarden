@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Decision Confidence Helper — AI Profit Garden</title>
+<meta name="description" content="Weigh any big choice with a quick, calm guided framework and get a clear recommendation." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.pc-row{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.pc-row .input.txt{flex:1;min-width:0}
+.pc-row .wgt{flex:0 0 110px}
+.pc-row .wgt label{display:block;font-size:.66rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.pc-row .wgt .select{padding:9px 8px;font-size:.92rem}
+.pc-head{display:flex;align-items:center;gap:8px;margin:6px 0 8px;font-weight:700;font-size:.92rem}
+.pc-head .dot{width:10px;height:10px;border-radius:50%}
+.dot-pro{background:var(--sage)}.dot-con{background:var(--gold)}
+.rating-group{margin-bottom:16px}
+.rating-group > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:8px}
+.rating{display:flex;gap:8px;flex-wrap:wrap}
+.rating input{position:absolute;opacity:0;width:1px;height:1px}
+.rating label{cursor:pointer;border:1.5px solid var(--line);background:var(--cream);border-radius:999px;padding:8px 15px;font-weight:700;font-size:.9rem;color:var(--muted);transition:.15s;-webkit-tap-highlight-color:transparent}
+.rating input:checked + label{background:var(--olive);color:#fff;border-color:var(--olive)}
+.rating input:focus-visible + label{outline:3px solid var(--ring);outline-offset:2px}
+.rating .scale-end{align-self:center;font-size:.78rem;color:var(--muted);font-weight:400}
+.rec-hero{text-align:center;padding:6px 0 4px}
+.rec-hero .cap{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.rec-hero .big{font-family:var(--serif);font-weight:700;font-size:2rem;line-height:1.15;color:var(--olive)}
+.rec-hero .big.yes{color:#2F7A4E}.rec-hero .big.no{color:var(--danger)}.rec-hero .big.close{color:var(--gold)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Decision Confidence Helper</h1>
+      <p class="app-sub">Weigh a big choice with a quick, calm framework.</p>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card">
+    <h2 class="section-title">What are you deciding?</h2>
+    <p class="section-note">Name the choice, list what's pulling each way, then rate your gut and your values. We'll bring it together gently.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="decision">The decision you're facing</label>
+        <input id="decision" class="input" type="text" placeholder="e.g. Should I raise my prices in the new year?" autocomplete="off" aria-describedby="decision-err" />
+        <div class="err-text" id="decision-err">Please describe the decision you're weighing.</div>
+      </div>
+
+      <div class="field">
+        <div class="pc-head"><span class="dot dot-pro" aria-hidden="true"></span>Reasons to say YES <span class="hint">— pros, with how much each matters (1–5)</span></div>
+        <div id="pros-list"></div>
+        <button type="button" class="btn btn-ghost btn-sm" id="add-pro">+ Add a pro</button>
+      </div>
+
+      <div class="field">
+        <div class="pc-head"><span class="dot dot-con" aria-hidden="true"></span>Reasons to hold back <span class="hint">— cons, with how much each matters (1–5)</span></div>
+        <div id="cons-list"></div>
+        <button type="button" class="btn btn-ghost btn-sm" id="add-con">+ Add a con</button>
+      </div>
+
+      <div class="rating-group">
+        <label>Your gut feeling <span class="hint" style="font-weight:400">— how does this choice feel?</span></label>
+        <div class="rating" id="gut" role="radiogroup" aria-label="Gut feeling, 1 uneasy to 5 excited">
+          <span class="scale-end">Uneasy</span>
+          <input type="radio" name="gut" id="gut1" value="1"><label for="gut1">1</label>
+          <input type="radio" name="gut" id="gut2" value="2"><label for="gut2">2</label>
+          <input type="radio" name="gut" id="gut3" value="3" checked><label for="gut3">3</label>
+          <input type="radio" name="gut" id="gut4" value="4"><label for="gut4">4</label>
+          <input type="radio" name="gut" id="gut5" value="5"><label for="gut5">5</label>
+          <span class="scale-end">Excited</span>
+        </div>
+      </div>
+
+      <div class="rating-group">
+        <label>Alignment with your values <span class="hint" style="font-weight:400">— does this fit who you want to be?</span></label>
+        <div class="rating" id="values" role="radiogroup" aria-label="Values alignment, 1 not aligned to 5 deeply aligned">
+          <span class="scale-end">Not really</span>
+          <input type="radio" name="values" id="val1" value="1"><label for="val1">1</label>
+          <input type="radio" name="values" id="val2" value="2"><label for="val2">2</label>
+          <input type="radio" name="values" id="val3" value="3" checked><label for="val3">3</label>
+          <input type="radio" name="values" id="val4" value="4"><label for="val4">4</label>
+          <input type="radio" name="values" id="val5" value="5"><label for="val5">5</label>
+          <span class="scale-end">Deeply</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Weigh my decision</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <div class="rec-hero">
+      <div class="cap">Where this points</div>
+      <div class="big" id="r-rec">—</div>
+      <div id="r-badge" style="margin-top:10px"></div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Pros weight</div><div class="value pos" id="s-pro">0</div></div>
+      <div class="stat"><div class="label">Cons weight</div><div class="value neg" id="s-con">0</div></div>
+      <div class="stat"><div class="label">Gut + values</div><div class="value" id="s-heart">0 / 10</div></div>
+    </div>
+
+    <div class="bar mt" aria-hidden="true"><i id="r-bar"></i></div>
+
+    <div id="r-message" class="callout callout-info mt"></div>
+
+    <div class="verse">
+      “Trust in the Lord with all your heart, and lean not on your own understanding.”
+      <cite>Proverbs 3:5 · pray, then move in peace</cite>
+    </div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save this decision</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy summary</button>
+    </div>
+  </section>
+
+  <!-- SAVED -->
+  <section class="card" id="history-card" hidden>
+    <h2 class="section-title">Saved decisions</h2>
+    <p class="section-note">Kept on this device only. Come back and see how things unfolded.</p>
+    <div id="history"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all saved</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_decision_confidence_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var prosList=$("#pros-list"), consList=$("#cons-list");
+  var result=$("#result"), histCard=$("#history-card"), hist=$("#history");
+
+  /* ---------- helpers ---------- */
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+  function radioVal(name){ var el=$('input[name="'+name+'"]:checked'); return el?num(el.value):3; }
+
+  /* ---------- pro/con rows ---------- */
+  function makeRow(listType,text,weight){
+    var row=document.createElement("div");
+    row.className="pc-row";
+    var ph = listType==="pro" ? "e.g. More income to reinvest" : "e.g. Some clients may push back";
+    row.innerHTML=
+      '<input class="input txt" type="text" placeholder="'+ph+'" aria-label="'+(listType==="pro"?"Pro":"Con")+'" autocomplete="off" />'+
+      '<div class="wgt"><label>Matters</label>'+
+        '<select class="select" aria-label="Importance 1 to 5">'+
+          '<option value="1">1 · a little</option>'+
+          '<option value="2">2</option>'+
+          '<option value="3" selected>3 · medium</option>'+
+          '<option value="4">4</option>'+
+          '<option value="5">5 · a lot</option>'+
+        '</select></div>'+
+      '<button type="button" class="icon-btn" aria-label="Remove">✕</button>';
+    $(".txt",row).value=text||"";
+    if(weight) $(".select",row).value=String(weight);
+    var listEl = listType==="pro"?prosList:consList;
+    $(".icon-btn",row).onclick=function(){ row.remove(); persistDraft(); };
+    $(".txt",row).addEventListener("input",persistDraft);
+    $(".select",row).addEventListener("change",persistDraft);
+    listEl.appendChild(row);
+    return row;
+  }
+
+  function readRows(listEl){
+    var out=[];
+    Array.prototype.forEach.call(listEl.querySelectorAll(".pc-row"),function(r){
+      var text=$(".txt",r).value.trim(), w=num($(".select",r).value)||3;
+      if(text) out.push({text:text,weight:w});
+    });
+    return out;
+  }
+
+  /* ---------- calculate ---------- */
+  function calculate(){
+    var dEl=$("#decision"), dErr=$("#decision-err");
+    var decision=dEl.value.trim();
+    if(!decision){ dEl.classList.add("error"); dErr.classList.add("show"); dEl.focus(); return; }
+    dEl.classList.remove("error"); dErr.classList.remove("show");
+
+    var pros=readRows(prosList), cons=readRows(consList);
+    var proW=pros.reduce(function(a,p){return a+p.weight},0);
+    var conW=cons.reduce(function(a,c){return a+c.weight},0);
+    var gut=radioVal("gut"), values=radioVal("values");
+    var heart=gut+values; // 2..10
+
+    // Normalised lean from pros vs cons: -1..1
+    var totalW=proW+conW;
+    var listLean = totalW>0 ? (proW-conW)/totalW : 0;       // -1..1
+    var heartLean = (heart-6)/4;                            // 2..10 -> -1..1
+    // weight: the explicit list and the heart each count; heart slightly lighter
+    var combined = (listLean*0.6) + (heartLean*0.4);        // -1..1
+
+    var recEl=$("#r-rec"), badge=$("#r-badge"), msg=$("#r-message");
+    var rec, cls, b, m;
+    if(combined > 0.18){
+      rec="Lean yes"; cls="yes";
+      b='<span class="badge badge-sage">Lean yes</span>';
+      m="The weight of your reasons and your heart both tilt toward yes. That's a hopeful sign. Take it to prayer, sleep on it once more if you'd like, then step forward with peace.";
+      msg.className="callout callout-info mt";
+    }else if(combined < -0.18){
+      rec="Lean no"; cls="no";
+      b='<span class="badge badge-danger">Lean no</span>';
+      m="The reasons to hold back are carrying more weight right now, and your gut seems to agree. A 'not yet' is not a failure — it's wisdom protecting your peace. Revisit it later if things change.";
+      msg.className="callout callout-warn mt";
+    }else{
+      rec="It's close — sit with it"; cls="close";
+      b='<span class="badge badge-gold">Genuinely close</span>';
+      m="This one is balanced — the pros and cons are nearly even. When a choice is this close, give it a little time. Pray on it, notice which option brings more peace over the next few days, and trust that clarity will come.";
+      msg.className="callout callout-info mt";
+    }
+    recEl.textContent=rec; recEl.className="big "+cls;
+    badge.innerHTML=b; msg.textContent=m;
+
+    $("#s-pro").textContent=proW;
+    $("#s-con").textContent=conW;
+    $("#s-heart").textContent=heart+" / 10";
+
+    // bar shows balance: 50% = even, toward 100 = yes
+    var barPct = Math.round((combined+1)/2*100);
+    $("#r-bar").style.width=Math.max(2,Math.min(100,barPct))+"%";
+
+    result.hidden=false;
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+    persistDraft();
+    return {decision:decision,pros:pros,cons:cons,proW:proW,conW:conW,gut:gut,values:values,rec:rec};
+  }
+
+  /* ---------- draft persistence ---------- */
+  function persistDraft(){
+    try{
+      localStorage.setItem(KEY+"_draft",JSON.stringify({
+        decision:$("#decision").value,
+        pros:readRows(prosList), cons:readRows(consList),
+        gut:radioVal("gut"), values:radioVal("values")
+      }));
+    }catch(e){}
+  }
+  function loadDraft(){
+    try{
+      var d=JSON.parse(localStorage.getItem(KEY+"_draft")||"null");
+      if(!d) return false;
+      $("#decision").value=d.decision||"";
+      prosList.innerHTML=""; consList.innerHTML="";
+      (d.pros&&d.pros.length?d.pros:[null]).forEach(function(p){ makeRow("pro",p&&p.text,p&&p.weight); });
+      (d.cons&&d.cons.length?d.cons:[null]).forEach(function(c){ makeRow("con",c&&c.text,c&&c.weight); });
+      var g=$("#gut"+(d.gut||3)); if(g) g.checked=true;
+      var v=$("#val"+(d.values||3)); if(v) v.checked=true;
+      return true;
+    }catch(e){ return false; }
+  }
+
+  /* ---------- saved ---------- */
+  function getSaved(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setSaved(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+  function todayStr(){ var d=new Date(); return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); }
+
+  function renderHistory(){
+    var items=getSaved();
+    if(!items.length){ histCard.hidden=true; return; }
+    histCard.hidden=false;
+    hist.innerHTML="";
+    items.forEach(function(it,i){
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML=
+        '<div class="grow"><strong>'+escapeHtml(it.decision)+'</strong>'+
+        '<small>'+it.date+' · '+escapeHtml(it.rec)+' · pros '+it.proW+' / cons '+it.conW+'</small></div>'+
+        '<button class="icon-btn" aria-label="Delete decision">✕</button>';
+      $(".icon-btn",row).onclick=function(){ items.splice(i,1); setSaved(items); renderHistory(); toast("Decision removed"); };
+      hist.appendChild(row);
+    });
+  }
+
+  /* ---------- events ---------- */
+  $("#add-pro").onclick=function(){ makeRow("pro").querySelector(".txt").focus(); persistDraft(); };
+  $("#add-con").onclick=function(){ makeRow("con").querySelector(".txt").focus(); persistDraft(); };
+  document.querySelectorAll('input[name="gut"],input[name="values"]').forEach(function(r){ r.addEventListener("change",persistDraft); });
+
+  $("#form").addEventListener("submit",function(e){ e.preventDefault(); calculate(); });
+
+  $("#reset").onclick=function(){
+    $("#decision").value=""; $("#decision").classList.remove("error"); $("#decision-err").classList.remove("show");
+    prosList.innerHTML=""; consList.innerHTML="";
+    makeRow("pro"); makeRow("con");
+    $("#gut3").checked=true; $("#val3").checked=true;
+    result.hidden=true;
+    try{ localStorage.removeItem(KEY+"_draft"); }catch(e){}
+    toast("Cleared 🌿");
+    $("#decision").focus();
+  };
+
+  $("#save").onclick=function(){
+    var r=calculate(); if(!r) return;
+    var items=getSaved();
+    items.unshift({date:todayStr(),decision:r.decision,rec:r.rec,proW:r.proW,conW:r.conW});
+    setSaved(items.slice(0,24));
+    renderHistory();
+    toast("Decision saved ✓");
+  };
+
+  $("#copy").onclick=function(){
+    var r=calculate(); if(!r) return;
+    var lines=["Decision: "+r.decision,"","Recommendation: "+r.rec,""];
+    lines.push("Reasons to say yes (weight):");
+    r.pros.forEach(function(p){ lines.push("  • "+p.text+" ("+p.weight+")"); });
+    if(!r.pros.length) lines.push("  (none listed)");
+    lines.push("","Reasons to hold back (weight):");
+    r.cons.forEach(function(c){ lines.push("  • "+c.text+" ("+c.weight+")"); });
+    if(!r.cons.length) lines.push("  (none listed)");
+    lines.push("","Pros weight: "+r.proW+"  |  Cons weight: "+r.conW);
+    lines.push("Gut feeling: "+r.gut+"/5  |  Values alignment: "+r.values+"/5");
+    lines.push("","Weighed with the Decision Confidence Helper · "+todayStr());
+    var txt=lines.join("\n");
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Summary copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  $("#clear-all").onclick=function(){ setSaved([]); renderHistory(); toast("All saved decisions cleared"); };
+
+  /* ---------- init ---------- */
+  if(!loadDraft()){ makeRow("pro"); makeRow("con"); }
+  renderHistory();
+})();
+</script>
+</body>
+</html>
