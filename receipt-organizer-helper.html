@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Receipt Organizer Helper — AI Profit Garden</title>
+<meta name="description" content="Sort and label your business expenses by category so tax time takes hours, not days." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.cat-line{padding:13px 0;border-top:1px solid var(--line)}
+.cat-line:first-child{border-top:none}
+.cat-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.cat-head strong{font-weight:700}
+.cat-head .amt{font-family:var(--serif);font-weight:700;color:var(--olive);white-space:nowrap}
+.cat-head small{color:var(--muted);font-weight:400}
+.grand{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;padding-top:14px;border-top:2px solid var(--line)}
+.grand .lbl{font-weight:700;font-size:1.05rem}
+.grand .amt{font-family:var(--serif);font-weight:700;font-size:1.6rem;color:var(--olive)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Receipt Organizer Helper</h1>
+      <p class="app-sub">Sort and label expenses so tax time takes hours, not days.</p>
+    </div>
+  </header>
+
+  <!-- ADD EXPENSE -->
+  <section class="card">
+    <h2 class="section-title">Add an expense</h2>
+    <p class="section-note">Got a receipt in hand? Jot it down here and tuck the receipt in your folder — this keeps the running tally so you don't have to.</p>
+
+    <form id="form" novalidate>
+      <div class="row">
+        <div class="field">
+          <label for="e-date">Date</label>
+          <input id="e-date" class="input" type="date" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="e-cat">Category</label>
+          <select id="e-cat" class="input select">
+            <option value="Advertising">Advertising</option>
+            <option value="Supplies">Supplies</option>
+            <option value="Software">Software</option>
+            <option value="Meals">Meals</option>
+            <option value="Travel">Travel</option>
+            <option value="Home office">Home office</option>
+            <option value="Contractors">Contractors</option>
+            <option value="Fees">Fees</option>
+            <option value="Education">Education</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="e-vendor">Vendor / description <span class="hint">— who &amp; what for</span></label>
+        <input id="e-vendor" class="input" type="text" placeholder="e.g. Canva subscription" autocomplete="off" aria-describedby="vendor-err" />
+        <div class="err-text" id="vendor-err">Please add a vendor or short description.</div>
+      </div>
+
+      <div class="field">
+        <label for="e-amount">Amount</label>
+        <div class="input-money"><span>$</span>
+          <input id="e-amount" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="amount-err" />
+        </div>
+        <div class="err-text" id="amount-err">Please enter an amount greater than zero.</div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">+ Add expense</button>
+        <button type="button" class="btn btn-ghost" id="reset-form">Clear fields</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- CATEGORY TOTALS -->
+  <section class="card" id="totals-card" aria-live="polite">
+    <h2 class="section-title">Totals by category</h2>
+    <p class="section-note">Your spending, tidied up and ready for your accountant.</p>
+    <div id="cat-totals"></div>
+  </section>
+
+  <!-- EXPENSE LIST -->
+  <section class="card">
+    <h2 class="section-title">Your expenses</h2>
+    <p class="section-note">Newest first. Filter to focus on one category at a time.</p>
+    <div class="field" style="margin-bottom:14px">
+      <label for="filter">Show category</label>
+      <select id="filter" class="input select">
+        <option value="__all">All categories</option>
+        <option value="Advertising">Advertising</option>
+        <option value="Supplies">Supplies</option>
+        <option value="Software">Software</option>
+        <option value="Meals">Meals</option>
+        <option value="Travel">Travel</option>
+        <option value="Home office">Home office</option>
+        <option value="Contractors">Contractors</option>
+        <option value="Fees">Fees</option>
+        <option value="Education">Education</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div id="exp-list"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="copy">Copy summary</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all expenses</button>
+    </div>
+  </section>
+
+  <div class="callout callout-info">
+    <strong>A friendly note:</strong> This is an organizer to help you plan — it tracks what you spent so tax time is calmer. It does not store your receipt images, so keep those filed safely. These category groupings are a helpful guide, not formal tax advice — confirm what's deductible with your accountant.
+  </div>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_receipt_organizer_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var CATS=["Advertising","Supplies","Software","Meals","Travel","Home office","Contractors","Fees","Education","Other"];
+
+  /* ---------- helpers ---------- */
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}); }
+
+  /* ---------- state ---------- */
+  function getList(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setList(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+  var items=getList();
+
+  /* ---------- date ---------- */
+  function todayISO(){
+    var d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset());
+    return d.toISOString().slice(0,10);
+  }
+  function fmtDate(iso){
+    if(!iso) return "";
+    var p=iso.split("-"); if(p.length!==3) return iso;
+    var d=new Date(+p[0],+p[1]-1,+p[2]);
+    return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  }
+
+  /* ---------- add ---------- */
+  function clearErrs(){
+    $("#e-vendor").classList.remove("error"); $("#e-amount").classList.remove("error");
+    $("#vendor-err").classList.remove("show"); $("#amount-err").classList.remove("show");
+  }
+
+  $("#form").addEventListener("submit",function(e){
+    e.preventDefault();
+    clearErrs();
+    var date=$("#e-date").value||todayISO();
+    var cat=$("#e-cat").value;
+    var vendor=$("#e-vendor").value.trim();
+    var amount=num($("#e-amount").value);
+    var ok=true;
+    if(!vendor){ $("#e-vendor").classList.add("error"); $("#vendor-err").classList.add("show"); ok=false; }
+    if(amount<=0){ $("#e-amount").classList.add("error"); $("#amount-err").classList.add("show"); ok=false; }
+    if(!ok){ if(!vendor) $("#e-vendor").focus(); else $("#e-amount").focus(); return; }
+
+    items.push({id:Date.now()+""+Math.floor(Math.random()*999),date:date,cat:cat,vendor:vendor,amount:amount});
+    setList(items);
+    renderAll();
+    $("#e-vendor").value=""; $("#e-amount").value="";
+    toast("Expense added ✓");
+    $("#e-vendor").focus();
+  });
+
+  $("#reset-form").onclick=function(){
+    clearErrs();
+    $("#e-vendor").value=""; $("#e-amount").value="";
+    $("#e-date").value=todayISO(); $("#e-cat").value="Advertising";
+  };
+
+  /* ---------- category totals ---------- */
+  function totalsByCat(){
+    var t={}; CATS.forEach(function(c){t[c]={total:0,count:0}});
+    items.forEach(function(it){ if(!t[it.cat]) t[it.cat]={total:0,count:0}; t[it.cat].total+=it.amount; t[it.cat].count++; });
+    return t;
+  }
+
+  function renderTotals(){
+    var box=$("#cat-totals");
+    if(!items.length){
+      box.innerHTML='<div class="empty"><span class="ico">🧾</span>No expenses yet. Add your first receipt above and watch your categories tally up.</div>';
+      return;
+    }
+    var t=totalsByCat();
+    var grand=items.reduce(function(a,it){return a+it.amount},0);
+    var max=0; CATS.forEach(function(c){ if(t[c].total>max) max=t[c].total; });
+    box.innerHTML="";
+    CATS.forEach(function(c){
+      if(t[c].count===0) return;
+      var pct=max>0?(t[c].total/max*100):0;
+      var line=document.createElement("div");
+      line.className="cat-line";
+      line.innerHTML=
+        '<div class="cat-head"><strong>'+escapeHtml(c)+' <small>('+t[c].count+')</small></strong>'+
+        '<span class="amt">'+money(t[c].total)+'</span></div>'+
+        '<div class="bar"><i style="width:'+pct+'%"></i></div>';
+      box.appendChild(line);
+    });
+    var g=document.createElement("div");
+    g.className="grand";
+    g.innerHTML='<span class="lbl">Grand total</span><span class="amt">'+money(grand)+'</span>';
+    box.appendChild(g);
+  }
+
+  /* ---------- expense list ---------- */
+  function renderList(){
+    var list=$("#exp-list");
+    var filter=$("#filter").value;
+    var shown=items.filter(function(it){ return filter==="__all"||it.cat===filter; });
+    if(!items.length){
+      list.innerHTML='<div class="empty"><span class="ico">📋</span>Nothing logged yet.</div>';
+      return;
+    }
+    if(!shown.length){
+      list.innerHTML='<div class="empty"><span class="ico">🔍</span>No expenses in this category yet.</div>';
+      return;
+    }
+    var sorted=shown.slice().sort(function(a,b){
+      if(a.date!==b.date) return a.date<b.date?1:-1;
+      return (+b.id)-(+a.id);
+    });
+    list.innerHTML="";
+    sorted.forEach(function(it){
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML=
+        '<div class="grow"><strong>'+escapeHtml(it.vendor)+'</strong>'+
+        '<small>'+fmtDate(it.date)+' · '+escapeHtml(it.cat)+'</small></div>'+
+        '<span class="cat-head" style="margin:0"><span class="amt">'+money(it.amount)+'</span></span>'+
+        '<button class="icon-btn" aria-label="Delete expense">✕</button>';
+      $(".icon-btn",row).onclick=function(){
+        items=items.filter(function(x){return x.id!==it.id});
+        setList(items); renderAll(); toast("Expense removed");
+      };
+      list.appendChild(row);
+    });
+  }
+
+  function renderAll(){ renderTotals(); renderList(); }
+
+  $("#filter").addEventListener("change",renderList);
+
+  /* ---------- copy ---------- */
+  $("#copy").onclick=function(){
+    if(!items.length){ toast("No expenses to copy yet"); return; }
+    var t=totalsByCat();
+    var grand=items.reduce(function(a,it){return a+it.amount},0);
+    var lines=["Expense Category Summary","========================"];
+    CATS.forEach(function(c){
+      if(t[c].count>0) lines.push(c+": "+money(t[c].total)+"  ("+t[c].count+" item"+(t[c].count>1?"s":"")+")");
+    });
+    lines.push("------------------------");
+    lines.push("GRAND TOTAL: "+money(grand));
+    lines.push("");
+    lines.push("Prepared with Receipt Organizer Helper — estimates/organizer only,");
+    lines.push("confirm deductibility with your accountant.");
+    var txt=lines.join("\n");
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Summary copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  $("#clear-all").onclick=function(){
+    if(!items.length){ toast("Nothing to clear"); return; }
+    items=[]; setList(items); renderAll(); toast("All expenses cleared 🌿");
+  };
+
+  /* ---------- init ---------- */
+  $("#e-date").value=todayISO();
+  renderAll();
+})();
+</script>
+</body>
+</html>

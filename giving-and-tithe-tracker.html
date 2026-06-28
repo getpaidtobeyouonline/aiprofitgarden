@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Giving &amp; Tithe Tracker — AI Profit Garden</title>
+<meta name="description" content="Track your tithes and giving with faithfulness and clarity." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.tithe-due{background:linear-gradient(135deg,var(--gold-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;text-align:center;margin-top:6px}
+.tithe-due .lbl{font-size:.76rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tithe-due .amt{font-family:var(--serif);font-weight:700;font-size:2rem;color:var(--gold);line-height:1.1;margin-top:3px}
+.breakdown{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.bk{flex:1;min-width:120px;background:var(--cream);border:1px solid var(--line);border-radius:var(--radius);padding:11px 13px;text-align:center}
+.bk .l{font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.bk .v{font-family:var(--serif);font-weight:700;font-size:1.2rem;color:var(--olive);margin-top:2px}
+.pct-line{display:flex;justify-content:space-between;font-size:.84rem;color:var(--muted);margin-top:8px}
+.pct-line b{color:var(--olive)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Giving &amp; Tithe Tracker</h1>
+      <p class="app-sub">Track tithes and giving with faithfulness and clarity.</p>
+    </div>
+  </header>
+
+  <!-- TITHE CALCULATOR -->
+  <section class="card">
+    <h2 class="section-title">What does my tithe come to?</h2>
+    <p class="section-note">Enter income to see your tithe due. Logging income also builds your yearly tithe goal.</p>
+    <div class="row">
+      <div class="field">
+        <label for="income">Income amount</label>
+        <div class="input-money"><span>$</span>
+          <input id="income" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="income-err" />
+        </div>
+        <div class="err-text" id="income-err">Enter an income amount of 0 or more.</div>
+      </div>
+      <div class="field">
+        <label for="pct">Tithe %</label>
+        <input id="pct" class="input" type="text" inputmode="decimal" value="10" autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="tithe-due" aria-live="polite">
+      <div class="lbl">Tithe due on this income</div>
+      <div class="amt" id="tithe-due">$0</div>
+    </div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="add-income">+ Add to my yearly tithe goal</button>
+    </div>
+    <p class="section-note mt-s" id="goal-line">Your running tithe goal grows each time you log income.</p>
+
+    <div class="verse">
+      “Every man according as he purposeth in his heart, so let him give; not grudgingly, or of necessity: for God loveth a cheerful giver.”
+      <cite>2 Corinthians 9:7 · give with joy</cite>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="card" id="progress-card" hidden>
+    <h2 class="section-title">Your faithfulness this year</h2>
+    <p class="section-note" id="year-note"></p>
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Given this year</div><div class="value pos" id="s-given">$0</div></div>
+      <div class="stat"><div class="label">Tithe goal</div><div class="value" id="s-goal">$0</div></div>
+    </div>
+    <div class="bar mt" aria-hidden="true"><i id="goal-bar"></i></div>
+    <div class="pct-line"><span>Tithe given toward goal</span><b id="goal-pct">0%</b></div>
+    <div id="goal-msg" class="callout callout-info mt"></div>
+
+    <div class="breakdown">
+      <div class="bk"><div class="l">Tithe</div><div class="v" id="bk-tithe">$0</div></div>
+      <div class="bk"><div class="l">Offering</div><div class="v" id="bk-offering">$0</div></div>
+      <div class="bk"><div class="l">Other</div><div class="v" id="bk-other">$0</div></div>
+    </div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="reset-goal">Reset tithe goal</button>
+    </div>
+  </section>
+
+  <!-- LOG GIVING -->
+  <section class="card">
+    <h2 class="section-title">Log a gift</h2>
+    <p class="section-note">Record each gift as you give it.</p>
+    <form id="give-form" novalidate>
+      <div class="field">
+        <label for="g-date">Date</label>
+        <input id="g-date" class="input" type="date" />
+      </div>
+      <div class="field">
+        <label for="g-recipient">Recipient <span class="hint">— church, charity, person</span></label>
+        <input id="g-recipient" class="input" type="text" placeholder="e.g. Grace Community Church" autocomplete="off" aria-describedby="g-rec-err" />
+        <div class="err-text" id="g-rec-err">Please name the recipient.</div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="g-amount">Amount</label>
+          <div class="input-money"><span>$</span>
+            <input id="g-amount" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="g-amt-err" />
+          </div>
+          <div class="err-text" id="g-amt-err">Enter an amount greater than 0.</div>
+        </div>
+        <div class="field">
+          <label for="g-type">Type</label>
+          <select id="g-type" class="select">
+            <option>Tithe</option>
+            <option>Offering</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Log this gift</button>
+        <button type="button" class="btn btn-ghost" id="give-reset">Clear</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="card">
+    <h2 class="section-title">Giving log</h2>
+    <p class="section-note">Kept on this device only.</p>
+    <div id="log-list"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">God loves a cheerful giver.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_tithe_tracker_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+
+  function load(){ try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return {}} }
+  function save(){ try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){} }
+  var state=load();
+  if(!state.entries) state.entries=[];
+  if(typeof state.titheGoal!=="number") state.titheGoal=0;  /* running goal = sum(income*pct) */
+
+  var thisYear=new Date().getFullYear();
+
+  /* ---------- tithe calculator ---------- */
+  function calcTithe(){
+    var inc=num($("#income").value), pct=num($("#pct").value);
+    if(pct<=0) pct=10;
+    var due=inc*pct/100;
+    $("#tithe-due").textContent=money(due);
+    return due;
+  }
+
+  /* ---------- progress ---------- */
+  function givenThisYear(){
+    return state.entries.filter(function(e){return e.year===thisYear})
+      .reduce(function(a,e){return a+e.amount},0);
+  }
+  function byType(t){
+    return state.entries.filter(function(e){return e.year===thisYear && e.type===t})
+      .reduce(function(a,e){return a+e.amount},0);
+  }
+
+  function renderProgress(){
+    var hasData = state.entries.length>0 || state.titheGoal>0;
+    $("#progress-card").hidden = !hasData;
+    if(!hasData) return;
+
+    var given=givenThisYear();
+    var goal=state.titheGoal;
+    $("#year-note").textContent="Totals for "+thisYear+".";
+    $("#s-given").textContent=money(given);
+    $("#s-goal").textContent=goal>0?money(goal):"—";
+
+    var pct = goal>0 ? Math.min(100,(given/goal*100)) : 0;
+    $("#goal-bar").style.width=pct+"%";
+    $("#goal-pct").textContent = goal>0 ? Math.round(pct)+"%" : "—";
+
+    var msg=$("#goal-msg");
+    if(goal<=0){
+      msg.textContent="Log some income above to set a tithe goal, then watch your faithfulness add up.";
+    } else if(given>=goal){
+      msg.textContent="You've met — and may have gone beyond — your tithe goal this year. Well done, faithful and cheerful giver! 🌿";
+    } else {
+      var left=goal-given;
+      msg.textContent="You're "+Math.round(pct)+"% of the way to your tithe goal. "+money(left)+" to go — kept faithfully, one gift at a time.";
+    }
+
+    $("#bk-tithe").textContent=money(byType("Tithe"));
+    $("#bk-offering").textContent=money(byType("Offering"));
+    $("#bk-other").textContent=money(byType("Other"));
+
+    $("#goal-line").textContent = goal>0
+      ? "Running tithe goal so far: "+money(goal)+" (10% basis on logged income)."
+      : "Your running tithe goal grows each time you log income.";
+  }
+
+  /* ---------- log list ---------- */
+  function renderLog(){
+    var list=$("#log-list");
+    list.innerHTML="";
+    if(!state.entries.length){
+      list.innerHTML='<div class="empty"><span class="ico">🎁</span>No gifts logged yet. Record your first gift above.</div>';
+      return;
+    }
+    state.entries.slice().sort(function(a,b){return b.ts-a.ts}).forEach(function(e){
+      var typeCls = e.type==="Tithe"?"badge-sage":e.type==="Offering"?"badge-gold":"badge-sage";
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML=
+        '<div class="grow"><strong>'+money(e.amount)+' · '+escapeHtml(e.recipient)+'</strong>'+
+        '<small><span class="badge '+typeCls+'">'+escapeHtml(e.type)+'</span> &nbsp;'+escapeHtml(e.dateLabel)+'</small></div>'+
+        '<button class="icon-btn" aria-label="Delete gift">✕</button>';
+      $(".icon-btn",row).onclick=function(){
+        state.entries=state.entries.filter(function(x){return x.id!==e.id});
+        save(); renderLog(); renderProgress(); toast("Gift removed");
+      };
+      list.appendChild(row);
+    });
+  }
+
+  function fmtDate(iso){
+    if(!iso) return "";
+    var p=iso.split("-");
+    return new Date(p[0],p[1]-1,p[2]).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  }
+
+  /* ---------- events ---------- */
+  $("#income").addEventListener("input",calcTithe);
+  $("#pct").addEventListener("input",calcTithe);
+
+  $("#add-income").onclick=function(){
+    var inc=num($("#income").value), pct=num($("#pct").value);
+    var ie=$("#income"), err=$("#income-err");
+    if($("#income").value.trim()==="" || inc<0){ ie.classList.add("error"); err.classList.add("show"); ie.focus(); return; }
+    ie.classList.remove("error"); err.classList.remove("show");
+    if(pct<=0) pct=10;
+    state.titheGoal += inc*pct/100;
+    save(); renderProgress();
+    toast("Added "+money(inc*pct/100)+" to your tithe goal");
+    $("#income").value=""; calcTithe();
+  };
+
+  $("#reset-goal").onclick=function(){
+    if(!confirm("Reset your running tithe goal to $0? Your logged gifts stay.")) return;
+    state.titheGoal=0; save(); renderProgress(); toast("Tithe goal reset");
+  };
+
+  $("#give-form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var rec=$("#g-recipient"), amt=$("#g-amount");
+    var recErr=$("#g-rec-err"), amtErr=$("#g-amt-err");
+    var ok=true;
+    if(!rec.value.trim()){ rec.classList.add("error"); recErr.classList.add("show"); ok=false; }
+    else { rec.classList.remove("error"); recErr.classList.remove("show"); }
+    if(num(amt.value)<=0){ amt.classList.add("error"); amtErr.classList.add("show"); ok=false; }
+    else { amt.classList.remove("error"); amtErr.classList.remove("show"); }
+    if(!ok){ (rec.classList.contains("error")?rec:amt).focus(); return; }
+
+    var iso=$("#g-date").value || new Date().toISOString().slice(0,10);
+    var yr=parseInt(iso.slice(0,4),10);
+    state.entries.push({
+      id:Date.now()+"-"+Math.random().toString(36).slice(2,7),
+      ts:Date.now(),
+      recipient:rec.value.trim(),
+      amount:num(amt.value),
+      type:$("#g-type").value,
+      iso:iso, dateLabel:fmtDate(iso), year:yr
+    });
+    save(); renderLog(); renderProgress();
+    rec.value=""; amt.value=""; $("#g-type").selectedIndex=0;
+    toast("Gift logged — thank you for your faithfulness 🌿");
+  });
+
+  $("#give-reset").onclick=function(){
+    $("#g-recipient").value=""; $("#g-amount").value=""; $("#g-type").selectedIndex=0;
+    $("#g-recipient").classList.remove("error"); $("#g-rec-err").classList.remove("show");
+    $("#g-amount").classList.remove("error"); $("#g-amt-err").classList.remove("show");
+  };
+
+  $("#clear-all").onclick=function(){
+    if(!confirm("Clear all logged gifts and your tithe goal? This can't be undone.")) return;
+    state={entries:[],titheGoal:0}; save(); renderLog(); renderProgress(); toast("All cleared");
+  };
+
+  /* ---------- init ---------- */
+  $("#g-date").value=new Date().toISOString().slice(0,10);
+  calcTithe(); renderProgress(); renderLog();
+})();
+</script>
+</body>
+</html>

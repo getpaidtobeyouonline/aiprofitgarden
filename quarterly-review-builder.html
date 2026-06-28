@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quarterly Review Builder — AI Profit Garden</title>
+<meta name="description" content="Run a focused 90-day review in under an hour and step into next quarter with clarity." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.goal-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.goal-row .input.gname{flex:1}
+.goal-row .select.gstatus{flex:0 0 130px}
+.doc{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:22px}
+.doc h3{font-family:var(--serif);color:var(--olive);font-size:1.05rem;margin:18px 0 6px;padding-top:14px;border-top:1px solid var(--line)}
+.doc h3:first-child{margin-top:0;padding-top:0;border-top:none}
+.doc .doc-title{font-family:var(--serif);font-weight:700;font-size:1.4rem;color:var(--olive);margin-bottom:2px}
+.doc .doc-sub{color:var(--muted);font-size:.85rem;margin-bottom:6px}
+.doc p{white-space:pre-wrap;font-size:.95rem;margin:2px 0}
+.doc .empty-line{color:var(--muted);font-style:italic}
+.doc ul{margin:4px 0 4px 20px}.doc li{margin:3px 0;font-size:.95rem}
+.gstat{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:999px;margin-right:6px}
+.gstat.hit{background:var(--sage-soft);color:#3C5240}
+.gstat.partial{background:var(--gold-soft);color:#7A5520}
+.gstat.miss{background:var(--danger-soft);color:var(--danger)}
+@media print{
+  body::before{display:none}
+  .wrap{max-width:100%;padding:0}
+  .no-print{display:none!important}
+  .card{box-shadow:none;border:none;margin:0;padding:0}
+  .doc{border:none;padding:0}
+  .app-header{box-shadow:none}
+}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Quarterly Review Builder</h1>
+      <p class="app-sub">A focused 90-day review in under an hour.</p>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card no-print">
+    <h2 class="section-title">Look back, then look forward</h2>
+    <p class="section-note">Pour a cup of tea and answer gently. This is reflection, not a report card.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="quarter">Which quarter is this? <span class="hint">— e.g. Q2 2026</span></label>
+        <input id="quarter" class="input" type="text" placeholder="Q2 2026" autocomplete="off" />
+      </div>
+
+      <div class="field">
+        <label for="well">What went well? <span class="hint">— wins big and small</span></label>
+        <textarea id="well" class="input" placeholder="A launch that landed, a steady client, a habit that stuck..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="hard">What didn't go to plan? <span class="hint">— honestly, no judgement</span></label>
+        <textarea id="hard" class="input" placeholder="What felt heavy, stalled, or missed the mark..."></textarea>
+      </div>
+
+      <h3 class="section-title mt" style="font-size:1.02rem">Key numbers</h3>
+      <p class="section-note">Just the headlines — round figures are fine.</p>
+      <div class="row">
+        <div class="field" style="margin-bottom:10px">
+          <label for="rev-this">Revenue this quarter</label>
+          <div class="input-money"><span>$</span><input id="rev-this" class="input" type="text" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+        </div>
+        <div class="field" style="margin-bottom:10px">
+          <label for="rev-last">Revenue last quarter</label>
+          <div class="input-money"><span>$</span><input id="rev-last" class="input" type="text" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="profit-this">Profit this quarter</label>
+          <div class="input-money"><span>$</span><input id="profit-this" class="input" type="text" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+        </div>
+        <div class="field">
+          <label for="profit-last">Profit last quarter</label>
+          <div class="input-money"><span>$</span><input id="profit-last" class="input" type="text" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Goals you set — how did they go?</label>
+        <div id="goal-list"></div>
+        <button type="button" class="btn btn-ghost btn-sm" id="add-goal">+ Add a goal</button>
+      </div>
+
+      <div class="field">
+        <label for="lessons">Lessons learned <span class="hint">— what will you carry forward?</span></label>
+        <textarea id="lessons" class="input" placeholder="The biggest thing this quarter taught me..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="grateful">Something to be grateful for <span class="hint">— optional</span></label>
+        <textarea id="grateful" class="input" placeholder="A provision, a person, an answered prayer..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Top 3 priorities for next quarter</label>
+        <input id="p1" class="input" type="text" placeholder="Priority 1" autocomplete="off" style="margin-bottom:8px">
+        <input id="p2" class="input" type="text" placeholder="Priority 2" autocomplete="off" style="margin-bottom:8px">
+        <input id="p3" class="input" type="text" placeholder="Priority 3" autocomplete="off">
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Build my review</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- DOCUMENT -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <div class="btn-row no-print" style="margin-top:0;margin-bottom:14px">
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save to history</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="print">Print</button>
+    </div>
+    <div class="doc" id="doc"></div>
+    <div class="verse no-print">
+      “Be joyful in hope, patient in affliction, faithful in prayer.”
+      <cite>Romans 12:12 · carry it all forward with grace</cite>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="card no-print" id="history-card">
+    <h2 class="section-title">Past reviews</h2>
+    <p class="section-note">Kept on this device only. A quiet record of your faithfulness over time.</p>
+    <div id="history"></div>
+    <div class="btn-row mt" id="clear-row" hidden>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all reviews</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_quarterly_review_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var goalList=$("#goal-list"), result=$("#result"), histCard=$("#history-card"), hist=$("#history");
+  var lastData=null;
+
+  /* ---------- helpers ---------- */
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function has(v){ return String(v).trim()!==""; }
+  function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];}); }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function todayStr(){return new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});}
+
+  /* ---------- goal rows ---------- */
+  function addGoal(name,status){
+    var row=document.createElement("div");
+    row.className="goal-row";
+    row.innerHTML=
+      '<input class="input gname" type="text" placeholder="Goal you set this quarter" aria-label="Goal" />'+
+      '<select class="select gstatus" aria-label="Goal status">'+
+        '<option value="hit">Hit ✓</option><option value="partial">Partial</option><option value="miss">Missed</option>'+
+      '</select>'+
+      '<button type="button" class="icon-btn" aria-label="Remove goal">✕</button>';
+    $(".gname",row).value=name||"";
+    if(status)$(".gstatus",row).value=status;
+    $(".icon-btn",row).onclick=function(){ row.remove(); };
+    goalList.appendChild(row);
+    return row;
+  }
+  function readGoals(){
+    var out=[];
+    Array.prototype.forEach.call(goalList.querySelectorAll(".goal-row"),function(r){
+      var name=$(".gname",r).value.trim();
+      if(name) out.push({name:name,status:$(".gstatus",r).value});
+    });
+    return out;
+  }
+
+  /* ---------- gather inputs ---------- */
+  function gather(){
+    return {
+      quarter:$("#quarter").value.trim()||("Quarter — "+todayStr()),
+      well:$("#well").value.trim(), hard:$("#hard").value.trim(),
+      revThis:$("#rev-this").value.trim(), revLast:$("#rev-last").value.trim(),
+      profitThis:$("#profit-this").value.trim(), profitLast:$("#profit-last").value.trim(),
+      goals:readGoals(), lessons:$("#lessons").value.trim(), grateful:$("#grateful").value.trim(),
+      p1:$("#p1").value.trim(), p2:$("#p2").value.trim(), p3:$("#p3").value.trim(),
+      date:todayStr()
+    };
+  }
+
+  function deltaText(thisV,lastV){
+    if(!has(thisV)||!has(lastV)) return "";
+    var d=num(thisV)-num(lastV);
+    var word=d>0?"up":d<0?"down":"flat vs";
+    return " ("+ (d===0?"":word+" ") + money(Math.abs(d)) + (d===0?" — same as last quarter":" vs last quarter") + ")";
+  }
+
+  /* ---------- render document ---------- */
+  function buildDoc(d){
+    var statusLabel={hit:"Hit",partial:"Partial",miss:"Missed"};
+    var html="";
+    html+='<div class="doc-title">Quarterly Review — '+esc(d.quarter)+'</div>';
+    html+='<div class="doc-sub">Reviewed '+esc(d.date)+'</div>';
+
+    html+='<h3>What went well</h3>';
+    html+= d.well?'<p>'+esc(d.well)+'</p>':'<p class="empty-line">—</p>';
+
+    html+='<h3>What didn’t go to plan</h3>';
+    html+= d.hard?'<p>'+esc(d.hard)+'</p>':'<p class="empty-line">—</p>';
+
+    html+='<h3>Key numbers</h3>';
+    if(has(d.revThis)||has(d.revLast)||has(d.profitThis)||has(d.profitLast)){
+      html+='<ul>';
+      if(has(d.revThis)) html+='<li>Revenue: '+money(num(d.revThis))+esc(deltaText(d.revThis,d.revLast))+'</li>';
+      if(has(d.profitThis)) html+='<li>Profit: '+money(num(d.profitThis))+esc(deltaText(d.profitThis,d.profitLast))+'</li>';
+      html+='</ul>';
+    }else{
+      html+='<p class="empty-line">No numbers entered this time.</p>';
+    }
+
+    html+='<h3>Goals set vs achieved</h3>';
+    if(d.goals.length){
+      html+='<ul>';
+      d.goals.forEach(function(g){
+        html+='<li><span class="gstat '+g.status+'">'+statusLabel[g.status]+'</span>'+esc(g.name)+'</li>';
+      });
+      html+='</ul>';
+    }else{
+      html+='<p class="empty-line">No goals recorded.</p>';
+    }
+
+    html+='<h3>Lessons learned</h3>';
+    html+= d.lessons?'<p>'+esc(d.lessons)+'</p>':'<p class="empty-line">—</p>';
+
+    if(d.grateful){
+      html+='<h3>Grateful for</h3><p>'+esc(d.grateful)+'</p>';
+    }
+
+    html+='<h3>Top 3 priorities for next quarter</h3>';
+    var ps=[d.p1,d.p2,d.p3].filter(has);
+    if(ps.length){
+      html+='<ul>';
+      ps.forEach(function(p){ html+='<li>'+esc(p)+'</li>'; });
+      html+='</ul>';
+    }else{
+      html+='<p class="empty-line">—</p>';
+    }
+    return html;
+  }
+
+  function plainText(d){
+    var statusLabel={hit:"Hit",partial:"Partial",miss:"Missed"};
+    var L=[];
+    L.push("QUARTERLY REVIEW — "+d.quarter);
+    L.push("Reviewed "+d.date);
+    L.push("");
+    L.push("WHAT WENT WELL\n"+(d.well||"—"));
+    L.push("");
+    L.push("WHAT DIDN'T GO TO PLAN\n"+(d.hard||"—"));
+    L.push("");
+    L.push("KEY NUMBERS");
+    if(has(d.revThis)) L.push("- Revenue: "+money(num(d.revThis))+deltaText(d.revThis,d.revLast));
+    if(has(d.profitThis)) L.push("- Profit: "+money(num(d.profitThis))+deltaText(d.profitThis,d.profitLast));
+    if(!has(d.revThis)&&!has(d.profitThis)) L.push("- (none entered)");
+    L.push("");
+    L.push("GOALS SET VS ACHIEVED");
+    if(d.goals.length){ d.goals.forEach(function(g){ L.push("- ["+statusLabel[g.status]+"] "+g.name); }); }
+    else L.push("- (none recorded)");
+    L.push("");
+    L.push("LESSONS LEARNED\n"+(d.lessons||"—"));
+    if(d.grateful){ L.push(""); L.push("GRATEFUL FOR\n"+d.grateful); }
+    L.push("");
+    L.push("TOP 3 PRIORITIES NEXT QUARTER");
+    var ps=[d.p1,d.p2,d.p3].filter(has);
+    if(ps.length){ ps.forEach(function(p,i){ L.push((i+1)+". "+p); }); } else L.push("—");
+    return L.join("\n");
+  }
+
+  function build(){
+    var d=gather();
+    lastData=d;
+    $("#doc").innerHTML=buildDoc(d);
+    result.hidden=false;
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+    persistDraft(d);
+    return d;
+  }
+
+  /* ---------- draft persistence ---------- */
+  function persistDraft(d){ try{ localStorage.setItem(KEY+"_draft",JSON.stringify(d)); }catch(e){} }
+  function loadDraft(){
+    try{
+      var d=JSON.parse(localStorage.getItem(KEY+"_draft")||"null");
+      if(!d) return false;
+      $("#quarter").value=d.quarter&&d.quarter.indexOf("Quarter —")!==0?d.quarter:"";
+      $("#well").value=d.well||""; $("#hard").value=d.hard||"";
+      $("#rev-this").value=d.revThis||""; $("#rev-last").value=d.revLast||"";
+      $("#profit-this").value=d.profitThis||""; $("#profit-last").value=d.profitLast||"";
+      $("#lessons").value=d.lessons||""; $("#grateful").value=d.grateful||"";
+      $("#p1").value=d.p1||""; $("#p2").value=d.p2||""; $("#p3").value=d.p3||"";
+      goalList.innerHTML="";
+      (d.goals&&d.goals.length?d.goals:[]).forEach(function(g){ addGoal(g.name,g.status); });
+      return true;
+    }catch(e){ return false; }
+  }
+
+  /* ---------- history ---------- */
+  function getSaved(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setSaved(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+  function renderHistory(){
+    var items=getSaved();
+    if(!items.length){
+      hist.innerHTML='<div class="empty"><span class="ico" aria-hidden="true">🌱</span>No reviews saved yet. Build one above and save it to start your record.</div>';
+      $("#clear-row").hidden=true;
+      return;
+    }
+    $("#clear-row").hidden=false;
+    hist.innerHTML="";
+    items.forEach(function(it,i){
+      var d=it.data;
+      var hit=(d.goals||[]).filter(function(g){return g.status==="hit";}).length;
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML=
+        '<div class="grow"><strong>'+esc(d.quarter)+'</strong>'+
+        '<small>'+esc(d.date)+(d.goals&&d.goals.length?' · '+hit+'/'+d.goals.length+' goals hit':'')+'</small></div>'+
+        '<button class="icon-btn view" aria-label="Re-open review" title="Re-open">↺</button>'+
+        '<button class="icon-btn del" aria-label="Delete review">✕</button>';
+      $(".view",row).onclick=function(){ lastData=d; $("#doc").innerHTML=buildDoc(d); result.hidden=false; result.scrollIntoView({behavior:"smooth",block:"start"}); };
+      $(".del",row).onclick=function(){ items.splice(i,1); setSaved(items); renderHistory(); toast("Review removed"); };
+      hist.appendChild(row);
+    });
+  }
+
+  /* ---------- events ---------- */
+  $("#add-goal").onclick=function(){ addGoal().querySelector(".gname").focus(); };
+
+  $("#form").addEventListener("submit",function(e){ e.preventDefault(); build(); });
+
+  $("#reset").onclick=function(){
+    ["quarter","well","hard","rev-this","rev-last","profit-this","profit-last","lessons","grateful","p1","p2","p3"].forEach(function(id){ $("#"+id).value=""; });
+    goalList.innerHTML="";
+    result.hidden=true; lastData=null;
+    try{ localStorage.removeItem(KEY+"_draft"); }catch(e){}
+    toast("Cleared 🌿");
+    $("#quarter").focus();
+  };
+
+  $("#save").onclick=function(){
+    var d=lastData||build();
+    var items=getSaved();
+    items.unshift({savedAt:todayStr(),data:d});
+    setSaved(items.slice(0,24));
+    renderHistory();
+    toast("Review saved ✓");
+  };
+
+  $("#copy").onclick=function(){
+    var d=lastData||build();
+    var txt=plainText(d);
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Review copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  $("#print").onclick=function(){ if(!lastData)build(); window.print(); };
+
+  $("#clear-all").onclick=function(){ setSaved([]); renderHistory(); toast("All reviews cleared"); };
+
+  /* ---------- init ---------- */
+  if(!loadDraft()){ addGoal(); }
+  renderHistory();
+})();
+</script>
+</body>
+</html>

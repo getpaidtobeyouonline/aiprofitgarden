@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kingdom Generosity Tracker — AI Profit Garden</title>
+<meta name="description" content="Plan and track the generosity your business pours into the Kingdom." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.goal-hero{text-align:center;padding:6px 0 2px}
+.goal-hero .cap{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.goal-hero .big{font-family:var(--serif);font-weight:700;font-size:2.6rem;line-height:1;color:var(--olive);margin-top:4px}
+.goal-hero .sub{font-size:.9rem;color:var(--muted);margin-top:6px}
+.pct-line{display:flex;justify-content:space-between;font-size:.84rem;color:var(--muted);margin-top:8px}
+.pct-line b{color:var(--olive)}
+.gift-impact{font-size:.9rem;color:var(--ink);margin-top:7px;white-space:pre-wrap;font-style:italic}
+.seg{display:flex;gap:8px;margin-bottom:14px}
+.seg label{flex:1;cursor:pointer}
+.seg input{position:absolute;opacity:0;width:0;height:0}
+.seg span{display:block;text-align:center;border:1.5px solid var(--line);border-radius:999px;padding:10px;font-weight:700;font-size:.9rem;color:var(--muted);background:var(--cream);transition:.15s}
+.seg input:checked + span{border-color:var(--gold);background:var(--gold-soft);color:#7A5520}
+.seg input:focus-visible + span{outline:3px solid var(--ring);outline-offset:2px}
+.celebrate{background:linear-gradient(135deg,var(--gold-soft),var(--sage-soft));border:1px solid var(--gold);border-radius:var(--radius);padding:14px 16px;margin-top:14px;text-align:center;font-family:var(--serif);color:#7A5520;font-size:1rem}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Kingdom Generosity Tracker</h1>
+      <p class="app-sub">The generosity your business pours into the Kingdom.</p>
+    </div>
+  </header>
+
+  <!-- SET GOAL -->
+  <section class="card">
+    <h2 class="section-title">Set your Kingdom generosity goal</h2>
+    <p class="section-note">This is your business-as-ministry giving — distinct from personal tithe. What will your business give to the Kingdom this year?</p>
+
+    <div class="seg" role="radiogroup" aria-label="Goal type">
+      <label><input type="radio" name="gtype" value="amount" checked /><span>A dollar amount</span></label>
+      <label><input type="radio" name="gtype" value="percent" /><span>% of profit</span></label>
+    </div>
+
+    <div id="amount-field" class="field">
+      <label for="goal-amt">Generosity goal for the year</label>
+      <div class="input-money"><span>$</span>
+        <input id="goal-amt" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" />
+      </div>
+    </div>
+
+    <div id="percent-field" class="field" hidden>
+      <div class="row">
+        <div class="field" style="margin-bottom:0">
+          <label for="goal-pct">% of profit to give</label>
+          <input id="goal-pct" class="input" type="text" inputmode="decimal" placeholder="e.g. 10" autocomplete="off" />
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="goal-profit">Expected profit this year</label>
+          <div class="input-money"><span>$</span>
+            <input id="goal-profit" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button type="button" class="btn btn-primary btn-sm" id="set-goal">Set my goal</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-goal">Clear goal</button>
+    </div>
+
+    <div class="verse">
+      “I have shewed you all things, how that so labouring ye ought to support the weak, and to remember the words of the Lord Jesus, how he said, It is more blessed to give than to receive.”
+      <cite>Acts 20:35 · more blessed to give</cite>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="card" id="progress-card" hidden aria-live="polite">
+    <div class="goal-hero">
+      <div class="cap">Given to the Kingdom this year</div>
+      <div class="big" id="h-given">$0</div>
+      <div class="sub" id="h-goal-line"></div>
+    </div>
+    <div class="bar mt" aria-hidden="true"><i id="goal-bar"></i></div>
+    <div class="pct-line"><span>Toward your generosity goal</span><b id="goal-pct-out">0%</b></div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Total given</div><div class="value pos" id="s-total">$0</div></div>
+      <div class="stat"><div class="label">Causes blessed</div><div class="value" id="s-causes">0</div></div>
+    </div>
+
+    <div id="celebrate" class="celebrate" hidden></div>
+  </section>
+
+  <!-- LOG GIFT -->
+  <section class="card">
+    <h2 class="section-title">Log a Kingdom-impact gift</h2>
+    <p class="section-note">Every gift your business gives, and the story it writes.</p>
+    <form id="gift-form" novalidate>
+      <div class="field">
+        <label for="g-date">Date</label>
+        <input id="g-date" class="input" type="date" />
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="g-cause">Cause / ministry</label>
+          <input id="g-cause" class="input" type="text" placeholder="e.g. Local food bank, missions fund" autocomplete="off" aria-describedby="g-cause-err" />
+          <div class="err-text" id="g-cause-err">Please name the cause or ministry.</div>
+        </div>
+        <div class="field">
+          <label for="g-amt">Amount</label>
+          <div class="input-money"><span>$</span>
+            <input id="g-amt" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="g-amt-err" />
+          </div>
+          <div class="err-text" id="g-amt-err">Enter an amount greater than 0.</div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="g-impact">The impact / story <span class="hint">— optional</span></label>
+        <textarea id="g-impact" class="input" placeholder="What did this gift make possible? Who was blessed?"></textarea>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Log this gift</button>
+        <button type="button" class="btn btn-ghost" id="gift-reset">Clear</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="card">
+    <h2 class="section-title">Kingdom impact log</h2>
+    <p class="section-note">A record of the good your business has poured out. Kept on this device only.</p>
+    <div id="log-list"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all gifts</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Blessed to be a blessing.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_kingdom_generosity_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var $$=function(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))};
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+
+  function load(){ try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return {}} }
+  function save(){ try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){} }
+  var state=load();
+  if(!state.gifts) state.gifts=[];
+  if(typeof state.goal!=="number") state.goal=0;
+  if(typeof state.milestone!=="number") state.milestone=0; /* last celebrated milestone */
+
+  var thisYear=new Date().getFullYear();
+
+  function fmtDate(iso){
+    if(!iso) return "";
+    var p=iso.split("-");
+    return new Date(p[0],p[1]-1,p[2]).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  }
+
+  /* ---------- goal type toggle ---------- */
+  function syncGoalType(){
+    var t=$$('input[name="gtype"]').filter(function(r){return r.checked})[0].value;
+    $("#amount-field").hidden = t!=="amount";
+    $("#percent-field").hidden = t!=="percent";
+  }
+  $$('input[name="gtype"]').forEach(function(r){ r.onchange=syncGoalType; });
+
+  /* ---------- totals ---------- */
+  function totalGiven(){
+    return state.gifts.filter(function(g){return g.year===thisYear})
+      .reduce(function(a,g){return a+g.amount},0);
+  }
+  function causesBlessed(){
+    var set={};
+    state.gifts.filter(function(g){return g.year===thisYear}).forEach(function(g){ set[g.cause.toLowerCase()]=1; });
+    return Object.keys(set).length;
+  }
+
+  /* ---------- progress ---------- */
+  function renderProgress(){
+    var hasData = state.gifts.length>0 || state.goal>0;
+    $("#progress-card").hidden = !hasData;
+    if(!hasData) return;
+
+    var given=totalGiven(), goal=state.goal;
+    $("#h-given").textContent=money(given);
+    $("#s-total").textContent=money(given);
+    $("#s-causes").textContent=causesBlessed();
+
+    if(goal>0){
+      var pct=Math.min(100,given/goal*100);
+      $("#goal-bar").style.width=pct+"%";
+      $("#goal-pct-out").textContent=Math.round(pct)+"%";
+      $("#h-goal-line").textContent="of your "+money(goal)+" Kingdom goal for "+thisYear;
+    } else {
+      $("#goal-bar").style.width="0%";
+      $("#goal-pct-out").textContent="—";
+      $("#h-goal-line").textContent="Set a goal above to track your progress.";
+    }
+
+    /* milestone celebration */
+    var cel=$("#celebrate");
+    if(goal>0){
+      var p=given/goal*100;
+      var reached = p>=100?100:p>=75?75:p>=50?50:p>=25?25:0;
+      if(reached>0){
+        var msgs={25:"A beautiful beginning — 25% of your Kingdom goal given. The seeds are in the ground. 🌱",
+                  50:"Halfway there! Your business is becoming a wellspring of blessing. 🙌",
+                  75:"75% given — what a generous, faithful heart. The harvest of your giving is real. 🌿",
+                  100:"Goal reached! Your business has poured out everything you set out to give. Well done, good and faithful steward. 🎉"};
+        cel.textContent=msgs[reached];
+        cel.hidden=false;
+        if(reached>state.milestone){ state.milestone=reached; save(); }
+      } else { cel.hidden=true; }
+    } else { cel.hidden=true; }
+  }
+
+  /* ---------- log ---------- */
+  function renderLog(){
+    var list=$("#log-list");
+    list.innerHTML="";
+    if(!state.gifts.length){
+      list.innerHTML='<div class="empty"><span class="ico">🌍</span>No Kingdom gifts logged yet. Log the first blessing your business gives above.</div>';
+      return;
+    }
+    state.gifts.slice().sort(function(a,b){return b.ts-a.ts}).forEach(function(g){
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML=
+        '<div class="grow"><strong>'+money(g.amount)+' · '+escapeHtml(g.cause)+'</strong>'+
+        '<small>'+escapeHtml(g.dateLabel)+'</small>'+
+        (g.impact?'<div class="gift-impact">“'+escapeHtml(g.impact)+'”</div>':'')+
+        '</div>'+
+        '<button class="icon-btn" aria-label="Delete gift">✕</button>';
+      $(".icon-btn",row).onclick=function(){
+        state.gifts=state.gifts.filter(function(x){return x.id!==g.id});
+        save(); renderLog(); renderProgress(); toast("Gift removed");
+      };
+      list.appendChild(row);
+    });
+  }
+
+  /* ---------- events ---------- */
+  $("#set-goal").onclick=function(){
+    var t=$$('input[name="gtype"]').filter(function(r){return r.checked})[0].value;
+    var goal=0;
+    if(t==="amount"){ goal=num($("#goal-amt").value); }
+    else { goal=num($("#goal-pct").value)/100 * num($("#goal-profit").value); }
+    if(goal<=0){ toast("Enter your goal amount first 🌿"); return; }
+    state.goal=goal; state.milestone=0; save(); renderProgress();
+    $("#progress-card").scrollIntoView({behavior:"smooth",block:"start"});
+    toast("Goal set: "+money(goal)+" 🌿");
+  };
+
+  $("#clear-goal").onclick=function(){
+    if(state.goal<=0){ toast("No goal set"); return; }
+    if(!confirm("Clear your generosity goal? Logged gifts stay.")) return;
+    state.goal=0; state.milestone=0; save(); renderProgress(); toast("Goal cleared");
+  };
+
+  $("#gift-form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var cause=$("#g-cause"), amt=$("#g-amt");
+    var cErr=$("#g-cause-err"), aErr=$("#g-amt-err");
+    var ok=true;
+    if(!cause.value.trim()){ cause.classList.add("error"); cErr.classList.add("show"); ok=false; }
+    else { cause.classList.remove("error"); cErr.classList.remove("show"); }
+    if(num(amt.value)<=0){ amt.classList.add("error"); aErr.classList.add("show"); ok=false; }
+    else { amt.classList.remove("error"); aErr.classList.remove("show"); }
+    if(!ok){ (cause.classList.contains("error")?cause:amt).focus(); return; }
+
+    var iso=$("#g-date").value || new Date().toISOString().slice(0,10);
+    state.gifts.push({
+      id:Date.now()+"-"+Math.random().toString(36).slice(2,7), ts:Date.now(),
+      cause:cause.value.trim(), amount:num(amt.value), impact:$("#g-impact").value.trim(),
+      iso:iso, dateLabel:fmtDate(iso), year:parseInt(iso.slice(0,4),10)
+    });
+    save(); renderLog(); renderProgress();
+    cause.value=""; amt.value=""; $("#g-impact").value="";
+    toast("Gift logged — blessed to be a blessing 🌿");
+  });
+
+  $("#gift-reset").onclick=function(){
+    $("#g-cause").value=""; $("#g-amt").value=""; $("#g-impact").value="";
+    $("#g-cause").classList.remove("error"); $("#g-cause-err").classList.remove("show");
+    $("#g-amt").classList.remove("error"); $("#g-amt-err").classList.remove("show");
+  };
+
+  $("#clear-all").onclick=function(){
+    if(!confirm("Clear all Kingdom gifts and your goal? This can't be undone.")) return;
+    state={gifts:[],goal:0,milestone:0}; save(); renderLog(); renderProgress(); toast("All cleared");
+  };
+
+  /* ---------- init ---------- */
+  $("#g-date").value=new Date().toISOString().slice(0,10);
+  $("#goal-amt").value = state.goal>0 ? state.goal : "";
+  syncGoalType(); renderProgress(); renderLog();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hidden Profit Finder — AI Profit Garden</title>
+<meta name="description" content="Answer a few quick questions and uncover three personalized quick wins hiding in your business." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.exp-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.exp-row .input-money{flex:0 0 130px}
+.exp-row .input.name{flex:1}
+.result-hero{text-align:center;padding:8px 0 4px}
+.result-hero .big{font-family:var(--serif);font-weight:700;font-size:2.8rem;line-height:1;color:var(--olive)}
+.result-hero .big.neg{color:var(--danger)}
+.result-hero .big.pos{color:#2F7A4E}
+.result-hero .cap{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+[hidden]{display:none!important}
+/* ---- Hidden profit finder extras ---- */
+.q{padding:16px 0;border-top:1px solid var(--line)}
+.q:first-child{border-top:none;padding-top:4px}
+.q .q-text{font-weight:700;font-size:.96rem;margin-bottom:10px}
+.choice-row{display:flex;gap:10px}
+.choice{flex:1;cursor:pointer}
+.choice input{position:absolute;opacity:0;width:0;height:0}
+.choice span{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 14px;border:1.5px solid var(--line);border-radius:var(--radius);font-weight:700;font-size:.92rem;color:var(--muted);background:var(--cream);transition:all .15s}
+.choice input:checked + span{border-color:var(--sage);background:var(--sage-soft);color:var(--olive)}
+.choice input:focus-visible + span{outline:3px solid var(--ring);outline-offset:2px}
+.win{border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin-top:12px;background:var(--paper);position:relative}
+.win.done{background:var(--sage-soft);border-color:var(--sage)}
+.win-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.win-num{font-family:var(--serif);font-weight:700;color:var(--gold);font-size:1.1rem;margin-right:6px}
+.win-title{font-family:var(--serif);font-weight:600;font-size:1.08rem;color:var(--olive);display:inline}
+.win-body{font-size:.9rem;color:var(--ink);margin-top:8px;line-height:1.55}
+.win-do{margin-top:12px;display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;font-size:.88rem;color:var(--olive)}
+.win-do input{width:18px;height:18px;accent-color:var(--olive)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Hidden Profit Finder</h1>
+      <p class="app-sub">Answer a few questions and uncover three quick wins.</p>
+    </div>
+  </header>
+
+  <!-- QUESTIONS -->
+  <section class="card">
+    <h2 class="section-title">A few gentle questions</h2>
+    <p class="section-note">No wrong answers — just honest ones. This takes about a minute, and there's profit hiding in here somewhere.</p>
+    <form id="quiz" novalidate></form>
+    <div class="err-text" id="quiz-err" style="margin-bottom:8px">Please answer each question so we can find your best wins.</div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-primary" id="reveal">Show my quick wins</button>
+      <button type="button" class="btn btn-ghost" id="reset">Start over</button>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="card" id="results" hidden aria-live="polite">
+    <h2 class="section-title">Your 3 quick wins 🌿</h2>
+    <p class="section-note">Prioritized for you, gentlest lift first. Tick "I'll do this" on the ones you're ready to plant.</p>
+    <div id="wins"></div>
+    <div class="callout callout-info mt" id="closing"></div>
+    <div class="verse">
+      “Whatever your hand finds to do, do it with all your might.”
+      <cite>Ecclesiastes 9:10 · one small action at a time</cite>
+    </div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save my wins</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-saved">Clear saved</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_hidden_profit_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+
+  /* ---------- helpers ---------- */
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+
+  /* ---------- questions ----------
+     yes/no. "trigger" tells us which answer surfaces a win. */
+  var QUESTIONS=[
+    {id:"prices",   q:"Have you raised your prices in the last 12 months?",         trigger:"no"},
+    {id:"upsell",   q:"Do you offer an add-on or upsell with your main offer?",      trigger:"no"},
+    {id:"followup", q:"Are there past clients you haven't followed up with lately?", trigger:"yes"},
+    {id:"tools",    q:"Are you paying for tools or subscriptions you rarely use?",   trigger:"yes"},
+    {id:"bestoffer",q:"Do you have one clear best-selling offer you can point to?",  trigger:"no"},
+    {id:"referrals",q:"Do you regularly ask happy clients for referrals?",          trigger:"no"},
+    {id:"recurring",q:"Do you have any recurring or repeat-revenue income?",         trigger:"no"},
+    {id:"abandoned",q:"Do interested people sometimes go quiet without buying?",     trigger:"yes"}
+  ];
+
+  /* win library — keyed by question id. priority: lower = surfaced first (easier lift). */
+  var WINS={
+    tools:    {priority:1, impact:"could save $$",   title:"Cancel the tools gathering dust",
+      body:"You said you're paying for tools you barely touch. Spend ten minutes today scanning your subscriptions. Every one you cancel is pure profit back in your pocket — money you already earned, now kept."},
+    followup: {priority:2, impact:"could add $$$",   title:"Reach out to past clients",
+      body:"People who already bought from you trust you most. Send three warm, personal notes this week — not a salesy blast, just \"I was thinking of you, here's what I'm offering now.\" Warm leads convert far faster than cold ones."},
+    referrals:{priority:3, impact:"could add $$",    title:"Simply start asking for referrals",
+      body:"Your happiest clients would gladly refer you — most just need a gentle nudge. Add one line to your closing email: \"If you know someone who'd love this, I'd be honoured by an introduction.\" Free, warm, repeatable growth."},
+    abandoned:{priority:4, impact:"could add $$$",   title:"Follow up with the ones who went quiet",
+      body:"Interest that fades isn't a no — it's usually just life getting busy. A single kind check-in (\"Still here whenever you're ready 🌿\") recovers sales you'd otherwise lose entirely. Set a reminder to follow up once."},
+    upsell:   {priority:5, impact:"could add $$$",   title:"Add one simple upsell",
+      body:"You're leaving money on the table without an add-on. Think of one small extra that complements your main offer — a fast-track option, a bonus session, a done-for-you upgrade. Offer it at checkout. Many will say yes."},
+    prices:   {priority:6, impact:"could add $$$$",  title:"Gently raise your prices",
+      body:"It's been over a year — your skills have grown and so have your costs. Even a modest 10–15% increase on new clients flows almost entirely to profit. You're worth it, and the right clients will happily stay."},
+    recurring:{priority:7, impact:"could add $$$",   title:"Create a little recurring income",
+      body:"One-off sales mean starting from zero each month. Could part of what you do become a monthly membership, retainer, or care-plan? Steady, predictable income is the calmest kind of growth."},
+    bestoffer:{priority:8, impact:"could add $$$",   title:"Spotlight one best-selling offer",
+      body:"When everything competes for attention, nothing sells well. Pick the one offer you most love delivering and make it the obvious star — front and centre everywhere. Clarity sells. A confused buyer never buys."}
+  };
+
+  /* ---------- build quiz ---------- */
+  function buildQuiz(){
+    var form=$("#quiz"); form.innerHTML="";
+    QUESTIONS.forEach(function(item,i){
+      var div=document.createElement("div");
+      div.className="q";
+      div.innerHTML=
+        '<div class="q-text" id="qt-'+item.id+'">'+(i+1)+'. '+item.q+'</div>'+
+        '<div class="choice-row" role="radiogroup" aria-labelledby="qt-'+item.id+'">'+
+          '<label class="choice"><input type="radio" name="'+item.id+'" value="yes"><span>✓ Yes</span></label>'+
+          '<label class="choice"><input type="radio" name="'+item.id+'" value="no"><span>✕ No</span></label>'+
+        '</div>';
+      form.appendChild(div);
+    });
+  }
+
+  function readAnswers(){
+    var ans={}, all=true;
+    QUESTIONS.forEach(function(item){
+      var sel=$('input[name="'+item.id+'"]:checked');
+      if(sel) ans[item.id]=sel.value; else all=false;
+    });
+    return {ans:ans,complete:all};
+  }
+
+  /* ---------- compute wins ---------- */
+  function computeWins(ans){
+    var matched=[];
+    QUESTIONS.forEach(function(item){
+      if(ans[item.id]===item.trigger){
+        var w=WINS[item.id];
+        if(w) matched.push({id:item.id,priority:w.priority,impact:w.impact,title:w.title,body:w.body});
+      }
+    });
+    matched.sort(function(a,b){ return a.priority-b.priority; });
+    return matched.slice(0,3);
+  }
+
+  /* fallback wins if she's already doing everything well */
+  var FALLBACKS=[
+    {id:"fb1",impact:"could add $$",title:"Ask for a testimonial today",body:"You're running a tight ship. Now turn that into proof — ask one delighted client for a short testimonial. Social proof quietly lifts every future sale."},
+    {id:"fb2",impact:"could add $$$",title:"Raise your next new-client price",body:"You've covered the basics beautifully. The simplest lever left is price. Try a small increase on your very next new client and watch it land."},
+    {id:"fb3",impact:"could save $$",title:"Review one expense line",body:"Pick your biggest monthly expense and ask: is there a leaner option that does the same job? A single switch can fund a whole afternoon off."}
+  ];
+
+  function impactBadge(imp){
+    var cls = imp.indexOf("save")>-1 ? "badge-gold" : "badge-sage";
+    return '<span class="badge '+cls+'">'+imp+'</span>';
+  }
+
+  /* ---------- render ---------- */
+  function renderWins(wins,doneMap){
+    var box=$("#wins"); box.innerHTML="";
+    wins.forEach(function(w,i){
+      var done=doneMap&&doneMap[w.id];
+      var el=document.createElement("div");
+      el.className="win"+(done?" done":"");
+      el.innerHTML=
+        '<div class="win-head">'+
+          '<div><span class="win-num">'+(i+1)+'.</span><span class="win-title">'+w.title+'</span></div>'+
+          impactBadge(w.impact)+
+        '</div>'+
+        '<div class="win-body">'+w.body+'</div>'+
+        '<label class="win-do"><input type="checkbox" '+(done?"checked":"")+' data-id="'+w.id+'"> I\'ll do this</label>';
+      $('input[type=checkbox]',el).onchange=function(){
+        el.classList.toggle("done",this.checked);
+      };
+      box.appendChild(el);
+    });
+  }
+
+  function reveal(){
+    var r=readAnswers();
+    if(!r.complete){ $("#quiz-err").classList.add("show"); return; }
+    $("#quiz-err").classList.remove("show");
+
+    var wins=computeWins(r.ans);
+    // top up with fallbacks if fewer than 3 surfaced
+    var fbi=0;
+    while(wins.length<3 && fbi<FALLBACKS.length){
+      var fb=FALLBACKS[fbi++];
+      if(!wins.some(function(w){return w.title===fb.title})) wins.push(fb);
+    }
+
+    renderWins(wins,null);
+    $("#closing").textContent = wins.length && computeWins(r.ans).length
+      ? "Pick just one to start — the first will do. Small, faithful steps compound into real fruit. You don't have to do all three today."
+      : "You're already tending this garden beautifully. These are gentle next-level moves whenever you're ready.";
+    $("#results").hidden=false;
+    $("#results").scrollIntoView({behavior:"smooth",block:"start"});
+
+    // stash current wins for saving
+    $("#results").dataset.wins=JSON.stringify(wins);
+  }
+
+  /* ---------- save / load ---------- */
+  function save(){
+    var raw=$("#results").dataset.wins;
+    if(!raw){ toast("Reveal your wins first"); return; }
+    var wins=JSON.parse(raw);
+    var doneMap={};
+    Array.prototype.forEach.call(document.querySelectorAll(".win input[type=checkbox]"),function(cb){
+      doneMap[cb.dataset.id]=cb.checked;
+    });
+    try{ localStorage.setItem(KEY,JSON.stringify({date:Date.now(),wins:wins,done:doneMap})); }catch(e){}
+    toast("Wins saved ✓");
+  }
+
+  function load(){
+    var data;
+    try{ data=JSON.parse(localStorage.getItem(KEY)||"null"); }catch(e){ data=null; }
+    if(!data||!data.wins||!data.wins.length) return;
+    renderWins(data.wins,data.done||{});
+    $("#closing").textContent="Welcome back — here are the wins you saved. Tick them off as you plant them. 🌿";
+    $("#results").hidden=false;
+    $("#results").dataset.wins=JSON.stringify(data.wins);
+  }
+
+  /* ---------- events ---------- */
+  $("#reveal").onclick=reveal;
+  $("#save").onclick=save;
+
+  $("#reset").onclick=function(){
+    buildQuiz();
+    $("#quiz-err").classList.remove("show");
+    $("#results").hidden=true;
+    $("#results").dataset.wins="";
+    toast("Fresh start 🌿");
+    window.scrollTo({top:0,behavior:"smooth"});
+  };
+
+  $("#clear-saved").onclick=function(){
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    $("#results").hidden=true;
+    $("#results").dataset.wins="";
+    buildQuiz();
+    toast("Saved wins cleared");
+  };
+
+  /* ---------- init ---------- */
+  buildQuiz();
+  load();
+})();
+</script>
+</body>
+</html>

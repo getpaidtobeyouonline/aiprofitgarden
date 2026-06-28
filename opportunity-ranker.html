@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Opportunity Ranker — AI Profit Garden</title>
+<meta name="description" content="Score your growth ideas and know — clearly — which one to pursue first." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.score-field{margin-bottom:14px}
+.score-field .slabel{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.86rem;margin-bottom:6px}
+.score-field .slabel .hint{font-weight:400;color:var(--muted);font-size:.78rem}
+.score-field .sval{font-family:var(--serif);font-weight:700;color:var(--olive);font-size:1rem;margin-left:8px}
+.rate{display:flex;gap:7px}
+.rate button{flex:1;border:1.5px solid var(--line);background:var(--cream);border-radius:var(--radius);padding:9px 0;font-family:inherit;font-weight:700;font-size:.95rem;color:var(--muted);cursor:pointer;transition:.12s}
+.rate button:hover{border-color:var(--sage)}
+.rate button.on{background:var(--olive);border-color:var(--olive);color:#fff}
+.rank-item{display:flex;gap:13px;align-items:flex-start;padding:15px 0;border-top:1px solid var(--line)}
+.rank-item:first-child{border-top:none}
+.rank-item.top{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--sage);border-radius:var(--radius);padding:15px;margin-top:10px}
+.rank-num{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--olive);color:#fff;display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:1rem}
+.rank-item.top .rank-num{background:var(--gold)}
+.rank-body{flex:1;min-width:0}
+.rank-body .rhead{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.rank-body strong{font-size:1rem}
+.rank-body .rscore{font-family:var(--serif);font-weight:700;color:var(--olive);font-size:1.05rem;white-space:nowrap}
+.rank-body .bar{margin-top:8px}
+.rank-body .rmeta{font-size:.78rem;color:var(--muted);margin-top:7px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Opportunity Ranker</h1>
+      <p class="app-sub">Score your ideas and know which one to pursue first.</p>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card">
+    <h2 class="section-title">Weigh an opportunity</h2>
+    <p class="section-note">Add each idea on your plate and rate it honestly. We'll do the maths and rank them for you.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="oname">Opportunity / idea <span class="hint">— give it a short name</span></label>
+        <input id="oname" class="input" type="text" placeholder="e.g. Launch a group programme" autocomplete="off" aria-describedby="oname-err" />
+        <div class="err-text" id="oname-err">Please name this opportunity before adding it.</div>
+      </div>
+
+      <div class="score-field">
+        <div class="slabel"><span>Impact / revenue potential <span class="hint">— how much could this move things?</span><span class="sval" id="v-impact">3</span></span></div>
+        <div class="rate" data-k="impact" role="group" aria-label="Impact rating 1 to 5"></div>
+      </div>
+      <div class="score-field">
+        <div class="slabel"><span>Ease <span class="hint">— easier &amp; quicker scores higher</span><span class="sval" id="v-ease">3</span></span></div>
+        <div class="rate" data-k="ease" role="group" aria-label="Ease rating 1 to 5"></div>
+      </div>
+      <div class="score-field">
+        <div class="slabel"><span>Alignment <span class="hint">— fits your goals &amp; values?</span><span class="sval" id="v-align">3</span></span></div>
+        <div class="rate" data-k="align" role="group" aria-label="Alignment rating 1 to 5"></div>
+      </div>
+      <div class="score-field">
+        <div class="slabel"><span>Excitement <span class="hint">— does it light you up?</span><span class="sval" id="v-energy">3</span></span></div>
+        <div class="rate" data-k="energy" role="group" aria-label="Excitement rating 1 to 5"></div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Add to ranking</button>
+        <button type="button" class="btn btn-ghost" id="reset-form">Clear fields</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RANKING -->
+  <section class="card" id="ranking-card">
+    <h2 class="section-title">Your ranking</h2>
+    <p class="section-note">Sorted by weighted score. Highlighted at the top: your clearest first move.</p>
+    <div id="ranking"></div>
+
+    <div class="callout callout-info mt" id="focus-note" hidden>
+      One faithful yes is worth more than ten scattered maybes. Pour your energy into the top pick first — the others will keep, and you'll move it further by going deep, not wide.
+    </div>
+
+    <div class="verse" id="r-verse" hidden>
+      “Commit to the Lord whatever you do, and he will establish your plans.”
+      <cite>Proverbs 16:3 · choose one, and begin</cite>
+    </div>
+
+    <div class="btn-row mt" id="action-row" hidden>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy ranking</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_opportunity_ranker_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var $$=function(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))};
+
+  /* weights: impact & alignment matter most, then ease, then energy */
+  var WEIGHTS={impact:0.35,ease:0.20,align:0.30,energy:0.15};
+  var current={impact:3,ease:3,align:3,energy:3};
+
+  /* ---------- helpers ---------- */
+  function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];}); }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+
+  /* weighted score -> 0..100 (raw weighted is 1..5) */
+  function weighted(o){
+    var w=o.impact*WEIGHTS.impact+o.ease*WEIGHTS.ease+o.align*WEIGHTS.align+o.energy*WEIGHTS.energy;
+    return Math.round(w/5*100);
+  }
+  function band(pct){
+    if(pct>=80) return {label:"Top pick",cls:"badge-sage"};
+    if(pct>=65) return {label:"Strong",cls:"badge-sage"};
+    if(pct>=45) return {label:"Maybe",cls:"badge-gold"};
+    return {label:"Park it",cls:"badge-danger"};
+  }
+
+  /* ---------- rating buttons ---------- */
+  function buildRaters(){
+    $$(".rate").forEach(function(group){
+      var k=group.getAttribute("data-k");
+      group.innerHTML="";
+      for(var i=1;i<=5;i++){
+        (function(val){
+          var b=document.createElement("button");
+          b.type="button"; b.textContent=val; b.setAttribute("aria-pressed", val===current[k]?"true":"false");
+          b.onclick=function(){
+            current[k]=val;
+            $$("button",group).forEach(function(bb,idx){ var on=(idx+1)===val; bb.classList.toggle("on",on); bb.setAttribute("aria-pressed",on?"true":"false"); });
+            $("#v-"+(k==="align"?"align":k==="energy"?"energy":k)).textContent=val;
+          };
+          group.appendChild(b);
+        })(i);
+      }
+      /* set default highlight */
+      $$("button",group).forEach(function(bb,idx){ bb.classList.toggle("on",(idx+1)===current[k]); });
+    });
+    $("#v-impact").textContent=current.impact;
+    $("#v-ease").textContent=current.ease;
+    $("#v-align").textContent=current.align;
+    $("#v-energy").textContent=current.energy;
+  }
+  function resetRaters(){ current={impact:3,ease:3,align:3,energy:3}; buildRaters(); }
+
+  /* ---------- storage ---------- */
+  function getAll(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setAll(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+
+  /* ---------- render ranking ---------- */
+  function render(){
+    var items=getAll().map(function(o){ o.score=weighted(o); return o; });
+    items.sort(function(a,b){ return b.score-a.score; });
+    var box=$("#ranking");
+    if(!items.length){
+      box.innerHTML='<div class="empty"><span class="ico" aria-hidden="true">🌿</span>No opportunities yet. Add your first idea above to see it ranked.</div>';
+      $("#action-row").hidden=true; $("#focus-note").hidden=true; $("#r-verse").hidden=true;
+      return;
+    }
+    $("#action-row").hidden=false;
+    $("#focus-note").hidden=false;
+    $("#r-verse").hidden=false;
+    box.innerHTML="";
+    items.forEach(function(o,idx){
+      var isTop=idx===0;
+      var bd=band(o.score);
+      var row=document.createElement("div");
+      row.className="rank-item"+(isTop?" top":"");
+      row.innerHTML=
+        '<div class="rank-num">'+(idx+1)+'</div>'+
+        '<div class="rank-body">'+
+          '<div class="rhead"><strong>'+esc(o.name)+'</strong>'+
+            '<span class="rscore">'+o.score+'<span class="muted" style="font-size:.7rem;font-weight:400"> / 100</span></span></div>'+
+          '<div style="margin-top:6px"><span class="badge '+bd.cls+'">'+(isTop?"⭐ ":"")+bd.label+'</span></div>'+
+          '<div class="bar" aria-hidden="true"><i style="width:'+o.score+'%"></i></div>'+
+          '<div class="rmeta">Impact '+o.impact+' · Ease '+o.ease+' · Alignment '+o.align+' · Excitement '+o.energy+'</div>'+
+        '</div>'+
+        '<button class="icon-btn del" aria-label="Delete opportunity">✕</button>';
+      $(".del",row).onclick=function(){
+        var all=getAll();
+        var i=all.findIndex(function(x){return x.id===o.id;});
+        if(i>-1){ all.splice(i,1); setAll(all); render(); toast("Removed"); }
+      };
+      box.appendChild(row);
+    });
+  }
+
+  /* ---------- events ---------- */
+  $("#form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var nameEl=$("#oname"), name=nameEl.value.trim();
+    if(name===""){ nameEl.classList.add("error"); $("#oname-err").classList.add("show"); nameEl.focus(); return; }
+    nameEl.classList.remove("error"); $("#oname-err").classList.remove("show");
+    var all=getAll();
+    all.push({id:Date.now()+"-"+Math.random().toString(36).slice(2,6),name:name,
+      impact:current.impact,ease:current.ease,align:current.align,energy:current.energy});
+    setAll(all);
+    nameEl.value=""; resetRaters(); nameEl.focus();
+    render();
+    toast("Added to ranking ✓");
+  });
+
+  $("#reset-form").onclick=function(){
+    $("#oname").value=""; $("#oname").classList.remove("error"); $("#oname-err").classList.remove("show");
+    resetRaters(); $("#oname").focus();
+  };
+
+  $("#copy").onclick=function(){
+    var items=getAll().map(function(o){ o.score=weighted(o); return o; });
+    items.sort(function(a,b){ return b.score-a.score; });
+    if(!items.length){ toast("Nothing to copy yet"); return; }
+    var lines=["My Opportunity Ranking",""];
+    items.forEach(function(o,i){
+      lines.push((i+1)+". "+o.name+" — "+o.score+"/100 ("+band(o.score).label+")");
+    });
+    lines.push("");
+    lines.push("Top pick: "+items[0].name+". Start here.");
+    var txt=lines.join("\n");
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Ranking copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  $("#clear-all").onclick=function(){ setAll([]); render(); toast("All cleared 🌿"); };
+
+  /* ---------- init ---------- */
+  buildRaters();
+  render();
+})();
+</script>
+</body>
+</html>

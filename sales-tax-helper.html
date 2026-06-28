@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sales Tax Helper — AI Profit Garden</title>
+<meta name="description" content="Log taxable sales by state and see how much sales tax you've collected, grouped by jurisdiction." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.state-group{border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-top:12px;background:linear-gradient(135deg,var(--sage-soft),#fff)}
+.state-group .sg-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.state-group .sg-name{font-family:var(--serif);font-weight:700;font-size:1.05rem;color:var(--olive)}
+.state-group .sg-total{font-family:var(--serif);font-weight:700;font-size:1.05rem;color:var(--olive)}
+.entry{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:.9rem}
+.entry:first-of-type{border-top:none}
+.entry .grow{flex:1;min-width:0}
+.entry .grow small{color:var(--muted)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Sales Tax Helper</h1>
+      <p class="app-sub">Keep track of what you owe and where — without the panic.</p>
+    </div>
+  </header>
+
+  <!-- ADD -->
+  <section class="card">
+    <h2 class="section-title">Log a taxable sale</h2>
+    <p class="section-note">Add each taxable sale with the state and that state's sales-tax rate. We'll work out the tax collected and total it up by state for you.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="state">State or jurisdiction <span class="hint">— e.g. California, or Austin, TX</span></label>
+        <input id="state" class="input" type="text" placeholder="e.g. Texas" autocomplete="off" aria-describedby="state-err" />
+        <div class="err-text" id="state-err">Please enter a state or jurisdiction name.</div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="amount">Taxable sale amount</label>
+          <div class="input-money"><span>$</span><input id="amount" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="amount-err" /></div>
+          <div class="err-text" id="amount-err">Please enter a sale amount above 0.</div>
+        </div>
+        <div class="field">
+          <label for="rate">Sales-tax rate % <span class="hint">— for that location</span></label>
+          <input id="rate" class="input" type="text" inputmode="decimal" placeholder="e.g. 8.25" autocomplete="off" aria-describedby="rate-err" />
+          <div class="err-text" id="rate-err">Please enter a rate of 0 or more.</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Add this sale</button>
+        <button type="button" class="btn btn-ghost" id="clear-form">Clear fields</button>
+      </div>
+      <p class="section-note" style="margin-top:12px;margin-bottom:0">Rates vary by city and county, so use the exact rate for where the sale is taxed.</p>
+    </form>
+  </section>
+
+  <!-- SUMMARY -->
+  <section class="card">
+    <h2 class="section-title">What you've collected</h2>
+    <p class="section-note">Grouped by state. This is roughly what you'd remit to each one.</p>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Total tax collected</div><div class="value" id="total-tax">$0</div></div>
+      <div class="stat"><div class="label">Total taxable sales</div><div class="value" id="total-sales">$0</div></div>
+    </div>
+
+    <div id="groups"></div>
+
+    <div class="empty" id="empty">
+      <span class="ico" aria-hidden="true">🌿</span>
+      No sales logged yet. Add your first taxable sale above and watch your by-state totals appear here.
+    </div>
+
+    <div class="btn-row mt" id="summary-actions" hidden>
+      <button type="button" class="btn btn-olive btn-sm" id="copy">Copy summary</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all entries</button>
+    </div>
+  </section>
+
+  <!-- DISCLAIMER -->
+  <section class="card">
+    <p class="section-note mt-0" style="margin-bottom:0">🌿 <strong>A gentle note:</strong> These are <em>estimates</em> to help you stay organized, not tax advice. Sales-tax rates and rules vary by state, city, and county, and you only owe a state once you have <em>nexus</em> there (a connection like sales volume or physical presence). You typically remit collected tax to each state on its own schedule. Please confirm your rates, nexus, and deadlines with your accountant or your state's tax authority.</p>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_sales_tax_helper_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+
+  function getEntries(){ try{ return JSON.parse(localStorage.getItem(KEY)||"[]"); }catch(e){ return []; } }
+  function setEntries(a){ try{ localStorage.setItem(KEY,JSON.stringify(a)); }catch(e){} }
+
+  function taxOf(e){ return e.amount*(e.rate/100); }
+
+  function render(){
+    var entries=getEntries();
+    var empty=$("#empty"), groupsBox=$("#groups"), actions=$("#summary-actions");
+    groupsBox.innerHTML="";
+
+    if(!entries.length){
+      empty.hidden=false; actions.hidden=true;
+      $("#total-tax").textContent=money(0);
+      $("#total-sales").textContent=money(0);
+      return;
+    }
+    empty.hidden=true; actions.hidden=false;
+
+    // group by state (case-insensitive, keep first-seen display name)
+    var groups={}, order=[];
+    entries.forEach(function(e,idx){
+      var key=e.state.trim().toLowerCase();
+      if(!groups[key]){ groups[key]={name:e.state.trim(), rows:[]}; order.push(key); }
+      groups[key].rows.push({e:e, idx:idx});
+    });
+
+    var grandTax=0, grandSales=0;
+    order.forEach(function(key){
+      var g=groups[key];
+      var box=document.createElement("div");
+      box.className="state-group";
+      var stTax=0, stSales=0;
+      g.rows.forEach(function(r){ stTax+=taxOf(r.e); stSales+=r.e.amount; });
+      grandTax+=stTax; grandSales+=stSales;
+
+      var head=document.createElement("div");
+      head.className="sg-head";
+      head.innerHTML='<span class="sg-name">'+escapeHtml(g.name)+'</span><span class="sg-total">'+money(stTax)+' tax</span>';
+      box.appendChild(head);
+      var sub=document.createElement("div");
+      sub.className="section-note"; sub.style.marginBottom="2px";
+      sub.textContent=money(stSales)+" in taxable sales · "+g.rows.length+(g.rows.length===1?" entry":" entries");
+      box.appendChild(sub);
+
+      g.rows.forEach(function(r){
+        var row=document.createElement("div");
+        row.className="entry";
+        row.innerHTML='<div class="grow"><strong>'+money(r.e.amount)+'</strong> <small>@ '+(+r.e.rate.toFixed(4))+'% = '+money(taxOf(r.e))+' tax</small></div>'+
+          '<button class="icon-btn" aria-label="Delete this entry">✕</button>';
+        row.querySelector(".icon-btn").onclick=function(){
+          var all=getEntries(); all.splice(r.idx,1); setEntries(all); render(); toast("Entry removed");
+        };
+        box.appendChild(row);
+      });
+      groupsBox.appendChild(box);
+    });
+
+    $("#total-tax").textContent=money(grandTax);
+    $("#total-sales").textContent=money(grandSales);
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+
+  function validate(){
+    var stEl=$("#state"), amEl=$("#amount"), rtEl=$("#rate");
+    var ok=true;
+    if(stEl.value.trim()===""){ stEl.classList.add("error"); $("#state-err").classList.add("show"); ok=false; }
+    else{ stEl.classList.remove("error"); $("#state-err").classList.remove("show"); }
+    if(amEl.value.trim()==="" || num(amEl.value)<=0){ amEl.classList.add("error"); $("#amount-err").classList.add("show"); ok=false; }
+    else{ amEl.classList.remove("error"); $("#amount-err").classList.remove("show"); }
+    if(rtEl.value.trim()==="" || num(rtEl.value)<0){ rtEl.classList.add("error"); $("#rate-err").classList.add("show"); ok=false; }
+    else{ rtEl.classList.remove("error"); $("#rate-err").classList.remove("show"); }
+    return ok;
+  }
+
+  $("#form").addEventListener("submit",function(e){
+    e.preventDefault();
+    if(!validate()){ document.querySelector(".input.error").focus(); return; }
+    var entries=getEntries();
+    entries.push({ state:$("#state").value.trim(), amount:num($("#amount").value), rate:num($("#rate").value) });
+    setEntries(entries);
+    render();
+    $("#amount").value=""; // keep state & rate for quick repeat entry
+    $("#amount").focus();
+    toast("Sale added ✓");
+  });
+
+  $("#clear-form").onclick=function(){
+    ["state","amount","rate"].forEach(function(id){ var el=$("#"+id); el.value=""; el.classList.remove("error"); });
+    ["state-err","amount-err","rate-err"].forEach(function(id){ $("#"+id).classList.remove("show"); });
+    $("#state").focus();
+  };
+
+  $("#clear-all").onclick=function(){
+    if(!confirm("Delete all logged sales? This can't be undone.")) return;
+    setEntries([]); render(); toast("All entries cleared 🌿");
+  };
+
+  $("#copy").onclick=function(){
+    var entries=getEntries();
+    var groups={}, order=[];
+    entries.forEach(function(e){ var k=e.state.trim().toLowerCase(); if(!groups[k]){groups[k]={name:e.state.trim(),tax:0,sales:0};order.push(k);} groups[k].tax+=taxOf(e); groups[k].sales+=e.amount; });
+    var lines=["Sales Tax Helper — summary (estimate)",""];
+    var gt=0;
+    order.forEach(function(k){ var g=groups[k]; gt+=g.tax; lines.push(g.name+": "+money(g.tax)+" tax  ("+money(g.sales)+" in sales)"); });
+    lines.push(""); lines.push("TOTAL tax collected: "+money(gt));
+    lines.push("(Estimate only — confirm rates, nexus & deadlines with your accountant.)");
+    var txt=lines.join("\n");
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Summary copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  render();
+})();
+</script>
+</body>
+</html>

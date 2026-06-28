@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tax Set-Aside Calculator — AI Profit Garden</title>
+<meta name="description" content="Know exactly what to set aside from every sale for tax — so you're never caught short." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.exp-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.exp-row .input-money{flex:0 0 130px}
+.exp-row .input.name{flex:1}
+.result-hero{text-align:center;padding:8px 0 4px}
+.result-hero .big{font-family:var(--serif);font-weight:700;font-size:2.8rem;line-height:1;color:var(--olive)}
+.result-hero .big.neg{color:var(--danger)}
+.result-hero .big.pos{color:#2F7A4E}
+.result-hero .cap{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+[hidden]{display:none!important}
+/* ---- Tax Set-Aside specifics ---- */
+.toggle-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.toggle-row button{flex:1;min-width:140px;border:1.5px solid var(--line);background:var(--cream);color:var(--muted);border-radius:999px;padding:10px 14px;font-family:inherit;font-weight:700;font-size:.86rem;cursor:pointer;transition:all .15s}
+.toggle-row button[aria-pressed="true"]{background:var(--sage-soft);border-color:var(--sage);color:#3C5240}
+.deposit-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.deposit-row .input-money{flex:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Tax Set-Aside Calculator</h1>
+      <p class="app-sub">Know exactly what to save from every sale — peace, not panic.</p>
+    </div>
+  </header>
+
+  <!-- STEP 1: RATE -->
+  <section class="card">
+    <h2 class="section-title">Step 1 — Your set-aside rate</h2>
+    <p class="section-note">Enter the rate directly, or let us work it out from your year-ahead numbers.</p>
+
+    <div class="toggle-row" role="group" aria-label="How to set your rate">
+      <button type="button" id="mode-rate" aria-pressed="true">I know my rate</button>
+      <button type="button" id="mode-derive" aria-pressed="false">Work it out for me</button>
+    </div>
+
+    <form id="rate-form" novalidate>
+      <!-- direct rate -->
+      <div id="pane-rate">
+        <div class="field">
+          <label for="rate">Tax set-aside rate <span class="hint">— %</span></label>
+          <div style="position:relative">
+            <input id="rate" class="input" type="text" inputmode="decimal" placeholder="28" autocomplete="off" aria-describedby="rate-err rate-tip" style="padding-right:34px" />
+            <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600">%</span>
+          </div>
+          <div class="err-text" id="rate-err">Please enter a rate between 0 and 100.</div>
+          <p id="rate-tip" class="section-note" style="margin:6px 0 0">A common starting point for self-employed women is around <strong>25–30%</strong>. Your accountant can fine-tune it.</p>
+        </div>
+      </div>
+
+      <!-- derive from profit + tax -->
+      <div id="pane-derive" hidden>
+        <div class="row">
+          <div class="field">
+            <label for="profit">Expected profit (year)</label>
+            <div class="input-money"><span>$</span>
+              <input id="profit" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="derive-err" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="exptax">Expected tax (year)</label>
+            <div class="input-money"><span>$</span>
+              <input id="exptax" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" />
+            </div>
+          </div>
+        </div>
+        <div class="err-text" id="derive-err">Please enter a profit greater than 0 and a tax amount of 0 or more.</div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Set my rate</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT: rate + per-sale -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <div class="result-hero">
+      <div class="cap">Set aside from every payment</div>
+      <div class="big pos" id="r-rate">0%</div>
+      <div id="r-badge" style="margin-top:10px"><span class="badge badge-sage">Set and forget</span></div>
+    </div>
+
+    <div class="callout callout-info mt" style="background:var(--sage-soft);color:#3C5240">
+      <strong>Your simple rule:</strong> the moment a payment lands, move <strong id="r-rule-pct">0%</strong> of it straight into a separate "tax" savings account. Out of sight, never spent, always ready.
+    </div>
+
+    <h3 class="section-title mt" style="font-size:1.02rem">Step 2 — Check any sale</h3>
+    <p class="section-note">Type in a payment you just received to see exactly what to move across.</p>
+    <div class="field">
+      <label for="sale">Sale / payment amount</label>
+      <div class="input-money"><span>$</span>
+        <input id="sale" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Move to tax savings</div><div class="value" id="s-setaside">$0</div></div>
+      <div class="stat"><div class="label">Yours to keep / spend</div><div class="value pos" id="s-keep">$0</div></div>
+    </div>
+
+    <div class="callout callout-info mt">
+      These are planning estimates, not formal tax advice. Your real tax depends on your full picture — please confirm your rate with your accountant or tax professional.
+    </div>
+
+    <div class="verse">
+      “The plans of the diligent lead surely to abundance.”
+      <cite>Proverbs 21:5 · a little put aside, faithfully</cite>
+    </div>
+  </section>
+
+  <!-- RUNNING LOG -->
+  <section class="card" id="log-card" hidden>
+    <h2 class="section-title">Your set-aside log <span class="hint" style="font-weight:400">— this period</span></h2>
+    <p class="section-note">Every time you move money to tax savings, jot it here and watch your safety net grow. Kept on this device only.</p>
+
+    <div class="deposit-row">
+      <div class="input-money"><span>$</span>
+        <input id="dep-amt" class="input" type="text" inputmode="decimal" placeholder="Amount set aside" autocomplete="off" aria-label="Amount set aside" />
+      </div>
+      <button type="button" class="btn btn-olive btn-sm" id="dep-add" style="flex:0 0 auto">+ Add</button>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Total set aside</div><div class="value pos" id="s-total">$0</div></div>
+      <div class="stat"><div class="label">Deposits</div><div class="value" id="s-count">0</div></div>
+    </div>
+
+    <div id="log-list" class="mt"></div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-log">Clear log</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_tax_set_aside_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var result=$("#result"), logCard=$("#log-card"), logList=$("#log-list");
+  var mode="rate"; // or "derive"
+  var rate=0;      // current set-aside rate %
+
+  /* ---------- helpers ---------- */
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+
+  /* ---------- mode toggle ---------- */
+  function setMode(m){
+    mode=m;
+    $("#mode-rate").setAttribute("aria-pressed", m==="rate");
+    $("#mode-derive").setAttribute("aria-pressed", m==="derive");
+    $("#pane-rate").hidden = m!=="rate";
+    $("#pane-derive").hidden = m!=="derive";
+  }
+  $("#mode-rate").onclick=function(){ setMode("rate"); };
+  $("#mode-derive").onclick=function(){ setMode("derive"); };
+
+  /* ---------- set the rate ---------- */
+  function setRate(){
+    if(mode==="rate"){
+      var rEl=$("#rate"), rErr=$("#rate-err"), r=num(rEl.value);
+      if(rEl.value.trim()==="" || r<0 || r>100){
+        rEl.classList.add("error"); rErr.classList.add("show"); rEl.focus(); return false;
+      }
+      rEl.classList.remove("error"); rErr.classList.remove("show");
+      rate=r;
+    } else {
+      var pEl=$("#profit"), tEl=$("#exptax"), dErr=$("#derive-err");
+      var profit=num(pEl.value), tax=num(tEl.value);
+      if(profit<=0 || tax<0){
+        pEl.classList.add("error"); dErr.classList.add("show"); pEl.focus(); return false;
+      }
+      pEl.classList.remove("error"); dErr.classList.remove("show");
+      rate=Math.min(100, tax/profit*100);
+      $("#rate").value=rate.toFixed(1); // reflect derived rate
+    }
+
+    var pct=(rate%1?rate.toFixed(1):rate.toFixed(0))+"%";
+    $("#r-rate").textContent=pct;
+    $("#r-rule-pct").textContent=pct;
+    result.hidden=false;
+    logCard.hidden=false;
+    updateSale();
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+    persist();
+    return true;
+  }
+
+  /* ---------- per-sale ---------- */
+  function updateSale(){
+    var sale=num($("#sale").value);
+    var aside=sale*rate/100;
+    $("#s-setaside").textContent=money(aside);
+    $("#s-keep").textContent=money(Math.max(0,sale-aside));
+  }
+  $("#sale").addEventListener("input",updateSale);
+
+  /* ---------- running log ---------- */
+  function getLog(){ try{return JSON.parse(localStorage.getItem(KEY+"_log")||"[]")}catch(e){return []} }
+  function setLog(a){ try{localStorage.setItem(KEY+"_log",JSON.stringify(a))}catch(e){} }
+
+  function renderLog(){
+    var items=getLog();
+    var total=items.reduce(function(a,d){return a+d.amt},0);
+    $("#s-total").textContent=money(total);
+    $("#s-count").textContent=items.length;
+    logList.innerHTML="";
+    if(!items.length){
+      logList.innerHTML='<div class="empty"><span class="ico">🌱</span>No deposits yet. Each one you log is a brick in your peace-of-mind wall.</div>';
+      return;
+    }
+    items.forEach(function(d,i){
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML=
+        '<div class="grow"><strong>'+money(d.amt)+'</strong><small>'+d.date+'</small></div>'+
+        '<button class="icon-btn" aria-label="Remove deposit">✕</button>';
+      $(".icon-btn",row).onclick=function(){ items.splice(i,1); setLog(items); renderLog(); toast("Deposit removed"); };
+      logList.appendChild(row);
+    });
+  }
+
+  function todayStr(){
+    return new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  }
+
+  $("#dep-add").onclick=function(){
+    var el=$("#dep-amt"), amt=num(el.value);
+    if(amt<=0){ el.classList.add("error"); el.focus(); toast("Enter an amount first"); return; }
+    el.classList.remove("error");
+    var items=getLog();
+    items.unshift({date:todayStr(),amt:amt});
+    setLog(items.slice(0,200));
+    el.value="";
+    renderLog();
+    toast("Set aside ✓ "+money(amt));
+  };
+  $("#dep-amt").addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); $("#dep-add").click(); }});
+
+  $("#clear-log").onclick=function(){ setLog([]); renderLog(); toast("Log cleared 🌿"); };
+
+  /* ---------- persistence (rate inputs) ---------- */
+  function persist(){
+    try{
+      localStorage.setItem(KEY,JSON.stringify({
+        mode:mode, rate:$("#rate").value, profit:$("#profit").value, exptax:$("#exptax").value
+      }));
+    }catch(e){}
+  }
+  function load(){
+    try{
+      var d=JSON.parse(localStorage.getItem(KEY)||"null");
+      if(!d) return false;
+      setMode(d.mode||"rate");
+      $("#rate").value=d.rate||"";
+      $("#profit").value=d.profit||"";
+      $("#exptax").value=d.exptax||"";
+      return !!(d.rate||d.profit);
+    }catch(e){ return false; }
+  }
+
+  /* ---------- events ---------- */
+  $("#rate-form").addEventListener("submit",function(e){ e.preventDefault(); setRate(); });
+
+  $("#reset").onclick=function(){
+    $("#rate").value=""; $("#profit").value=""; $("#exptax").value=""; $("#sale").value="";
+    $("#rate").classList.remove("error"); $("#rate-err").classList.remove("show");
+    $("#profit").classList.remove("error"); $("#derive-err").classList.remove("show");
+    setMode("rate");
+    rate=0;
+    result.hidden=true; logCard.hidden=true;
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    toast("Cleared 🌿");
+    $("#rate").focus();
+  };
+
+  /* ---------- init ---------- */
+  renderLog();
+  if(load()) setRate();
+})();
+</script>
+</body>
+</html>

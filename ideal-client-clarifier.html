@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Profit Snapshot — AI Profit Garden</title>
-<meta name="description" content="Enter your revenue and expenses to see your real profit and margin in seconds." />
+<title>Ideal Client Clarifier — AI Profit Garden</title>
+<meta name="description" content="Define exactly who you serve so your marketing finally lands — a clean, plain-English ideal client profile." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -97,25 +97,17 @@ textarea.input{min-height:96px;resize:vertical}
 .mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 /* ---- App-specific touches ---- */
-.exp-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
-.exp-row .input-money{flex:0 0 130px}
-.exp-row .input.name{flex:1}
-.result-hero{text-align:center;padding:8px 0 4px}
-.result-hero .big{font-family:var(--serif);font-weight:700;font-size:2.8rem;line-height:1;color:var(--olive)}
-.result-hero .big.neg{color:var(--danger)}
-.result-hero .big.pos{color:#2F7A4E}
-.result-hero .cap{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.result-hero .period{font-size:.9rem;font-weight:700;color:var(--olive);margin-bottom:2px}
+.profile-box{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.profile-box h3{font-family:var(--serif);font-weight:600;font-size:1.2rem;color:var(--olive);margin-bottom:10px}
+.profile-box p{margin-bottom:12px}
+.profile-box p:last-child{margin-bottom:0}
+.profile-box p strong{color:var(--olive-deep)}
 [hidden]{display:none!important}
-/* Print / Save-as-PDF: show only the result snapshot, cleanly */
 @media print{
   body::before{display:none}
-  .wrap{max-width:none;padding:0}
-  body *{visibility:hidden}
-  #print-area,#print-area *{visibility:visible}
-  #print-area{position:absolute;left:0;top:0;width:100%;box-shadow:none;border:none;margin:0;padding:8px 4px}
-  .btn-row,.no-print{display:none!important}
-  @page{margin:14mm}
+  .app-header,.app-footer,.no-print,form,.field{display:none!important}
+  .card{box-shadow:none;border:none;margin:0;padding:0}
+  .profile-box{border:1px solid #ccc}
 }
 </style>
 </head>
@@ -138,38 +130,55 @@ textarea.input{min-height:96px;resize:vertical}
     </div>
     <div class="app-titles">
       <div class="app-eyebrow">AI Profit Garden</div>
-      <h1 class="app-title">Profit Snapshot</h1>
-      <p class="app-sub">See your real profit and margin in seconds.</p>
+      <h1 class="app-title">Ideal Client Clarifier</h1>
+      <p class="app-sub">Define exactly who you serve so your marketing finally lands.</p>
     </div>
   </header>
 
   <!-- INPUT -->
-  <section class="card">
-    <h2 class="section-title">Your month at a glance</h2>
-    <p class="section-note">Enter what came in and what went out. We'll do the math — no spreadsheet required.</p>
+  <section class="card no-print">
+    <h2 class="section-title">Picture the one woman you most love to help</h2>
+    <p class="section-note">When you write to <em>everyone</em>, it lands on no one. Answer in plain words — even a few — and we'll weave it into a clear profile you can keep close.</p>
 
     <form id="form" novalidate>
       <div class="field">
-        <label for="period">Which month? <span class="hint">— name the month &amp; year you're entering</span></label>
-        <input id="period" class="input" type="month" aria-label="Month and year for this snapshot" />
+        <label for="name">Give her a name <span class="hint">— optional, makes her real (e.g. "Busy Beth")</span></label>
+        <input id="name" class="input" type="text" placeholder="Busy Beth" autocomplete="off" />
       </div>
 
       <div class="field">
-        <label for="rev">Revenue this month <span class="hint">— money that came in</span></label>
-        <div class="input-money"><span>$</span>
-          <input id="rev" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="rev-err" />
-        </div>
-        <div class="err-text" id="rev-err">Please enter your revenue (a number of 0 or more).</div>
+        <label for="who">Who is she? <span class="hint">— role, life stage, the basics</span></label>
+        <textarea id="who" class="input" placeholder="A working mum in her late 30s running a side business from home..." aria-describedby="who-err"></textarea>
+        <div class="err-text" id="who-err">Tell us a little about who she is so we can build her profile.</div>
       </div>
 
       <div class="field">
-        <label>Expenses <span class="hint">— add as many as you like</span></label>
-        <div id="exp-list"></div>
-        <button type="button" class="btn btn-ghost btn-sm" id="add-exp">+ Add an expense</button>
+        <label for="pain">Her biggest problem or pain <span class="hint">— what keeps her stuck</span></label>
+        <textarea id="pain" class="input" placeholder="She feels overwhelmed and isn't sure where to start..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="desire">Her desires and goals <span class="hint">— what she truly wants</span></label>
+        <textarea id="desire" class="input" placeholder="To feel calm, confident, and finally see her work pay off..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="where">Where she hangs out <span class="hint">— online and offline</span></label>
+        <textarea id="where" class="input" placeholder="Instagram, Facebook groups for mums in business, church events..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="objection">Her objections or hesitations <span class="hint">— why she might say "not yet"</span></label>
+        <textarea id="objection" class="input" placeholder="Worried about money, short on time, burned before..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="help">How you help her <span class="hint">— your offer, in her words</span></label>
+        <textarea id="help" class="input" placeholder="A gentle step-by-step coaching programme that..."></textarea>
       </div>
 
       <div class="btn-row">
-        <button type="submit" class="btn btn-primary">Show my profit</button>
+        <button type="submit" class="btn btn-primary">Build her profile</button>
         <button type="button" class="btn btn-ghost" id="reset">Reset</button>
       </div>
     </form>
@@ -177,48 +186,27 @@ textarea.input{min-height:96px;resize:vertical}
 
   <!-- RESULT -->
   <section class="card" id="result" hidden aria-live="polite">
-    <div id="print-area">
-      <div class="result-hero">
-        <div class="period" id="r-period" hidden></div>
-        <div class="cap" id="r-cap">Your real profit</div>
-        <div class="big" id="r-profit">$0</div>
-        <div id="r-badge" style="margin-top:10px"></div>
-      </div>
+    <div class="btn-row no-print" style="justify-content:space-between;margin-top:0;margin-bottom:14px">
+      <span class="badge badge-sage">Your ideal client</span>
+    </div>
+    <div class="profile-box" id="profile"></div>
 
-      <div class="bar mt" aria-hidden="true"><i id="r-bar"></i></div>
-
-      <div class="stat-grid">
-        <div class="stat"><div class="label">Revenue</div><div class="value" id="s-rev">$0</div></div>
-        <div class="stat"><div class="label">Total expenses</div><div class="value" id="s-exp">$0</div></div>
-        <div class="stat"><div class="label">Profit margin</div><div class="value" id="s-margin">0%</div></div>
-      </div>
-
-      <div id="r-message" class="callout callout-info mt"></div>
-
-      <!-- shown when there's profit to celebrate -->
-      <div class="verse" id="r-verse" hidden>
-        “Whoever is faithful with little will be faithful with much.”
-        <cite>Luke 16:10 · small steps, steady growth</cite>
-      </div>
-
-      <!-- shown gently when the month ran at a loss -->
-      <div class="verse" id="r-verse-loss" hidden>
-        “You shall remember the Lord your God, for it is he who gives you power to get wealth, that he may confirm his covenant that he swore to your fathers, as it is this day.”
-        <cite>Deuteronomy 8:18 · He gives you power to get wealth</cite>
-      </div>
+    <div class="verse no-print">
+      “Where there is no vision, the people perish.”
+      <cite>Proverbs 29:18 · clarity is its own kind of kindness</cite>
     </div>
 
     <div class="btn-row mt no-print">
-      <button type="button" class="btn btn-olive btn-sm" id="save">Save this snapshot</button>
-      <button type="button" class="btn btn-primary btn-sm" id="pdf">Save as PDF</button>
-      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy summary</button>
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save this profile</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy profile</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="print">Print</button>
     </div>
   </section>
 
-  <!-- SAVED HISTORY -->
-  <section class="card" id="history-card" hidden>
-    <h2 class="section-title">Saved snapshots</h2>
-    <p class="section-note">Kept on this device only. Watch your fruit grow over time.</p>
+  <!-- SAVED -->
+  <section class="card no-print" id="history-card" hidden>
+    <h2 class="section-title">Saved profiles</h2>
+    <p class="section-note">Kept on this device only. You may serve more than one kind of woman — keep a profile for each.</p>
     <div id="history"></div>
     <div class="btn-row mt">
       <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all saved</button>
@@ -236,132 +224,91 @@ textarea.input{min-height:96px;resize:vertical}
 <script>
 (function(){
   "use strict";
-  var KEY="apg_profit_snapshot_v1";
+  var KEY="apg_ideal_client_v1";
   var $=function(s,el){return (el||document).querySelector(s)};
-  var expList=$("#exp-list"), result=$("#result"), histCard=$("#history-card"), hist=$("#history");
+  var result=$("#result"), histCard=$("#history-card"), hist=$("#history");
+  var FIELDS=["name","who","pain","desire","where","objection","help"];
 
   /* ---------- helpers ---------- */
-  function money(n){
-    var neg=n<0; n=Math.abs(n);
-    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
-    return neg?"-"+s:s;
-  }
-  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
   function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
-  /* turn a <input type="month"> value ("2026-06") into "June 2026" */
-  function periodLabel(v){
-    if(!v||!/^\d{4}-\d{2}$/.test(v)) return "";
-    var p=v.split("-"), names=["January","February","March","April","May","June","July","August","September","October","November","December"];
-    var mi=parseInt(p[1],10)-1;
-    return (names[mi]||"")+" "+p[0];
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  function lower1(s){ s=s.trim(); return s? s.charAt(0).toLowerCase()+s.slice(1):s; }
+  function readData(){
+    var d={};
+    FIELDS.forEach(function(f){ d[f]=$("#"+f).value.trim(); });
+    return d;
+  }
+  function todayStr(){
+    return new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
   }
 
-  /* ---------- expense rows ---------- */
-  function addExpense(name,amt){
-    var row=document.createElement("div");
-    row.className="exp-row";
-    row.innerHTML=
-      '<input class="input name" type="text" placeholder="What for? (e.g. software)" aria-label="Expense name" />'+
-      '<div class="input-money"><span>$</span><input class="input amt" type="text" inputmode="decimal" placeholder="0.00" aria-label="Expense amount" autocomplete="off" /></div>'+
-      '<button type="button" class="icon-btn" aria-label="Remove expense">✕</button>';
-    $(".name",row).value=name||"";
-    $(".amt",row).value=(amt||amt===0)?amt:"";
-    $(".icon-btn",row).onclick=function(){ row.remove(); if(!expList.children.length) addExpense(); };
-    expList.appendChild(row);
-    return row;
+  /* ---------- build plain-English profile ---------- */
+  function buildProfile(d){
+    var nm = d.name || "Your ideal client";
+    var paras=[];
+    var intro = (d.name? "<strong>"+esc(d.name)+"</strong> is your ideal client. " : "<strong>Your ideal client</strong> is ");
+    if(d.who){ intro += (d.name?"She's ":"") + esc(lower1(d.who)) + "."; }
+    else if(!d.name){ intro += "someone you're still getting to know — add a few details above to sharpen her picture."; }
+    paras.push(intro);
+
+    if(d.pain){ paras.push("<strong>She struggles with</strong> "+esc(lower1(d.pain))+" It's the quiet weight she carries, and it's exactly where you can meet her."); }
+    if(d.desire){ paras.push("<strong>What she truly wants</strong> is "+esc(lower1(d.desire))+" Speak to this, and she'll lean in."); }
+    if(d.where){ paras.push("<strong>You'll reach her</strong> in the places she already spends time: "+esc(lower1(d.where))+" Show up there, consistently and warmly."); }
+    if(d.objection){ paras.push("<strong>Before she says yes</strong>, she may hesitate because of "+esc(lower1(d.objection))+" Name these gently in your marketing so she feels understood, not pushed."); }
+    if(d.help){ paras.push("<strong>And here's how you help her:</strong> "+esc(lower1(d.help))+" That's the bridge from where she is to where she longs to be."); }
+
+    paras.push("<em>Now that you can see her clearly, write to her — just her. Your words will finally land.</em>");
+
+    return '<h3>'+esc(nm)+'</h3>'+paras.map(function(p){return "<p>"+p+"</p>";}).join("");
   }
 
-  function readExpenses(){
-    var out=[];
-    Array.prototype.forEach.call(expList.querySelectorAll(".exp-row"),function(r){
-      var name=$(".name",r).value.trim(), amt=num($(".amt",r).value);
-      if(name||amt) out.push({name:name||"Expense",amt:amt});
-    });
-    return out;
+  function buildText(d){
+    var lines=[];
+    lines.push("IDEAL CLIENT PROFILE"+(d.name?" — "+d.name:"")+" ("+todayStr()+")");
+    lines.push("");
+    if(d.who) lines.push("Who she is: "+d.who);
+    if(d.pain) lines.push("Her biggest problem: "+d.pain);
+    if(d.desire) lines.push("Her desires & goals: "+d.desire);
+    if(d.where) lines.push("Where she hangs out: "+d.where);
+    if(d.objection) lines.push("Her objections: "+d.objection);
+    if(d.help) lines.push("How you help her: "+d.help);
+    return lines.join("\n");
   }
 
-  /* ---------- calculate ---------- */
-  function calculate(){
-    var revEl=$("#rev"), revErr=$("#rev-err");
-    var revRaw=revEl.value.trim();
-    if(revRaw==="" || num(revRaw)<0){
-      revEl.classList.add("error"); revErr.classList.add("show"); revEl.focus();
-      return;
-    }
-    revEl.classList.remove("error"); revErr.classList.remove("show");
-
-    var rev=num(revRaw);
-    var exps=readExpenses();
-    var totalExp=exps.reduce(function(a,e){return a+e.amt},0);
-    var profit=rev-totalExp;
-    var margin=rev>0?(profit/rev*100):0;
-
-    $("#s-rev").textContent=money(rev);
-    $("#s-exp").textContent=money(totalExp);
-    $("#s-margin").textContent=(rev>0?margin.toFixed(0):"—")+"%";
-
-    var big=$("#r-profit");
-    big.textContent=money(profit);
-    big.className="big "+(profit>0?"pos":profit<0?"neg":"");
-    $("#r-cap").textContent = profit<0 ? "Your shortfall this month" : "Your real profit";
-
-    $("#r-bar").style.width=Math.max(0,Math.min(100,margin))+"%";
-
-    /* friendly, encouraging interpretation */
-    var badge=$("#r-badge"), msg=$("#r-message"), verse=$("#r-verse");
-    var b,m;
-    if(profit<0){
-      b='<span class="badge badge-danger">Running at a loss</span>';
-      m="You spent more than you earned this month — and now you can see it clearly, which is the first step to fixing it. Look for one expense to trim, or one small offer to add. You've got this.";
-      msg.className="callout callout-warn mt";
-    }else if(margin<10){
-      b='<span class="badge badge-gold">Thin margin</span>';
-      m="You're profitable — well done! A margin under 10% is tight, though. A small price increase or trimming one cost could make a real difference.";
-      msg.className="callout callout-info mt";
-    }else if(margin<25){
-      b='<span class="badge badge-sage">Healthy</span>';
-      m="A solid, healthy margin. Your business is feeding itself. Keep nurturing it — you're on good ground.";
-      msg.className="callout callout-info mt";
-    }else{
-      b='<span class="badge badge-sage">Flourishing</span>';
-      m="Beautiful — a strong, flourishing margin. This is room to pay yourself well, give generously, and reinvest in growth.";
-      msg.className="callout callout-info mt";
-    }
-    badge.innerHTML=b; msg.textContent=m;
-    /* a gentle word either way: celebrate fruit, or steady the heart in a loss */
-    verse.hidden = profit<=0;
-    $("#r-verse-loss").hidden = profit>=0;
-
-    /* show the month/year they named */
-    var period=periodLabel($("#period").value);
-    var pEl=$("#r-period");
-    pEl.textContent=period; pEl.hidden=!period;
-
+  function render(d){
+    $("#profile").innerHTML=buildProfile(d);
     result.hidden=false;
+    result._data=d;
     result.scrollIntoView({behavior:"smooth",block:"start"});
-
-    /* remember the working inputs (not the same as saved snapshots) */
-    persistDraft(rev,exps,$("#period").value);
-    return {rev:rev,exps:exps,totalExp:totalExp,profit:profit,margin:margin,period:period};
   }
 
-  /* ---------- draft persistence (auto) ---------- */
-  function persistDraft(rev,exps,period){
-    try{ localStorage.setItem(KEY+"_draft",JSON.stringify({rev:rev,exps:exps,period:period||""})); }catch(e){}
+  /* ---------- validate + generate ---------- */
+  function generate(){
+    var d=readData();
+    var whoEl=$("#who"), whoErr=$("#who-err");
+    var hasAny = d.who||d.pain||d.desire||d.where||d.objection||d.help;
+    if(!hasAny){
+      whoEl.classList.add("error"); whoErr.classList.add("show"); whoEl.focus();
+      return null;
+    }
+    whoEl.classList.remove("error"); whoErr.classList.remove("show");
+    render(d);
+    persistDraft(d);
+    return d;
   }
+
+  /* ---------- draft persistence ---------- */
+  function persistDraft(d){ try{ localStorage.setItem(KEY+"_draft",JSON.stringify(d)); }catch(e){} }
   function loadDraft(){
     try{
       var d=JSON.parse(localStorage.getItem(KEY+"_draft")||"null");
       if(!d) return false;
-      $("#rev").value=d.rev||"";
-      $("#period").value=d.period||"";
-      expList.innerHTML="";
-      (d.exps&&d.exps.length?d.exps:[null]).forEach(function(e){ e?addExpense(e.name,e.amt):addExpense(); });
+      FIELDS.forEach(function(f){ if(d[f]!=null) $("#"+f).value=d[f]; });
       return true;
     }catch(e){ return false; }
   }
 
-  /* ---------- saved snapshots ---------- */
+  /* ---------- saved profiles ---------- */
   function getSaved(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
   function setSaved(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
 
@@ -371,72 +318,58 @@ textarea.input{min-height:96px;resize:vertical}
     histCard.hidden=false;
     hist.innerHTML="";
     items.forEach(function(it,i){
+      var d=it.data||{};
+      var title=d.name||(d.who? d.who.slice(0,40):"Ideal client");
       var row=document.createElement("div");
       row.className="item";
-      var when=it.period?it.period:it.date;
-      row.innerHTML=
-        '<div class="grow"><strong>'+money(it.profit)+' profit · '+
-        (it.rev>0?Math.round(it.margin):0)+'% margin</strong>'+
-        '<small>'+when+' · '+money(it.rev)+' in, '+money(it.totalExp)+' out · saved '+it.date+'</small></div>'+
-        '<button class="icon-btn" aria-label="Delete snapshot">✕</button>';
-      $(".icon-btn",row).onclick=function(){ items.splice(i,1); setSaved(items); renderHistory(); toast("Snapshot removed"); };
+      var grow=document.createElement("div");
+      grow.className="grow";
+      grow.style.cursor="pointer";
+      grow.innerHTML='<strong>'+esc(title)+'</strong><small>Saved '+esc(it.date)+' · tap to reopen</small>';
+      grow.onclick=function(){ FIELDS.forEach(function(f){ $("#"+f).value=d[f]||""; }); render(d); persistDraft(d); toast("Profile reopened 🌿"); };
+      var del=document.createElement("button");
+      del.className="icon-btn"; del.setAttribute("aria-label","Delete profile"); del.textContent="✕";
+      del.onclick=function(){ items.splice(i,1); setSaved(items); renderHistory(); toast("Profile removed"); };
+      row.appendChild(grow); row.appendChild(del);
       hist.appendChild(row);
     });
   }
 
-  function todayStr(){
-    var d=new Date();
-    return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
-  }
-
   /* ---------- events ---------- */
-  $("#add-exp").onclick=function(){ addExpense().querySelector(".name").focus(); };
-
-  $("#form").addEventListener("submit",function(e){ e.preventDefault(); calculate(); });
+  $("#form").addEventListener("submit",function(e){ e.preventDefault(); generate(); });
 
   $("#reset").onclick=function(){
-    $("#rev").value=""; $("#rev").classList.remove("error"); $("#rev-err").classList.remove("show");
-    $("#period").value="";
-    expList.innerHTML=""; addExpense();
+    FIELDS.forEach(function(f){ $("#"+f).value=""; });
+    $("#who").classList.remove("error"); $("#who-err").classList.remove("show");
     result.hidden=true;
     try{ localStorage.removeItem(KEY+"_draft"); }catch(e){}
     toast("Cleared 🌿");
-    $("#rev").focus();
+    $("#name").focus();
   };
 
   $("#save").onclick=function(){
-    var r=calculate(); if(!r) return;
+    var d=result._data; if(!d){ d=generate(); if(!d) return; }
     var items=getSaved();
-    items.unshift({date:todayStr(),period:r.period,rev:r.rev,totalExp:r.totalExp,profit:r.profit,margin:r.margin});
+    items.unshift({date:todayStr(),data:d});
     setSaved(items.slice(0,24));
     renderHistory();
-    toast("Snapshot saved ✓");
-  };
-
-  $("#pdf").onclick=function(){
-    var r=calculate(); if(!r) return;        /* make sure the snapshot is shown & valid */
-    toast("Opening print → choose 'Save as PDF'");
-    setTimeout(function(){ window.print(); },300);
+    toast("Profile saved ✓");
   };
 
   $("#copy").onclick=function(){
-    var period=periodLabel($("#period").value)||todayStr();
-    var txt="Profit Snapshot — "+period+"\n"+
-      "Revenue: "+$("#s-rev").textContent+"\n"+
-      "Expenses: "+$("#s-exp").textContent+"\n"+
-      "Profit: "+$("#r-profit").textContent+"\n"+
-      "Margin: "+$("#s-margin").textContent;
+    var d=result._data; if(!d) return;
+    var txt=buildText(d);
     if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(txt).then(function(){toast("Summary copied ✓")},function(){toast("Couldn't copy")});
+      navigator.clipboard.writeText(txt).then(function(){toast("Profile copied ✓")},function(){toast("Couldn't copy")});
     }else{ toast("Copy not supported here"); }
   };
 
-  $("#clear-all").onclick=function(){
-    setSaved([]); renderHistory(); toast("All saved snapshots cleared");
-  };
+  $("#print").onclick=function(){ window.print(); };
+
+  $("#clear-all").onclick=function(){ setSaved([]); renderHistory(); toast("All saved profiles cleared"); };
 
   /* ---------- init ---------- */
-  if(!loadDraft()) addExpense();
+  loadDraft();
   renderHistory();
 })();
 </script>

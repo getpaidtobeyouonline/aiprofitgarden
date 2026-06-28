@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Testimonial Collector — AI Profit Garden</title>
+<meta name="description" content="Generate a warm, easy testimonial request and keep a library of glowing client reviews." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.tone-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.tone-tab{font-family:inherit;font-weight:700;font-size:.84rem;cursor:pointer;border:1.5px solid var(--line);background:var(--cream);color:var(--muted);border-radius:999px;padding:8px 16px;transition:all .15s}
+.tone-tab.active{background:var(--olive);color:#fff;border-color:var(--olive)}
+.msg-box{background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:16px;white-space:pre-wrap;font-size:.95rem;line-height:1.65;color:var(--ink)}
+.stars{color:var(--gold);letter-spacing:2px;font-size:1.05rem}
+.star-pick{display:inline-flex;gap:4px;font-size:1.6rem;cursor:pointer;color:var(--line);user-select:none}
+.star-pick span{transition:color .12s}
+.star-pick span.on{color:var(--gold)}
+.tcard{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-top:10px}
+.tcard .quote{font-family:var(--serif);font-style:italic;color:#3C5240}
+.tcard .who{font-weight:700;font-size:.85rem;margin-top:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Testimonial Collector</h1>
+      <p class="app-sub">Gather glowing reviews — and keep them all in one place.</p>
+    </div>
+  </header>
+
+  <!-- ASK BUILDER -->
+  <section class="card">
+    <h2 class="section-title">Craft the perfect ask</h2>
+    <p class="section-note">A warm, easy request makes happy clients want to say yes. Fill in the blanks and we'll write it for you.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="client">Client's name <span class="hint">— the person you're asking</span></label>
+        <input id="client" class="input" type="text" placeholder="e.g. Sarah" autocomplete="off" aria-describedby="client-err" />
+        <div class="err-text" id="client-err">Please add your client's name.</div>
+      </div>
+
+      <div class="field">
+        <label for="helped">What you helped them with <span class="hint">— in a few plain words</span></label>
+        <input id="helped" class="input" type="text" placeholder="e.g. launch their first online course" autocomplete="off" aria-describedby="helped-err" />
+        <div class="err-text" id="helped-err">Please say what you helped them with.</div>
+      </div>
+
+      <div class="field">
+        <label for="channel">How will you send it?</label>
+        <select id="channel" class="select">
+          <option value="Email">Email</option>
+          <option value="Text">Text message</option>
+          <option value="Form">A form / link</option>
+        </select>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Write my request</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <h2 class="section-title">Your testimonial request</h2>
+    <p class="section-note">Pick a tone that sounds like you, then copy and send.</p>
+
+    <div class="tone-tabs" id="tone-tabs" role="tablist">
+      <button type="button" class="tone-tab active" data-tone="0">Warm &amp; personal</button>
+      <button type="button" class="tone-tab" data-tone="1">Friendly &amp; brief</button>
+      <button type="button" class="tone-tab" data-tone="2">Professional</button>
+    </div>
+
+    <div class="msg-box" id="msg-box"></div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="copy-msg">Copy this message</button>
+    </div>
+
+    <div class="verse">
+      “Let us not grow weary in doing good, for in due season we will reap.”
+      <cite>Galatians 6:9 · your good work, witnessed</cite>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL LIBRARY -->
+  <section class="card">
+    <h2 class="section-title">Your testimonial library</h2>
+    <p class="section-note">When a lovely review comes in, paste it here. Build a collection you can reuse across your marketing — anytime.</p>
+
+    <form id="t-form" novalidate>
+      <div class="field">
+        <label for="t-name">Who said it? <span class="hint">— client name or initials</span></label>
+        <input id="t-name" class="input" type="text" placeholder="e.g. Sarah M." autocomplete="off" aria-describedby="t-name-err" />
+        <div class="err-text" id="t-name-err">Please add a name.</div>
+      </div>
+
+      <div class="field">
+        <label for="t-text">Their words <span class="hint">— paste the testimonial</span></label>
+        <textarea id="t-text" class="input" placeholder="Paste what your client wrote…" aria-describedby="t-text-err"></textarea>
+        <div class="err-text" id="t-text-err">Please paste the testimonial.</div>
+      </div>
+
+      <div class="field">
+        <label>Star rating</label>
+        <div class="star-pick" id="star-pick" role="radiogroup" aria-label="Star rating">
+          <span data-v="1" role="radio" aria-checked="false" aria-label="1 star" tabindex="0">★</span>
+          <span data-v="2" role="radio" aria-checked="false" aria-label="2 stars" tabindex="0">★</span>
+          <span data-v="3" role="radio" aria-checked="false" aria-label="3 stars" tabindex="0">★</span>
+          <span data-v="4" role="radio" aria-checked="false" aria-label="4 stars" tabindex="0">★</span>
+          <span data-v="5" role="radio" aria-checked="false" aria-label="5 stars" tabindex="0">★</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-olive btn-sm">Save to library</button>
+      </div>
+    </form>
+
+    <div id="lib" class="mt"></div>
+    <div class="btn-row mt" id="lib-actions" hidden>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy-all">Copy all testimonials</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear library</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_testimonial_collector_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var $$=function(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))};
+
+  /* ---------- helpers ---------- */
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function copy(txt,okMsg){
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast(okMsg||"Copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  }
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+  function stars(n){return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n)}
+
+  /* ---------- message generation ---------- */
+  var currentTone=0, currentMsgs=[];
+  var QUESTIONS=[
+    "• What was life (or your business) like before we worked together?",
+    "• What changed for you, and what results have you seen?",
+    "• What was your favourite part of working together?",
+    "• Who would you recommend this to?"
+  ];
+
+  function buildMessages(name,helped,channel){
+    var q=QUESTIONS.join("\n");
+    var warm=
+      "Hi "+name+",\n\n"+
+      "Working with you to "+helped+" has truly been a joy — thank you for trusting me with it.\n\n"+
+      "Would you be open to sharing a few words about your experience? Honest reviews from clients like you help other women find the support they need, and it would mean the world to me.\n\n"+
+      "To make it really easy, you can just answer any of these:\n\n"+q+"\n\n"+
+      "A sentence or two on each is plenty — no need to overthink it. Whenever you have a quiet moment is perfect.\n\n"+
+      "With gratitude,\n[Your name]";
+    var brief=
+      "Hi "+name+"! 🌿\n\n"+
+      "So glad I got to help you "+helped+"! Quick favour — would you mind sharing a short review of your experience? It helps me so much.\n\n"+
+      "Anything you'd like, or just answer these:\n\n"+q+"\n\n"+
+      "A few sentences is perfect. Thank you so much!\n\n[Your name]";
+    var pro=
+      "Hi "+name+",\n\n"+
+      "Thank you again for the opportunity to help you "+helped+". I'd be grateful for a brief testimonial about your experience, which I may share on my website and social media.\n\n"+
+      "If it's helpful, here are a few prompts to guide you:\n\n"+q+"\n\n"+
+      "Please answer in whatever way feels natural — and let me know if you'd prefer I keep it anonymous. Thank you for your time.\n\nWarm regards,\n[Your name]";
+
+    var prefix="";
+    if(channel==="Text") prefix="";
+    if(channel==="Form") prefix="Thank you for taking a moment to share your experience! It means a great deal.\n\n";
+    return [warm, brief, channel==="Form" ? prefix+pro : pro];
+  }
+
+  function showMessage(){
+    $("#msg-box").textContent=currentMsgs[currentTone]||"";
+    $$("#tone-tabs .tone-tab").forEach(function(t){
+      t.classList.toggle("active", +t.getAttribute("data-tone")===currentTone);
+    });
+  }
+
+  function generate(){
+    var nameEl=$("#client"), helpedEl=$("#helped");
+    var name=nameEl.value.trim(), helped=helpedEl.value.trim();
+    var ok=true;
+    if(!name){ nameEl.classList.add("error"); $("#client-err").classList.add("show"); ok=false; }
+    else { nameEl.classList.remove("error"); $("#client-err").classList.remove("show"); }
+    if(!helped){ helpedEl.classList.add("error"); $("#helped-err").classList.add("show"); ok=false; }
+    else { helpedEl.classList.remove("error"); $("#helped-err").classList.remove("show"); }
+    if(!ok){ (name?helpedEl:nameEl).focus(); return; }
+
+    currentMsgs=buildMessages(name,helped,$("#channel").value);
+    showMessage();
+    $("#result").hidden=false;
+    $("#result").scrollIntoView({behavior:"smooth",block:"start"});
+    saveDraft();
+  }
+
+  /* ---------- draft ---------- */
+  function saveDraft(){
+    try{ localStorage.setItem(KEY+"_draft",JSON.stringify({
+      client:$("#client").value, helped:$("#helped").value, channel:$("#channel").value
+    })); }catch(e){}
+  }
+  function loadDraft(){
+    try{
+      var d=JSON.parse(localStorage.getItem(KEY+"_draft")||"null"); if(!d) return;
+      $("#client").value=d.client||""; $("#helped").value=d.helped||"";
+      if(d.channel) $("#channel").value=d.channel;
+    }catch(e){}
+  }
+
+  /* ---------- star picker ---------- */
+  var rating=5;
+  function paintStars(){
+    $$("#star-pick span").forEach(function(s){
+      var on=(+s.getAttribute("data-v"))<=rating;
+      s.classList.toggle("on",on);
+      s.setAttribute("aria-checked", on && (+s.getAttribute("data-v"))===rating ? "true":"false");
+    });
+  }
+  $$("#star-pick span").forEach(function(s){
+    function set(){ rating=+s.getAttribute("data-v"); paintStars(); }
+    s.addEventListener("click",set);
+    s.addEventListener("keydown",function(e){ if(e.key===" "||e.key==="Enter"){e.preventDefault();set();} });
+  });
+
+  /* ---------- library ---------- */
+  function getLib(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setLib(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+
+  function renderLib(){
+    var items=getLib(), lib=$("#lib");
+    if(!items.length){
+      lib.innerHTML='<div class="empty"><span class="ico">💬</span>No testimonials saved yet. When a kind word lands in your inbox, paste it above so it never gets lost.</div>';
+      $("#lib-actions").hidden=true; return;
+    }
+    $("#lib-actions").hidden=false;
+    lib.innerHTML="";
+    items.forEach(function(it,i){
+      var c=document.createElement("div");
+      c.className="tcard";
+      c.innerHTML=
+        '<div class="quote">“'+esc(it.text)+'”</div>'+
+        '<div class="who"><span><span class="stars">'+stars(it.rating)+'</span> &nbsp;'+esc(it.name)+'</span>'+
+        '<span><button class="icon-btn" data-act="copy" aria-label="Copy testimonial">⧉</button>'+
+        '<button class="icon-btn" data-act="del" aria-label="Delete testimonial">✕</button></span></div>';
+      $('[data-act="copy"]',c).onclick=function(){ copy('"'+it.text+'" — '+it.name+' ('+stars(it.rating)+')',"Testimonial copied ✓"); };
+      $('[data-act="del"]',c).onclick=function(){ items.splice(i,1); setLib(items); renderLib(); toast("Testimonial removed"); };
+      lib.appendChild(c);
+    });
+  }
+
+  /* ---------- events ---------- */
+  $("#form").addEventListener("submit",function(e){ e.preventDefault(); generate(); });
+  $("#client").addEventListener("input",saveDraft);
+  $("#helped").addEventListener("input",saveDraft);
+  $("#channel").addEventListener("change",saveDraft);
+
+  $$("#tone-tabs .tone-tab").forEach(function(t){
+    t.onclick=function(){ currentTone=+t.getAttribute("data-tone"); showMessage(); };
+  });
+
+  $("#copy-msg").onclick=function(){ copy(currentMsgs[currentTone]||"","Message copied ✓"); };
+
+  $("#reset").onclick=function(){
+    $("#client").value=""; $("#helped").value=""; $("#channel").value="Email";
+    $("#client").classList.remove("error"); $("#helped").classList.remove("error");
+    $("#client-err").classList.remove("show"); $("#helped-err").classList.remove("show");
+    $("#result").hidden=true;
+    try{ localStorage.removeItem(KEY+"_draft"); }catch(e){}
+    toast("Cleared 🌿"); $("#client").focus();
+  };
+
+  $("#t-form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var nameEl=$("#t-name"), textEl=$("#t-text");
+    var name=nameEl.value.trim(), text=textEl.value.trim();
+    var ok=true;
+    if(!name){ nameEl.classList.add("error"); $("#t-name-err").classList.add("show"); ok=false; }
+    else { nameEl.classList.remove("error"); $("#t-name-err").classList.remove("show"); }
+    if(!text){ textEl.classList.add("error"); $("#t-text-err").classList.add("show"); ok=false; }
+    else { textEl.classList.remove("error"); $("#t-text-err").classList.remove("show"); }
+    if(!ok){ (name?textEl:nameEl).focus(); return; }
+    var items=getLib();
+    items.unshift({name:name,text:text,rating:rating});
+    setLib(items);
+    renderLib();
+    nameEl.value=""; textEl.value=""; rating=5; paintStars();
+    toast("Saved to library ✓");
+  });
+
+  $("#copy-all").onclick=function(){
+    var items=getLib(); if(!items.length){ toast("Nothing to copy yet"); return; }
+    var txt=items.map(function(it){ return '"'+it.text+'"\n— '+it.name+' ('+stars(it.rating)+')'; }).join("\n\n");
+    copy(txt,"All testimonials copied ✓");
+  };
+
+  $("#clear-all").onclick=function(){
+    if(!getLib().length){ toast("Library is already empty"); return; }
+    setLib([]); renderLib(); toast("Library cleared");
+  };
+
+  /* ---------- init ---------- */
+  loadDraft();
+  paintStars();
+  renderLib();
+})();
+</script>
+</body>
+</html>

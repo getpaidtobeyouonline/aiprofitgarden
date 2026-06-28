@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tax Deadline Reminder Builder — AI Profit Garden</title>
+<meta name="description" content="Generate your personal calendar of key US tax filing dates, tailored to your business." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.deadline{display:flex;gap:14px;padding:15px 0;border-top:1px solid var(--line)}
+.deadline:first-child{border-top:none}
+.deadline .date-chip{flex:0 0 auto;width:62px;text-align:center;background:var(--sage-soft);border-radius:var(--radius-sm);padding:8px 4px;color:var(--olive)}
+.deadline .date-chip .mo{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#3C5240}
+.deadline .date-chip .day{font-family:var(--serif);font-weight:700;font-size:1.4rem;line-height:1}
+.deadline.passed .date-chip{background:var(--line);color:var(--muted);opacity:.7}
+.deadline .body{flex:1;min-width:0}
+.deadline .body strong{display:block;font-weight:700}
+.deadline .body small{color:var(--muted);display:block;margin-top:2px}
+.deadline .body .yr{color:var(--muted);font-weight:400;font-size:.82rem}
+.check{display:flex;align-items:center;gap:10px;padding:10px 0;font-weight:600}
+.check input{width:20px;height:20px;accent-color:var(--olive)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Tax Deadline Reminder Builder</h1>
+      <p class="app-sub">Generate your personal calendar of key filing dates.</p>
+    </div>
+  </header>
+
+  <!-- SETUP -->
+  <section class="card">
+    <h2 class="section-title">Tell us about your business</h2>
+    <p class="section-note">A couple of quick choices and we'll build the dates that apply to you.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="tax-year">Tax year</label>
+        <select id="tax-year" class="input select"></select>
+      </div>
+      <div class="field">
+        <label for="entity">Business structure</label>
+        <select id="entity" class="input select">
+          <option value="sole">Sole proprietor</option>
+          <option value="llc">LLC</option>
+          <option value="scorp">S-corporation</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field" style="margin-bottom:0">
+      <label class="check" for="quarterly" style="cursor:pointer">
+        <input type="checkbox" id="quarterly" checked />
+        I pay quarterly estimated taxes
+      </label>
+      <p class="section-note" style="margin:6px 0 0">Most self-employed women who expect to owe $1,000+ do — check with your accountant if you're unsure.</p>
+    </div>
+  </section>
+
+  <!-- CUSTOM REMINDER -->
+  <section class="card">
+    <h2 class="section-title">Add your own reminder</h2>
+    <p class="section-note">Got a state deadline, a bookkeeping check-in, or a CPA appointment? Add it here.</p>
+    <form id="custom-form" novalidate>
+      <div class="row">
+        <div class="field">
+          <label for="c-date">Date</label>
+          <input id="c-date" class="input" type="date" autocomplete="off" aria-describedby="cdate-err" />
+          <div class="err-text" id="cdate-err">Please pick a date.</div>
+        </div>
+        <div class="field">
+          <label for="c-title">What is it?</label>
+          <input id="c-title" class="input" type="text" placeholder="e.g. State sales tax due" autocomplete="off" aria-describedby="ctitle-err" />
+          <div class="err-text" id="ctitle-err">Please add a short title.</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary btn-sm">+ Add reminder</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- DEADLINE LIST -->
+  <section class="card" aria-live="polite">
+    <h2 class="section-title">Your deadlines</h2>
+    <p class="section-note" id="list-note">Sorted by date. Past dates are dimmed.</p>
+    <div id="deadlines"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="copy">Copy my deadlines</button>
+      <button type="button" class="btn btn-primary btn-sm" id="ics">Download .ics calendar</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="reset">Reset</button>
+    </div>
+  </section>
+
+  <div class="callout callout-info">
+    <strong>A friendly note:</strong> These are the common US federal dates to help you plan — not formal tax or legal advice. Dates can shift (weekends, holidays, disaster relief) and your state may differ. Always confirm the exact deadlines with your accountant or the IRS.
+  </div>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_tax_deadlines_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  /* ---------- helpers ---------- */
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}); }
+  function pad(n){ return n<10?"0"+n:""+n; }
+  function fmtLong(iso){
+    var p=iso.split("-"); var d=new Date(+p[0],+p[1]-1,+p[2]);
+    return d.toLocaleDateString("en-US",{weekday:"short",month:"long",day:"numeric",year:"numeric"});
+  }
+
+  /* ---------- state ---------- */
+  function getState(){ try{return JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){return null} }
+  function saveState(){
+    try{ localStorage.setItem(KEY,JSON.stringify({
+      year:+$("#tax-year").value, entity:$("#entity").value,
+      quarterly:$("#quarterly").checked, custom:custom
+    })); }catch(e){}
+  }
+  var custom=[];
+
+  /* ---------- year dropdown ---------- */
+  (function fillYears(){
+    var now=new Date().getFullYear(), sel=$("#tax-year");
+    for(var y=now-1;y<=now+1;y++){
+      var o=document.createElement("option"); o.value=y; o.textContent="Tax year "+y; sel.appendChild(o);
+    }
+    sel.value=now;
+  })();
+
+  /* ---------- build the standard deadlines ----------
+     "fy" = the tax/filing year selected. Estimate payments for income earned
+     in year fy are due across fy and into the following spring. Forms filed in
+     the year AFTER fy (returns, 1099s). We anchor each event with its real date. */
+  function standardDeadlines(){
+    var fy=+$("#tax-year").value;
+    var entity=$("#entity").value;
+    var quarterly=$("#quarterly").checked;
+    var out=[];
+
+    function add(iso,title,note){ out.push({iso:iso,title:title,note:note,std:true}); }
+
+    if(quarterly){
+      add(fy+"-04-15","Q1 estimated tax due","Estimated payment on income earned Jan–Mar of "+fy+". Pay online via IRS Direct Pay or EFTPS.");
+      add(fy+"-06-15","Q2 estimated tax due","Covers income earned Apr–May of "+fy+". (Yes, it's a short quarter!)");
+      add(fy+"-09-15","Q3 estimated tax due","Covers income earned Jun–Aug of "+fy+".");
+      add((fy+1)+"-01-15","Q4 estimated tax due","Final estimate for "+fy+" income (Sep–Dec). Wraps up your estimated payments for the year.");
+    }
+
+    // Returns are filed the year AFTER the tax year
+    if(entity==="scorp"){
+      add((fy+1)+"-03-17","S-corp return due (Form 1120-S)","Your "+fy+" S-corporation return, including Schedule K-1s for owners. Due the 15th day of the 3rd month (Mar 17 here, as the 15th falls on a weekend).");
+      add((fy+1)+"-04-15","Personal return due (Form 1040)","Your individual return reporting your K-1 income from the business.");
+    }else{
+      var label = entity==="llc" ? "Personal return due (Schedule C on Form 1040)" : "Personal return due (Schedule C on Form 1040)";
+      add((fy+1)+"-04-15",label,"Your "+fy+" individual return. As a "+(entity==="llc"?"single-member LLC":"sole proprietor")+", your business income flows onto Schedule C of your personal 1040.");
+    }
+
+    // 1099s — if you paid contractors
+    add((fy+1)+"-01-31","1099-NEC deadline","If you paid any contractor $600+ during "+fy+", their 1099-NEC must be sent to them AND filed with the IRS by this date.");
+
+    // W-2 / payroll note for S-corp owners (they typically take a salary)
+    if(entity==="scorp"){
+      add((fy+1)+"-01-31","W-2 deadline","S-corp owners usually take a salary — W-2s for yourself and any employees are due to them and to the SSA by this date.");
+    }
+
+    // Extension awareness
+    add((fy+1)+"-10-15","Extended return deadline","If you filed an extension in the spring, this is the final date to file your "+fy+" return. (An extension to file is NOT an extension to pay.)");
+
+    return out;
+  }
+
+  /* ---------- render ---------- */
+  function allEvents(){
+    var ev=standardDeadlines().concat(custom.map(function(c){return {iso:c.iso,title:c.title,note:"Your own reminder.",std:false,id:c.id}}));
+    ev.sort(function(a,b){ return a.iso<b.iso?-1:a.iso>b.iso?1:0; });
+    return ev;
+  }
+
+  function render(){
+    var box=$("#deadlines"); box.innerHTML="";
+    var ev=allEvents();
+    if(!ev.length){
+      box.innerHTML='<div class="empty"><span class="ico">📅</span>No deadlines yet. Pick your situation above and we\'ll fill these in.</div>';
+      return;
+    }
+    var todayISO=new Date().toISOString().slice(0,10);
+    ev.forEach(function(e){
+      var p=e.iso.split("-");
+      var passed=e.iso<todayISO;
+      var row=document.createElement("div");
+      row.className="deadline"+(passed?" passed":"");
+      var html=
+        '<div class="date-chip"><div class="mo">'+MONTHS[+p[1]-1]+'</div><div class="day">'+(+p[2])+'</div></div>'+
+        '<div class="body"><strong>'+escapeHtml(e.title)+' <span class="yr">'+p[0]+'</span></strong>'+
+        '<small>'+escapeHtml(e.note)+'</small></div>';
+      if(!e.std){
+        html+='<button class="icon-btn" aria-label="Delete reminder">✕</button>';
+      }
+      row.innerHTML=html;
+      if(!e.std){
+        $(".icon-btn",row).onclick=function(){
+          custom=custom.filter(function(c){return c.id!==e.id});
+          saveState(); render(); toast("Reminder removed");
+        };
+      }
+      box.appendChild(row);
+    });
+  }
+
+  /* ---------- custom reminders ---------- */
+  $("#custom-form").addEventListener("submit",function(ev){
+    ev.preventDefault();
+    $("#c-date").classList.remove("error"); $("#c-title").classList.remove("error");
+    $("#cdate-err").classList.remove("show"); $("#ctitle-err").classList.remove("show");
+    var date=$("#c-date").value, title=$("#c-title").value.trim();
+    var ok=true;
+    if(!date){ $("#c-date").classList.add("error"); $("#cdate-err").classList.add("show"); ok=false; }
+    if(!title){ $("#c-title").classList.add("error"); $("#ctitle-err").classList.add("show"); ok=false; }
+    if(!ok) return;
+    custom.push({id:Date.now()+""+Math.floor(Math.random()*999),iso:date,title:title});
+    saveState(); render();
+    $("#c-date").value=""; $("#c-title").value="";
+    toast("Reminder added ✓");
+  });
+
+  /* ---------- copy ---------- */
+  $("#copy").onclick=function(){
+    var ev=allEvents();
+    if(!ev.length){ toast("No deadlines to copy"); return; }
+    var lines=["My Tax Deadlines — Tax Year "+$("#tax-year").value,"=================================="];
+    ev.forEach(function(e){
+      lines.push(fmtLong(e.iso)+"  —  "+e.title);
+      lines.push("   "+e.note);
+    });
+    lines.push("");
+    lines.push("Estimates/guide only — confirm exact dates with your accountant or the IRS.");
+    var txt=lines.join("\n");
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Deadlines copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  /* ---------- .ics download ---------- */
+  function icsEscape(s){ return String(s).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\n/g,"\\n"); }
+
+  $("#ics").onclick=function(){
+    var ev=allEvents();
+    if(!ev.length){ toast("No deadlines to download"); return; }
+    var now=new Date();
+    var stamp=now.getUTCFullYear()+pad(now.getUTCMonth()+1)+pad(now.getUTCDate())+"T"+
+              pad(now.getUTCHours())+pad(now.getUTCMinutes())+pad(now.getUTCSeconds())+"Z";
+    var lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//AI Profit Garden//Tax Deadlines//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH"];
+    ev.forEach(function(e,i){
+      var d=e.iso.replace(/-/g,"");
+      // all-day event: DTEND is the next day
+      var p=e.iso.split("-");
+      var nd=new Date(+p[0],+p[1]-1,+p[2]+1);
+      var dend=nd.getFullYear()+pad(nd.getMonth()+1)+pad(nd.getDate());
+      lines.push("BEGIN:VEVENT");
+      lines.push("UID:apg-tax-"+d+"-"+i+"@aiprofitgarden");
+      lines.push("DTSTAMP:"+stamp);
+      lines.push("DTSTART;VALUE=DATE:"+d);
+      lines.push("DTEND;VALUE=DATE:"+dend);
+      lines.push("SUMMARY:"+icsEscape(e.title));
+      lines.push("DESCRIPTION:"+icsEscape(e.note+" (Estimate/guide only — confirm with your accountant.)"));
+      lines.push("BEGIN:VALARM");
+      lines.push("TRIGGER:-P7D");
+      lines.push("ACTION:DISPLAY");
+      lines.push("DESCRIPTION:"+icsEscape("Upcoming: "+e.title));
+      lines.push("END:VALARM");
+      lines.push("END:VEVENT");
+    });
+    lines.push("END:VCALENDAR");
+    var blob=new Blob([lines.join("\r\n")],{type:"text/calendar;charset=utf-8"});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement("a");
+    a.href=url; a.download="tax-deadlines-"+$("#tax-year").value+".ics";
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url)},1000);
+    toast("Calendar file downloaded ✓");
+  };
+
+  /* ---------- reset ---------- */
+  $("#reset").onclick=function(){
+    custom=[];
+    var now=new Date().getFullYear();
+    $("#tax-year").value=now; $("#entity").value="sole"; $("#quarterly").checked=true;
+    $("#c-date").value=""; $("#c-title").value="";
+    saveState(); render(); toast("Reset 🌿");
+  };
+
+  /* ---------- react to setup changes ---------- */
+  ["tax-year","entity","quarterly"].forEach(function(id){
+    $("#"+id).addEventListener("change",function(){ saveState(); render(); });
+  });
+
+  /* ---------- init ---------- */
+  (function init(){
+    var s=getState();
+    if(s){
+      if(s.year && $("#tax-year").querySelector('option[value="'+s.year+'"]')) $("#tax-year").value=s.year;
+      if(s.entity) $("#entity").value=s.entity;
+      $("#quarterly").checked=s.quarterly!==false;
+      custom=Array.isArray(s.custom)?s.custom:[];
+    }
+    render();
+  })();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>60-Day Profit Plan Builder — AI Profit Garden</title>
+<meta name="description" content="Build a focused plan to add a set amount of profit in the next two months." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.exp-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.exp-row .input-money{flex:0 0 130px}
+.exp-row .input.name{flex:1}
+.result-hero{text-align:center;padding:8px 0 4px}
+.result-hero .big{font-family:var(--serif);font-weight:700;font-size:2.8rem;line-height:1;color:var(--olive)}
+.result-hero .big.neg{color:var(--danger)}
+.result-hero .big.pos{color:#2F7A4E}
+.result-hero .cap{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+[hidden]{display:none!important}
+/* ---- Plan-specific ---- */
+.lever{border:1.5px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:12px;background:var(--cream);transition:border-color .15s,background .15s}
+.lever.on{border-color:var(--sage);background:linear-gradient(135deg,var(--sage-soft),#fff)}
+.lever-head{display:flex;align-items:flex-start;gap:12px}
+.lever-check{flex:0 0 auto;width:24px;height:24px;border-radius:7px;border:2px solid var(--line);display:grid;place-items:center;cursor:pointer;background:#fff;margin-top:2px;font-weight:700;color:#fff;font-size:.85rem}
+.lever.on .lever-check{background:var(--olive);border-color:var(--olive)}
+.lever-info{flex:1;min-width:0}
+.lever-name{font-weight:700;font-size:.96rem}
+.lever-desc{font-size:.82rem;color:var(--muted);margin-top:2px}
+.lever-amt{margin-top:10px;display:none}
+.lever.on .lever-amt{display:block}
+.lever-amt .input-money{max-width:200px}
+.lever-amt label{display:block;font-size:.8rem;font-weight:700;margin-bottom:5px;color:var(--ink)}
+.goal-big{font-family:var(--serif);font-weight:700;font-size:2.2rem;color:var(--olive);line-height:1}
+.goal-big.met{color:#2F7A4E}
+.plan-summary{white-space:pre-wrap;font-size:.9rem;background:var(--cream);border:1px dashed var(--line);border-radius:var(--radius);padding:16px;margin-top:14px;font-family:var(--sans)}
+@media print{.app-header,.app-footer,.btn-row,.no-print,form{display:none!important}.card{box-shadow:none;border:1px solid #ccc}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">60-Day Profit Plan Builder</h1>
+      <p class="app-sub">A focused plan to add real profit in the next two months.</p>
+    </div>
+  </header>
+
+  <!-- GOAL INPUTS -->
+  <section class="card">
+    <h2 class="section-title">Set your 60-day goal</h2>
+    <p class="section-note">Pick a profit target you'd love to add over the next two months. We'll break it into bite-sized steps.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="target">Extra profit goal <span class="hint">— over the next 60 days</span></label>
+        <div class="input-money"><span>$</span>
+          <input id="target" class="input" type="text" inputmode="decimal" placeholder="3,000" autocomplete="off" aria-describedby="target-err" />
+        </div>
+        <div class="err-text" id="target-err">Please enter a profit goal above $0.</div>
+      </div>
+
+      <div class="field">
+        <label for="pps">Average profit per sale <span class="hint">— what you keep from one sale</span></label>
+        <div class="input-money"><span>$</span>
+          <input id="pps" class="input" type="text" inputmode="decimal" placeholder="150" autocomplete="off" aria-describedby="pps-err" />
+        </div>
+        <div class="err-text" id="pps-err">Please enter your profit per sale above $0.</div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Build my plan</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- THE MATH -->
+  <section class="card" id="math-card" hidden aria-live="polite">
+    <h2 class="section-title">What it takes</h2>
+    <p class="section-note">Here's your goal, broken down. Steady and doable beats heroic.</p>
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Goal</div><div class="value" id="m-goal">$0</div></div>
+      <div class="stat"><div class="label">Extra sales needed</div><div class="value" id="m-sales">0</div></div>
+      <div class="stat"><div class="label">Per week (~8 weeks)</div><div class="value" id="m-week">0</div></div>
+    </div>
+    <div class="callout callout-info mt" id="m-message"></div>
+  </section>
+
+  <!-- LEVERS -->
+  <section class="card" id="lever-card" hidden>
+    <h2 class="section-title">Choose 2–4 profit levers</h2>
+    <p class="section-note">Tick the moves you'll actually make, then estimate what each could add per month. Pick a few you believe in.</p>
+    <div id="levers"></div>
+
+    <div class="field mt" style="margin-bottom:0">
+      <label>Progress toward your goal</label>
+      <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:6px 0 10px">
+        <span class="goal-big" id="prog-amt">$0</span>
+        <span class="muted">of <span id="prog-goal">$0</span> goal · <span id="prog-pct">0%</span></span>
+      </div>
+      <div class="bar" aria-hidden="true"><i id="prog-bar"></i></div>
+      <div class="callout callout-info mt" id="prog-msg"></div>
+    </div>
+
+    <div class="verse">
+      “Commit your work to the Lord, and your plans will be established.”
+      <cite>Proverbs 16:3 · plan, then plant</cite>
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section class="card" id="summary-card" hidden>
+    <h2 class="section-title">Your 60-day plan</h2>
+    <p class="section-note">Print it, copy it, or pin it where you'll see it. A plan you can see is a plan you'll do.</p>
+    <div class="plan-summary" id="summary-text"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save my plan</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy plan</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="print">Print</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_60day_profit_plan_v1";
+  var WEEKS=8;
+  var $=function(s,el){return (el||document).querySelector(s)};
+
+  /* ---------- helpers ---------- */
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+
+  /* ---------- the lever menu ---------- */
+  var LEVERS=[
+    {id:"price",name:"Raise your prices",desc:"A small, well-timed increase on an existing offer."},
+    {id:"upsell",name:"Add an upsell or add-on",desc:"Offer something extra at checkout or after a sale."},
+    {id:"winback",name:"Win back past clients",desc:"Reach out warmly to people who already love you."},
+    {id:"cost",name:"Reduce a recurring cost",desc:"Trim a subscription or expense that's quietly eating profit."},
+    {id:"newoffer",name:"Add a new offer",desc:"Launch one simple offer to a warm audience."}
+  ];
+
+  var state={target:0,pps:0,levers:{}}; // levers: {id:{on:bool,amt:number}}
+
+  /* ---------- render lever cards ---------- */
+  function renderLevers(){
+    var box=$("#levers"); box.innerHTML="";
+    LEVERS.forEach(function(L){
+      var st=state.levers[L.id]||{on:false,amt:""};
+      var el=document.createElement("div");
+      el.className="lever"+(st.on?" on":"");
+      el.innerHTML=
+        '<div class="lever-head">'+
+          '<div class="lever-check" role="checkbox" tabindex="0" aria-checked="'+st.on+'" aria-label="Use lever: '+L.name+'">'+(st.on?"✓":"")+'</div>'+
+          '<div class="lever-info"><div class="lever-name"></div><div class="lever-desc"></div></div>'+
+        '</div>'+
+        '<div class="lever-amt"><label>Estimated profit this adds per month</label>'+
+          '<div class="input-money"><span>$</span><input class="input amt" type="text" inputmode="decimal" placeholder="0" autocomplete="off" aria-label="Monthly profit from '+L.name+'" /></div>'+
+        '</div>';
+      $(".lever-name",el).textContent=L.name;
+      $(".lever-desc",el).textContent=L.desc;
+      var amtInp=$(".amt",el); amtInp.value=st.amt;
+
+      var check=$(".lever-check",el);
+      function toggle(){
+        var cur=state.levers[L.id]||{on:false,amt:""};
+        cur.on=!cur.on; state.levers[L.id]=cur;
+        renderLevers(); recompute(); persist();
+      }
+      check.addEventListener("click",toggle);
+      check.addEventListener("keydown",function(e){ if(e.key===" "||e.key==="Enter"){ e.preventDefault(); toggle(); } });
+      amtInp.addEventListener("input",function(){
+        var cur=state.levers[L.id]||{on:true,amt:""};
+        cur.amt=amtInp.value; state.levers[L.id]=cur;
+        recompute(); persist();
+      });
+      box.appendChild(el);
+    });
+  }
+
+  /* ---------- math + progress ---------- */
+  function recompute(){
+    var target=state.target, pps=state.pps;
+    // 60-day goal -> sales. profit per sale is monthly-agnostic (per sale), so total sales = target/pps.
+    var totalSales=pps>0?Math.ceil(target/pps):0;
+    var perWeek=Math.ceil(totalSales/WEEKS);
+
+    $("#m-goal").textContent=money(target);
+    $("#m-sales").textContent=totalSales.toLocaleString("en-US");
+    $("#m-week").textContent=perWeek.toLocaleString("en-US");
+
+    var mm=$("#m-message");
+    mm.textContent="That's about "+perWeek+" extra sale"+(perWeek===1?"":"s")+" a week for eight weeks. One focused conversation a day can get you there.";
+
+    // levers tally: monthly contributions x2 months = 60-day contribution
+    var monthly=0, chosen=0;
+    LEVERS.forEach(function(L){
+      var st=state.levers[L.id];
+      if(st&&st.on){ chosen++; monthly+=Math.max(0,num(st.amt)); }
+    });
+    var sixtyDay=monthly*2;
+    var pct=target>0?Math.min(100,Math.round(sixtyDay/target*100)):0;
+
+    $("#prog-amt").textContent=money(sixtyDay);
+    $("#prog-goal").textContent=money(target);
+    $("#prog-pct").textContent=pct+"%";
+    $("#prog-bar").style.width=pct+"%";
+    var amtEl=$("#prog-amt"); amtEl.className="goal-big"+(sixtyDay>=target&&target>0?" met":"");
+
+    var pm=$("#prog-msg");
+    if(chosen===0){
+      pm.className="callout callout-info mt";
+      pm.textContent="Tick 2 to 4 levers above and add your estimates. Two strong moves usually beat five half-hearted ones.";
+    }else if(sixtyDay>=target&&target>0){
+      pm.className="callout callout-info mt";
+      pm.textContent="You've built a plan that reaches your goal — with "+money(sixtyDay-target)+" of cushion. Beautiful. Now pick your first action for this week.";
+    }else{
+      var gap=target-sixtyDay;
+      pm.className="callout callout-warn mt";
+      pm.textContent="You're "+money(gap)+" short of your 60-day goal. Add another lever, or nudge one estimate up. You're close.";
+    }
+
+    buildSummary(target,pps,totalSales,perWeek,sixtyDay,pct);
+    $("#summary-card").hidden = chosen===0;
+  }
+
+  /* ---------- printable summary ---------- */
+  function buildSummary(target,pps,totalSales,perWeek,sixtyDay,pct){
+    var lines=[];
+    lines.push("MY 60-DAY PROFIT PLAN — AI Profit Garden");
+    lines.push("");
+    lines.push("Goal: add "+money(target)+" profit in 60 days");
+    lines.push("Profit per sale: "+money(pps));
+    lines.push("Extra sales needed: "+totalSales+" total (~"+perWeek+"/week for 8 weeks)");
+    lines.push("");
+    lines.push("My profit levers:");
+    var any=false;
+    LEVERS.forEach(function(L){
+      var st=state.levers[L.id];
+      if(st&&st.on){ any=true; lines.push("  • "+L.name+" — about "+money(Math.max(0,num(st.amt)))+"/month"); }
+    });
+    if(!any) lines.push("  (none chosen yet)");
+    lines.push("");
+    lines.push("Projected over 60 days: "+money(sixtyDay)+" ("+pct+"% of goal)");
+    lines.push(sixtyDay>=target&&target>0 ? "On track to reach the goal. 🌿" : "Keep building — almost there.");
+    $("#summary-text").textContent=lines.join("\n");
+  }
+
+  /* ---------- validate ---------- */
+  function vMoney(id,errId){
+    var el=$(id), err=$(errId), raw=el.value.trim();
+    if(raw==="" || num(raw)<=0){ el.classList.add("error"); err.classList.add("show"); return false; }
+    el.classList.remove("error"); err.classList.remove("show"); return true;
+  }
+
+  /* ---------- persistence ---------- */
+  function persist(){
+    try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){}
+  }
+  function load(){
+    try{
+      var d=JSON.parse(localStorage.getItem(KEY)||"null");
+      if(!d) return false;
+      state=d; state.levers=state.levers||{};
+      $("#target").value=state.target||"";
+      $("#pps").value=state.pps||"";
+      if(state.target>0&&state.pps>0){
+        showAll();
+        renderLevers();
+        recompute();
+      }
+      return true;
+    }catch(e){ return false; }
+  }
+
+  function showAll(){
+    $("#math-card").hidden=false;
+    $("#lever-card").hidden=false;
+  }
+
+  /* ---------- events ---------- */
+  $("#form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var ok=vMoney("#target","#target-err");
+    ok=vMoney("#pps","#pps-err")&&ok;
+    if(!ok){ var first=$(".input.error"); if(first) first.focus(); return; }
+    state.target=num($("#target").value);
+    state.pps=num($("#pps").value);
+    state.levers=state.levers||{};
+    showAll();
+    renderLevers();
+    recompute();
+    persist();
+    $("#math-card").scrollIntoView({behavior:"smooth",block:"start"});
+  });
+
+  $("#reset").onclick=function(){
+    $("#target").value=""; $("#pps").value="";
+    ["#target","#pps"].forEach(function(id){ $(id).classList.remove("error"); });
+    ["#target-err","#pps-err"].forEach(function(id){ $(id).classList.remove("show"); });
+    state={target:0,pps:0,levers:{}};
+    $("#math-card").hidden=true; $("#lever-card").hidden=true; $("#summary-card").hidden=true;
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    toast("Cleared 🌿");
+    $("#target").focus();
+  };
+
+  $("#save").onclick=function(){ persist(); toast("Plan saved on this device ✓"); };
+
+  $("#copy").onclick=function(){
+    var txt=$("#summary-text").textContent;
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Plan copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  $("#print").onclick=function(){ window.print(); };
+
+  /* ---------- init ---------- */
+  load();
+})();
+</script>
+</body>
+</html>

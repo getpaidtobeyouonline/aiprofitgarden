@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Growth Readiness Quiz — AI Profit Garden</title>
+<meta name="description" content="Find out if your business is genuinely ready to scale — and what to shore up first." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.ring{--p:0;width:180px;height:180px;margin:4px auto 2px;border-radius:50%;display:grid;place-items:center;
+  background:conic-gradient(var(--sage) calc(var(--p)*1%),var(--line) 0)}
+.ring::before{content:"";position:absolute;width:138px;height:138px;border-radius:50%;background:var(--paper)}
+.ring-wrap{position:relative;display:grid;place-items:center}
+.ring .inner{position:relative;text-align:center;z-index:1}
+.ring .inner .n{font-family:var(--serif);font-weight:700;font-size:2.6rem;color:var(--olive);line-height:1}
+.ring .inner .of{font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.q{padding:16px 0;border-top:1px solid var(--line)}
+.q:first-child{border-top:none}
+.q .qtext{font-weight:700;font-size:.95rem;margin-bottom:10px}
+.q .qtext .theme{display:block;font-weight:700;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-bottom:3px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;align-items:center;gap:10px;padding:10px 13px;border:1.5px solid var(--line);border-radius:var(--radius);cursor:pointer;background:var(--cream);transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--sage)}
+.opt input{accent-color:var(--olive);width:18px;height:18px;flex:0 0 auto}
+.opt.sel{border-color:var(--sage);background:var(--sage-soft)}
+.opt span{font-size:.92rem}
+.weak{display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid var(--line)}
+.weak:first-child{border-top:none}
+.weak .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);flex:0 0 auto}
+.weak .grow{flex:1}.weak .grow strong{display:block;font-size:.92rem}.weak .grow small{color:var(--muted)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Growth Readiness Quiz</h1>
+      <p class="app-sub">Is your business genuinely ready to scale?</p>
+    </div>
+  </header>
+
+  <!-- QUIZ -->
+  <section class="card">
+    <h2 class="section-title">Ten honest questions</h2>
+    <p class="section-note">Answer as things truly are today, not as you hope they'll be. There are no wrong answers — only useful ones.</p>
+    <form id="quiz" novalidate>
+      <div id="questions"></div>
+      <div class="err-text" id="q-err" style="margin-bottom:10px">Please answer every question so your score is accurate.</div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">See my readiness score</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <div class="ring-wrap">
+      <div class="ring" id="ring"><div class="inner"><div class="n" id="r-score">0</div><div class="of">out of 100</div></div></div>
+    </div>
+    <div class="center mt-s" id="r-badge"></div>
+
+    <div id="r-message" class="callout callout-info mt"></div>
+
+    <div id="weak-block" hidden>
+      <h3 class="section-title mt" style="font-size:1.02rem">Shore these up first</h3>
+      <p class="section-note">Your softest spots — strengthen these before you add more weight.</p>
+      <div id="weak-list"></div>
+    </div>
+
+    <div class="verse" id="r-verse" hidden>
+      “Unless the Lord builds the house, the builders labour in vain.”
+      <cite>Psalm 127:1 · a steady foundation first</cite>
+    </div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save my result</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy summary</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_growth_readiness_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var result=$("#result");
+
+  /* ---------- questions ---------- */
+  var QUESTIONS=[
+    {theme:"Stable profit",q:"Is your business consistently profitable month after month?",
+      opts:["Not yet — it's up and down or breaking even","Some months, but it's unpredictable","Most months, fairly steadily","Yes — reliably profitable every month"]},
+    {theme:"Cash reserves",q:"Do you have savings to cover a slow patch or an investment?",
+      opts:["No cushion at all","Less than one month of costs","One to three months set aside","Three or more months of comfortable reserve"]},
+    {theme:"Documented systems",q:"Are your core tasks written down so someone else could follow them?",
+      opts:["It's all in my head","A couple of notes, mostly informal","Several key processes documented","Most things are documented and repeatable"]},
+    {theme:"Repeatable delivery",q:"Can you deliver your offer the same quality way every time?",
+      opts:["Every project feels like starting over","Somewhat, with a lot of improvising","A clear process with minor tweaks","A smooth, repeatable delivery every time"]},
+    {theme:"Consistent leads",q:"Do new enquiries come in predictably, without scrambling?",
+      opts:["Only when I hustle hard","Sporadic — feast or famine","A fairly steady trickle","A reliable, predictable flow"]},
+    {theme:"Clear offer",q:"Is it obvious who you serve and exactly what you sell?",
+      opts:["Still figuring it out","Roughly, but it shifts a lot","Mostly clear with some grey areas","Crystal clear and easy to explain"]},
+    {theme:"Capacity & team",q:"Do you have room (time or help) to handle more without breaking?",
+      opts:["I'm already maxed out","Tight, but I could squeeze a little","Some genuine room to grow","Plenty of capacity or help ready to go"]},
+    {theme:"Pricing confidence",q:"Are your prices set so growth actually pays you well?",
+      opts:["Prices feel too low / unsure","Okay, but margins are thin","Healthy margins on most work","Strong margins that fund real growth"]},
+    {theme:"Customer demand",q:"Are people actively asking for more from you?",
+      opts:["I have to chase every sale","A little interest now and then","Regular interest in more","A waitlist or steady demand for more"]},
+    {theme:"Your wellbeing",q:"Are you rested and clear-headed, not running on empty?",
+      opts:["Burnt out / close to it","Tired more often than not","Mostly okay with good rhythms","Genuinely rested and energised"]}
+  ];
+
+  /* ---------- helpers ---------- */
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function todayStr(){return new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});}
+
+  /* ---------- render questions ---------- */
+  function renderQuestions(saved){
+    var wrap=$("#questions"); wrap.innerHTML="";
+    QUESTIONS.forEach(function(item,qi){
+      var q=document.createElement("div"); q.className="q";
+      var html='<div class="qtext"><span class="theme">'+item.theme+'</span>'+(qi+1)+'. '+item.q+'</div><div class="opts">';
+      item.opts.forEach(function(o,oi){
+        var checked=(saved&&saved[qi]===oi)?" checked":"";
+        html+='<label class="opt'+(checked?" sel":"")+'"><input type="radio" name="q'+qi+'" value="'+oi+'"'+checked+'><span>'+o+'</span></label>';
+      });
+      html+='</div>';
+      q.innerHTML=html;
+      wrap.appendChild(q);
+    });
+    /* selection highlight */
+    wrap.addEventListener("change",function(e){
+      if(e.target.type!=="radio")return;
+      var grp=e.target.closest(".opts");
+      Array.prototype.forEach.call(grp.querySelectorAll(".opt"),function(l){l.classList.remove("sel")});
+      e.target.closest(".opt").classList.add("sel");
+      $("#q-err").classList.remove("show");
+    });
+  }
+
+  function readAnswers(){
+    var ans=[], allDone=true;
+    QUESTIONS.forEach(function(_,qi){
+      var sel=document.querySelector('input[name="q'+qi+'"]:checked');
+      if(sel){ ans[qi]=parseInt(sel.value,10); } else { allDone=false; ans[qi]=null; }
+    });
+    return {ans:ans,allDone:allDone};
+  }
+
+  /* ---------- calculate ---------- */
+  function calculate(){
+    var r=readAnswers();
+    if(!r.allDone){
+      $("#q-err").classList.add("show");
+      var firstUn=QUESTIONS.findIndex(function(_,qi){return r.ans[qi]===null;});
+      var el=document.querySelectorAll(".q")[firstUn]; if(el)el.scrollIntoView({behavior:"smooth",block:"center"});
+      return;
+    }
+    var raw=r.ans.reduce(function(a,v){return a+v;},0); /* each 0..3, 10 q => max 30 */
+    var score=Math.round(raw/(QUESTIONS.length*3)*100);
+
+    $("#r-score").textContent=score;
+    $("#ring").style.setProperty("--p",score);
+
+    var badge=$("#r-badge"), msg=$("#r-message"), verse=$("#r-verse");
+    var b,m,warn=false;
+    if(score<50){
+      b='<span class="badge badge-gold">Not yet — build foundations</span>';
+      m="Not ready isn't a setback — it's wisdom. Scaling on a shaky base just multiplies the cracks. Spend this season strengthening your roots, and you'll grow far more securely later. You're exactly where you need to be.";
+    }else if(score<75){
+      b='<span class="badge badge-gold">Almost ready</span>';
+      m="You're close — a real foundation is forming. Tend to the soft spots below and you'll be on solid ground. A little more strengthening now saves a lot of strain later.";
+    }else{
+      b='<span class="badge badge-sage">Ready to grow</span>';
+      m="Beautiful — your business stands on steady ground and is ready to bear more fruit. Grow on purpose: choose one direction, protect your pace, and keep the foundation strong as you stretch.";
+    }
+    badge.innerHTML=b;
+    msg.textContent=m; msg.className="callout callout-info mt";
+
+    /* weakest areas (lowest scores, up to 3) */
+    var indexed=r.ans.map(function(v,i){return {i:i,v:v};});
+    indexed.sort(function(a,b){return a.v-b.v;});
+    var weak=indexed.filter(function(x){return x.v<=1;}).slice(0,3);
+    if(weak.length===0) weak=indexed.slice(0,2).filter(function(x){return x.v<3;});
+    var wl=$("#weak-list"); wl.innerHTML="";
+    if(weak.length){
+      $("#weak-block").hidden=false;
+      weak.forEach(function(x){
+        var it=QUESTIONS[x.i];
+        var row=document.createElement("div"); row.className="weak";
+        row.innerHTML='<span class="dot" aria-hidden="true"></span><div class="grow"><strong>'+it.theme+'</strong><small>'+it.q+'</small></div>';
+        wl.appendChild(row);
+      });
+    }else{
+      $("#weak-block").hidden=true;
+    }
+
+    verse.hidden = score>=75 ? true : false; /* gentle word while foundations build */
+
+    result.hidden=false;
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+    persistDraft(r.ans);
+    return {score:score,ans:r.ans};
+  }
+
+  /* ---------- persistence ---------- */
+  function persistDraft(ans){ try{ localStorage.setItem(KEY+"_draft",JSON.stringify(ans)); }catch(e){} }
+  function loadDraft(){ try{ return JSON.parse(localStorage.getItem(KEY+"_draft")||"null"); }catch(e){ return null; } }
+
+  /* ---------- events ---------- */
+  $("#quiz").addEventListener("submit",function(e){ e.preventDefault(); calculate(); });
+
+  $("#reset").onclick=function(){
+    renderQuestions(null);
+    $("#q-err").classList.remove("show");
+    result.hidden=true;
+    try{ localStorage.removeItem(KEY+"_draft"); localStorage.removeItem(KEY); }catch(e){}
+    toast("Cleared 🌿");
+    window.scrollTo({top:0,behavior:"smooth"});
+  };
+
+  $("#save").onclick=function(){
+    var res=calculate(); if(!res) return;
+    try{ localStorage.setItem(KEY,JSON.stringify({date:todayStr(),score:res.score,ans:res.ans})); }catch(e){}
+    toast("Result saved ✓");
+  };
+
+  $("#copy").onclick=function(){
+    var weak=[];
+    Array.prototype.forEach.call($("#weak-list").querySelectorAll(".weak strong"),function(s){weak.push(s.textContent);});
+    var txt="Growth Readiness ("+todayStr()+")\n"+
+      "Score: "+$("#r-score").textContent+"/100\n"+
+      "Status: "+$("#r-badge").textContent.trim()+
+      (weak.length?"\nShore up first: "+weak.join(", "):"");
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Summary copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  /* ---------- init ---------- */
+  renderQuestions(loadDraft());
+})();
+</script>
+</body>
+</html>

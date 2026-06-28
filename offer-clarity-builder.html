@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Offer Clarity Builder — AI Profit Garden</title>
+<meta name="description" content="Turn a fuzzy service into a clear, irresistible offer with a one-sentence statement and tidy summary." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.del-row{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.del-row .input{flex:1}
+.offer-statement{background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius);padding:20px 22px;font-family:var(--serif);font-size:1.2rem;line-height:1.45}
+.offer-statement em{color:var(--gold-soft);font-style:normal;font-weight:600}
+.summary{background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+.summary h3{font-family:var(--serif);color:var(--olive);font-size:1.2rem;margin-bottom:10px}
+.summary .line{padding:8px 0;border-top:1px solid var(--line);display:flex;gap:10px}
+.summary .line:first-of-type{border-top:none}
+.summary .line .k{font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);flex:0 0 120px}
+.summary .line .v{flex:1}
+.summary ul{margin:2px 0 0 18px}
+.check-list{display:grid;gap:6px;margin-top:10px}
+.check-item{display:flex;align-items:center;gap:8px;font-size:.88rem}
+.check-item .dot{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:.7rem;font-weight:700;flex:0 0 auto}
+.check-item .dot.ok{background:var(--sage-soft);color:#2F7A4E}
+.check-item .dot.no{background:var(--danger-soft);color:var(--danger)}
+@media print{
+  body::before{display:none}
+  .app-header,.app-footer,.no-print,.tone-tabs{display:none!important}
+  .card{box-shadow:none;border:none;margin:0;padding:0}
+  .offer-statement{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Offer Clarity Builder</h1>
+      <p class="app-sub">Turn a fuzzy service into a clear, irresistible offer.</p>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card">
+    <h2 class="section-title">Let's get crystal clear</h2>
+    <p class="section-note">Answer each part in plain words. When your offer is clear in your own mind, it becomes easy for the right people to say yes.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="who">Who is it for? <span class="hint">— your ideal client</span></label>
+        <input id="who" class="input" type="text" placeholder="e.g. busy mums starting a side business" autocomplete="off" aria-describedby="who-err" />
+        <div class="err-text" id="who-err">Tell us who this offer is for.</div>
+      </div>
+
+      <div class="field">
+        <label for="problem">What problem do they have? <span class="hint">— where they are now</span></label>
+        <input id="problem" class="input" type="text" placeholder="e.g. feeling overwhelmed and stuck" autocomplete="off" aria-describedby="problem-err" />
+        <div class="err-text" id="problem-err">Describe the problem you solve.</div>
+      </div>
+
+      <div class="field">
+        <label for="result">What result / transformation do you deliver? <span class="hint">— where they end up</span></label>
+        <input id="result" class="input" type="text" placeholder="e.g. a calm, simple plan that earns" autocomplete="off" aria-describedby="result-err" />
+        <div class="err-text" id="result-err">Describe the result you deliver.</div>
+      </div>
+
+      <div class="field">
+        <label>What's included? <span class="hint">— add each deliverable</span></label>
+        <div id="del-list"></div>
+        <button type="button" class="btn btn-ghost btn-sm" id="add-del">+ Add a deliverable</button>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="price">Price</label>
+          <div class="input-money"><span>$</span>
+            <input id="price" class="input" type="text" inputmode="decimal" placeholder="0" autocomplete="off" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="time">Timeframe <span class="hint">— how long</span></label>
+          <input id="time" class="input" type="text" placeholder="e.g. 4 weeks" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="offer-name">Offer name <span class="hint">— optional, but nice</span></label>
+        <input id="offer-name" class="input" type="text" placeholder="e.g. The Calm Launch Package" autocomplete="off" />
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Build my offer</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card" id="result-card" hidden aria-live="polite">
+    <h2 class="section-title">Your clear offer</h2>
+    <p class="section-note">Read it aloud — if it sounds simple and true, you've got it.</p>
+
+    <div class="offer-statement" id="offer-statement"></div>
+
+    <div class="summary mt" id="summary"></div>
+
+    <div class="card" style="margin-top:16px;background:var(--cream)">
+      <strong style="font-family:var(--serif);color:var(--olive)">Clarity check</strong>
+      <div class="check-list" id="check-list"></div>
+    </div>
+
+    <div class="btn-row mt no-print">
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save this offer</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy offer</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="print">Print</button>
+    </div>
+
+    <div class="verse">
+      “Write the vision; make it plain.”
+      <cite>Habakkuk 2:2 · clarity invites action</cite>
+    </div>
+  </section>
+
+  <!-- SAVED OFFERS -->
+  <section class="card" id="saved-card">
+    <h2 class="section-title">Saved offers</h2>
+    <p class="section-note">Kept on this device only. Build a little menu of clear offers you can pull from anytime.</p>
+    <div id="saved"></div>
+    <div class="btn-row mt" id="saved-actions" hidden>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all saved</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_offer_clarity_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var delList=$("#del-list"), resultCard=$("#result-card");
+  var last=null;
+
+  /* ---------- helpers ---------- */
+  function money(n){
+    if(!n) return "";
+    var s="$"+Math.abs(n).toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+
+  /* ---------- deliverable rows ---------- */
+  function addDel(val){
+    var row=document.createElement("div");
+    row.className="del-row";
+    row.innerHTML=
+      '<input class="input" type="text" placeholder="e.g. 4 weekly coaching calls" aria-label="Deliverable" autocomplete="off" />'+
+      '<button type="button" class="icon-btn" aria-label="Remove deliverable">✕</button>';
+    $(".input",row).value=val||"";
+    $(".icon-btn",row).onclick=function(){ row.remove(); if(!delList.children.length) addDel(); saveDraft(); };
+    $(".input",row).addEventListener("input",saveDraft);
+    delList.appendChild(row);
+    return row;
+  }
+  function readDels(){
+    var out=[];
+    Array.prototype.forEach.call(delList.querySelectorAll(".input"),function(i){
+      var v=i.value.trim(); if(v) out.push(v);
+    });
+    return out;
+  }
+
+  /* ---------- build ---------- */
+  function collect(){
+    return {
+      who:$("#who").value.trim(),
+      problem:$("#problem").value.trim(),
+      result:$("#result").value.trim(),
+      dels:readDels(),
+      price:num($("#price").value),
+      time:$("#time").value.trim(),
+      name:$("#offer-name").value.trim()
+    };
+  }
+
+  function build(){
+    var d=collect(), ok=true;
+    function flag(id,bad){ var el=$("#"+id); el.classList.toggle("error",bad); $("#"+id+"-err").classList.toggle("show",bad); if(bad) ok=false; }
+    flag("who",!d.who); flag("problem",!d.problem); flag("result",!d.result);
+    if(!ok){ ($("#who").classList.contains("error")?$("#who"):$("#problem").classList.contains("error")?$("#problem"):$("#result")).focus(); return; }
+
+    var offerPhrase = d.name ? "my "+d.name : (d.dels.length ? d.dels[0] : "my offer");
+    var stmt="I help <em>"+esc(d.who)+"</em> go from <em>"+esc(d.problem)+"</em> to <em>"+esc(d.result)+"</em> through <em>"+esc(offerPhrase)+"</em> — so they can <em>"+esc(d.result)+"</em> with confidence.";
+    $("#offer-statement").innerHTML=stmt;
+
+    var html="<h3>"+(d.name?esc(d.name):"Offer summary")+"</h3>";
+    html+='<div class="line"><span class="k">For</span><span class="v">'+esc(d.who)+'</span></div>';
+    html+='<div class="line"><span class="k">From</span><span class="v">'+esc(d.problem)+'</span></div>';
+    html+='<div class="line"><span class="k">To</span><span class="v">'+esc(d.result)+'</span></div>';
+    if(d.dels.length){
+      html+='<div class="line"><span class="k">Includes</span><span class="v"><ul>'+d.dels.map(function(x){return "<li>"+esc(x)+"</li>"}).join("")+'</ul></span></div>';
+    }
+    if(d.price) html+='<div class="line"><span class="k">Investment</span><span class="v">'+money(d.price)+'</span></div>';
+    if(d.time) html+='<div class="line"><span class="k">Timeframe</span><span class="v">'+esc(d.time)+'</span></div>';
+    $("#summary").innerHTML=html;
+
+    /* clarity check */
+    var checks=[
+      {label:"Who it's for",ok:!!d.who},
+      {label:"The problem it solves",ok:!!d.problem},
+      {label:"The transformation/result",ok:!!d.result},
+      {label:"What's included",ok:d.dels.length>0},
+      {label:"A price",ok:d.price>0},
+      {label:"A timeframe",ok:!!d.time}
+    ];
+    var done=checks.filter(function(c){return c.ok}).length;
+    $("#check-list").innerHTML=checks.map(function(c){
+      return '<div class="check-item"><span class="dot '+(c.ok?"ok":"no")+'">'+(c.ok?"✓":"!")+'</span>'+esc(c.label)+'</div>';
+    }).join("")+'<div class="callout '+(done===checks.length?"callout-info":"callout-info")+'" style="margin-top:10px">'+
+      (done===checks.length
+        ? "Beautiful — every part is filled in. This offer is clear and ready to share. 🌿"
+        : (done+" of "+checks.length+" parts filled. The more you complete, the easier it is for people to say yes — but you can save it as-is and refine later."))+
+      '</div>';
+
+    last=d;
+    resultCard.hidden=false;
+    resultCard.scrollIntoView({behavior:"smooth",block:"start"});
+    saveDraft();
+  }
+
+  function offerText(d){
+    var lines=[];
+    lines.push(d.name?d.name:"My Offer");
+    lines.push("");
+    lines.push("I help "+d.who+" go from "+d.problem+" to "+d.result+
+      (d.name?" through my "+d.name:"")+" — so they can "+d.result+" with confidence.");
+    lines.push("");
+    lines.push("For: "+d.who);
+    lines.push("From: "+d.problem);
+    lines.push("To: "+d.result);
+    if(d.dels.length){ lines.push("Includes:"); d.dels.forEach(function(x){lines.push("  • "+x)}); }
+    if(d.price) lines.push("Investment: "+money(d.price));
+    if(d.time) lines.push("Timeframe: "+d.time);
+    return lines.join("\n");
+  }
+
+  /* ---------- draft ---------- */
+  function saveDraft(){
+    try{ localStorage.setItem(KEY+"_draft",JSON.stringify(collect())); }catch(e){}
+  }
+  function loadDraft(){
+    try{
+      var d=JSON.parse(localStorage.getItem(KEY+"_draft")||"null"); if(!d) return false;
+      $("#who").value=d.who||""; $("#problem").value=d.problem||""; $("#result").value=d.result||"";
+      $("#price").value=d.price||""; $("#time").value=d.time||""; $("#offer-name").value=d.name||"";
+      delList.innerHTML="";
+      (d.dels&&d.dels.length?d.dels:[""]).forEach(function(x){ addDel(x); });
+      return true;
+    }catch(e){ return false; }
+  }
+
+  /* ---------- saved ---------- */
+  function getSaved(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setSaved(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+
+  function renderSaved(){
+    var items=getSaved(), box=$("#saved");
+    if(!items.length){
+      box.innerHTML='<div class="empty"><span class="ico">🎁</span>No offers saved yet. Build one above and save it to start your offer menu.</div>';
+      $("#saved-actions").hidden=true; return;
+    }
+    $("#saved-actions").hidden=false;
+    box.innerHTML="";
+    items.forEach(function(it,i){
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML=
+        '<div class="grow"><strong>'+esc(it.name||"Untitled offer")+(it.price?' · '+money(it.price):'')+'</strong>'+
+        '<small>For '+esc(it.who||"—")+'</small></div>'+
+        '<button class="icon-btn" data-act="load" aria-label="Load offer">↺</button>'+
+        '<button class="icon-btn" data-act="copy" aria-label="Copy offer">⧉</button>'+
+        '<button class="icon-btn" data-act="del" aria-label="Delete offer">✕</button>';
+      $('[data-act="load"]',row).onclick=function(){
+        $("#who").value=it.who||""; $("#problem").value=it.problem||""; $("#result").value=it.result||"";
+        $("#price").value=it.price||""; $("#time").value=it.time||""; $("#offer-name").value=it.name||"";
+        delList.innerHTML=""; (it.dels&&it.dels.length?it.dels:[""]).forEach(addDel);
+        build(); toast("Offer loaded");
+      };
+      $('[data-act="copy"]',row).onclick=function(){ copyText(offerText(it),"Offer copied ✓"); };
+      $('[data-act="del"]',row).onclick=function(){ items.splice(i,1); setSaved(items); renderSaved(); toast("Offer removed"); };
+      box.appendChild(row);
+    });
+  }
+
+  function copyText(txt,ok){
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast(ok||"Copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  }
+
+  /* ---------- events ---------- */
+  $("#add-del").onclick=function(){ addDel().querySelector(".input").focus(); };
+  $("#form").addEventListener("submit",function(e){ e.preventDefault(); build(); });
+  ["who","problem","result","price","time","offer-name"].forEach(function(id){
+    $("#"+id).addEventListener("input",saveDraft);
+  });
+
+  $("#reset").onclick=function(){
+    ["who","problem","result","price","time","offer-name"].forEach(function(id){ $("#"+id).value=""; $("#"+id).classList.remove("error"); });
+    ["who","problem","result"].forEach(function(id){ $("#"+id+"-err").classList.remove("show"); });
+    delList.innerHTML=""; addDel();
+    resultCard.hidden=true; last=null;
+    try{ localStorage.removeItem(KEY+"_draft"); }catch(e){}
+    toast("Cleared 🌿"); $("#who").focus();
+  };
+
+  $("#save").onclick=function(){
+    if(!last){ toast("Build your offer first"); return; }
+    var items=getSaved();
+    items.unshift(last);
+    setSaved(items.slice(0,30));
+    renderSaved();
+    toast("Offer saved ✓");
+  };
+
+  $("#copy").onclick=function(){ if(last) copyText(offerText(last),"Offer copied ✓"); };
+  $("#print").onclick=function(){ window.print(); };
+
+  $("#clear-all").onclick=function(){
+    if(!getSaved().length){ toast("Nothing saved yet"); return; }
+    setSaved([]); renderSaved(); toast("All saved offers cleared");
+  };
+
+  /* ---------- init ---------- */
+  if(!loadDraft()) addDel();
+  renderSaved();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Faith &amp; Business Devotional — AI Profit Garden</title>
+<meta name="description" content="A short daily Scripture and faith-and-business reflection for your working week." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.dev-date{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center}
+.dev-verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:20px 22px;margin-top:14px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:1.25rem;line-height:1.55;text-align:center}
+.dev-verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:10px}
+.dev-reflect{font-size:1.02rem;line-height:1.72;color:var(--ink);margin-top:18px}
+.dev-prayer{background:var(--gold-soft);border-radius:var(--radius);padding:14px 18px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#7A5520;font-size:1rem}
+.dev-prayer .lbl{display:block;font-family:var(--sans);font-style:normal;font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+.fav-btn{background:none;border:1.5px solid var(--line);border-radius:999px;padding:9px 18px;font-family:inherit;font-weight:700;font-size:.86rem;color:var(--muted);cursor:pointer}
+.fav-btn.on{background:var(--gold-soft);border-color:var(--gold);color:#7A5520}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Faith &amp; Business Devotional</h1>
+      <p class="app-sub">A word of Scripture for your working week.</p>
+    </div>
+  </header>
+
+  <!-- TODAY'S DEVOTIONAL -->
+  <section class="card" aria-live="polite">
+    <div class="dev-date" id="dev-date">Today</div>
+
+    <div class="dev-verse" id="dev-verse">
+      <span id="verse-text"></span>
+      <cite id="verse-cite"></cite>
+    </div>
+
+    <p class="dev-reflect" id="dev-reflect"></p>
+
+    <div class="dev-prayer" id="dev-prayer">
+      <span class="lbl" id="prayer-lbl">A prayer</span>
+      <span id="prayer-text"></span>
+    </div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="copy-verse">Copy verse</button>
+      <button type="button" class="fav-btn" id="fav" aria-pressed="false">♡ Save as favorite</button>
+    </div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="next">Read another →</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="today">Back to today</button>
+    </div>
+  </section>
+
+  <!-- JOURNAL -->
+  <section class="card">
+    <h2 class="section-title">Your reflection</h2>
+    <p class="section-note">Write what God is stirring in you today. Saved on this device, dated for today.</p>
+    <div class="field">
+      <label for="note" class="sr-only">Today's journal note</label>
+      <textarea id="note" class="input" placeholder="A line of prayer, a verse that landed, what you sense God saying to your business today…"></textarea>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-primary btn-sm" id="save-note">Save my reflection</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-note">Clear</button>
+    </div>
+  </section>
+
+  <!-- FAVORITES -->
+  <section class="card" id="fav-card" hidden>
+    <h2 class="section-title">Favorites &amp; saved reflections</h2>
+    <p class="section-note">The words that have fed you, kept close.</p>
+    <div id="fav-list"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all saved</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Rooted in Him, fruitful in season.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_devotional_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+
+  /* ---------- devotional data (offline) ---------- */
+  var DEVOS=[
+    {v:"Commit thy works unto the LORD, and thy thoughts shall be established.",ref:"Proverbs 16:3 (KJV)",
+     r:"Before you open your laptop, hand the day's work back to its true owner. When you commit your plans to God, your scattered thoughts settle into clarity. Your business is not yours alone to carry — it is a work entrusted to you, and He establishes what is surrendered to Him.",
+     p:"Lord, I commit today's work to You. Order my steps and steady my thoughts. Amen."},
+    {v:"She perceiveth that her merchandise is good: her candle goeth not out by night.",ref:"Proverbs 31:18 (KJV)",
+     r:"The woman of Proverbs 31 ran a real enterprise — she traded, she profited, she planned. Diligence is not unspiritual; it is part of how you reflect a faithful God. Tend your work with both wisdom and rest, knowing your effort has dignity in His eyes.",
+     q:"What part of my work is God asking me to tend with greater diligence this week?"},
+    {v:"And whatsoever ye do, do it heartily, as to the Lord, and not unto men.",ref:"Colossians 3:23 (KJV)",
+     r:"On the days your audience feels small and the results feel slow, remember who you are truly serving. Your unseen effort is seen. Doing your work heartily, as unto the Lord, turns ordinary tasks — emails, invoices, content — into worship.",
+     p:"Father, let every small task today be done as an offering to You. Amen."},
+    {v:"Trust in the LORD with all thine heart; and lean not unto thine own understanding.",ref:"Proverbs 3:5 (KJV)",
+     r:"Strategy matters, but it is not your foundation. When the numbers don't add up and the path is unclear, lean not on your own understanding. Trust often looks like taking the next faithful step without seeing the whole staircase.",
+     q:"Where am I leaning on my own understanding instead of trusting Him?"},
+    {v:"For we walk by faith, not by sight.",ref:"2 Corinthians 5:7 (KJV)",
+     r:"Building a business often means sowing today for a harvest you cannot yet see. Faith is the quiet confidence that what God has called you to plant will, in His timing, bear fruit. Keep walking, even when sight gives you nothing to hold.",
+     p:"Lord, grow my faith for what I cannot yet see. I trust Your timing. Amen."},
+    {v:"Let us not be weary in well doing: for in due season we shall reap, if we faint not.",ref:"Galatians 6:9 (KJV)",
+     r:"Weariness is real, and seasons of slow growth can wear at your hope. But the promise is sure: a harvest comes to those who do not give up. Your faithfulness in the unseen middle is preparing the fruit you'll celebrate later.",
+     q:"What is one well-doing thing I'm tempted to quit that God is asking me to continue?"},
+    {v:"The blessing of the LORD, it maketh rich, and he addeth no sorrow with it.",ref:"Proverbs 10:22 (KJV)",
+     r:"There is a striving that exhausts and a blessing that flows. God's provision doesn't come wrapped in anxiety. As you build, ask not only 'How do I grow?' but 'How do I receive what He gives?' His blessing carries peace, not dread.",
+     p:"Father, I receive Your blessing with open hands and a peaceful heart. Amen."},
+    {v:"Many are the plans in a person's heart, but it is the LORD's purpose that prevails.",ref:"Proverbs 19:21 (WEB)",
+     r:"Plan boldly — and hold your plans loosely. The detour you didn't choose may be the door God is opening. When a launch flops or a client falls through, trust that His purpose is steering you toward something better than your spreadsheet imagined.",
+     q:"Can I name one plan I need to surrender to His greater purpose?"},
+    {v:"Cast all your anxiety on him because he cares for you.",ref:"1 Peter 5:7 (WEB)",
+     r:"The worries of business — cash flow, deadlines, what people think — are heavy to carry alone. You were never meant to. Cast them, deliberately, onto the One who cares for you. Naming your anxieties in prayer is not weakness; it is wisdom.",
+     p:"Lord, here are my worries by name. I cast them on You. Carry what I cannot. Amen."},
+    {v:"But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.",ref:"Matthew 6:33 (KJV)",
+     r:"It's easy to let revenue become the first thing you reach for each morning. But the promise reorders our priorities: seek His kingdom first, and provision follows. Your business serves the Kingdom — it is not your kingdom.",
+     q:"What would change if I sought His kingdom first in my business this week?"},
+    {v:"A man's gift maketh room for him, and bringeth him before great men.",ref:"Proverbs 18:16 (KJV)",
+     r:"The gift God placed in you is meant to make room for you. You don't have to force every door — your faithful, growing craft will open them. Steward your gift with excellence, and trust it to bring you where He wants you.",
+     p:"God, thank You for the gift in me. Help me steward it well and trust it to make room. Amen."},
+    {v:"Charge them that are rich in this world... that they be rich in good works, ready to distribute, willing to communicate.",ref:"1 Timothy 6:17-18 (KJV)",
+     r:"Profit is not the finish line — generosity is. As your business grows, let your giving grow with it. Wealth held tightly shrinks the heart; wealth held openly becomes a river of blessing. Plan to be generous on purpose.",
+     q:"How is God inviting me to be 'rich in good works' as my income grows?"},
+    {v:"In all labour there is profit: but the talk of the lips tendeth only to penury.",ref:"Proverbs 14:23 (KJV)",
+     r:"Dreaming and planning are good, but at some point the talk must become labour. There is fruit waiting in the actual doing. Don't let perfectionism keep you in the planning phase forever — take the action, however small.",
+     p:"Lord, give me courage to move from talk to labour today. Bless the work of my hands. Amen."},
+    {v:"And let us consider one another to provoke unto love and to good works.",ref:"Hebrews 10:24 (KJV)",
+     r:"You were not made to build alone. The people God places around you — mentors, peers, a community — are gifts to spur you toward love and good work. Lean in. Ask for help. Celebrate others. Iron sharpens iron.",
+     q:"Who has God placed near me to encourage — and who could I let encourage me?"},
+    {v:"The LORD shall command the blessing upon thee in thy storehouses, and in all that thou settest thine hand unto.",ref:"Deuteronomy 28:8 (KJV)",
+     r:"There is a difference between hustle that grasps and work that God blesses. When you set your hand to honest, faithful labour, you can invite His blessing over it. Open your storehouse — your offers, your skills — and ask Him to multiply.",
+     p:"Father, command Your blessing on all that I set my hand to today. Amen."},
+    {v:"For God is not unrighteous to forget your work and labour of love.",ref:"Hebrews 6:10 (KJV)",
+     r:"The hours no one sees, the generosity no one thanked you for, the integrity no one noticed — God remembers every one. Your labour of love is recorded in heaven. Keep serving with kindness; nothing done in love is wasted.",
+     q:"What unseen labour of love can I offer today, trusting God sees it?"},
+    {v:"Wealth gotten by vanity shall be diminished: but he that gathereth by labour shall increase.",ref:"Proverbs 13:11 (KJV)",
+     r:"There are no shortcuts to lasting fruit. Quick schemes fade; patient, faithful gathering grows. Build your business the slow, honest way — and watch it compound. The tortoise of integrity outpaces the hare of hype.",
+     p:"Lord, keep me from shortcuts. Teach me to build steadily and honestly. Amen."},
+    {v:"She girdeth her loins with strength, and strengtheneth her arms.",ref:"Proverbs 31:17 (KJV)",
+     r:"There is a holy strength available to the working woman. You are not too soft for this, not too tired, not too small. God girds you with strength for the task in front of you. Roll up your sleeves — His power is at work in you.",
+     q:"Where do I need God's strength today, and have I asked Him for it?"},
+    {v:"Delight thyself also in the LORD; and he shall give thee the desires of thine heart.",ref:"Psalm 37:4 (KJV)",
+     r:"As you delight in God, He shapes your desires until your dreams and His will become one. The business goals on your heart may be more than ambition — they may be desires He planted. Delight in Him, and trust Him with the wanting.",
+     p:"Father, I delight in You. Align the desires of my heart with Your good will. Amen."},
+    {v:"Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.",ref:"Philippians 4:6 (KJV)",
+     r:"Anxiety knocks loudest in business — over launches, money, and what could go wrong. The remedy is not pretending to be calm but bringing every concern to God with thanks. Turn your worry list into a prayer list today.",
+     q:"What worry can I turn into a thankful prayer right now?"},
+    {v:"Therefore my beloved brethren, be ye stedfast, unmoveable, always abounding in the work of the Lord, forasmuch as ye know that your labour is not in vain in the Lord.",ref:"1 Corinthians 15:58 (KJV)",
+     r:"On the discouraging days, hold this anchor: your labour is not in vain. Be steadfast. The work you pour out in faith is never wasted in His economy, even when the results feel invisible. Stand firm — the harvest is real.",
+     p:"Lord, make me steadfast and unmoveable. Remind me my labour is never in vain. Amen."},
+    {v:"Honour the LORD with thy substance, and with the firstfruits of all thine increase.",ref:"Proverbs 3:9 (KJV)",
+     r:"Firstfruits means God gets the first and best, not the leftovers. Building a Kingdom-minded business means honouring Him with your increase before anything else claims it. Giving first is an act of trust that He will provide the rest.",
+     q:"What would it look like to honour God with the firstfruits of my business?"},
+    {v:"Where there is no vision, the people perish: but he that keepeth the law, happy is he.",ref:"Proverbs 29:18 (KJV)",
+     r:"Vision keeps you alive in the grind. Without a God-given picture of where you're going, the daily tasks lose their meaning. Ask Him to renew your vision — not just for revenue, but for the people your business is meant to bless.",
+     p:"Father, renew my vision. Show me who and what this business is really for. Amen."},
+    {v:"And my God shall supply all your need according to his riches in glory by Christ Jesus.",ref:"Philippians 4:19 (KJV)",
+     r:"Your provider is not your client list or your launch — it is God, whose riches never run dry. When fear whispers 'there won't be enough,' answer with this promise. He supplies according to His glory, not according to your bank balance.",
+     q:"In what area am I tempted to doubt that God will supply my need?"},
+    {v:"Whatsoever thy hand findeth to do, do it with thy might.",ref:"Ecclesiastes 9:10 (KJV)",
+     r:"You don't need the perfect plan to begin — you need the willingness to do what's in front of you with everything you've got. Whole-hearted effort honours God. Begin where you are, with what you have, and give it your full strength.",
+     p:"Lord, whatever my hand finds to do today, help me do it with all my might, for You. Amen."},
+    {v:"For which of you, intending to build a tower, sitteth not down first, and counteth the cost?",ref:"Luke 14:28 (KJV)",
+     r:"Wisdom counts the cost before building. Jesus honours the planner who looks ahead. Faith and good stewardship are partners, not rivals — pray over your numbers, then plan with both prayer and prudence.",
+     q:"Is there a cost in my business I've avoided sitting down to count honestly?"},
+    {v:"He which soweth sparingly shall reap also sparingly; and he which soweth bountifully shall reap also bountifully.",ref:"2 Corinthians 9:6 (KJV)",
+     r:"The principle of sowing and reaping runs through your business and your generosity alike. What you plant — in service, in giving, in faithful effort — shapes what returns. Sow bountifully, with a generous heart, and trust the harvest to God.",
+     p:"Father, make me a bountiful sower in my work and my giving. Amen."},
+    {v:"For ye have need of patience, that, after ye have done the will of God, ye might receive the promise.",ref:"Hebrews 10:36 (KJV)",
+     r:"Between obedience and harvest lies patience. You may have done the right thing and still be waiting. Don't mistake the waiting for failure. Keep doing the will of God, and let patience finish its work — the promise is on its way.",
+     q:"Where is God growing patience in me as I wait for fruit?"}
+  ];
+
+  /* ---------- state ---------- */
+  function load(){ try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return {}} }
+  function save(s){ try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){} }
+  var state=load();
+  if(!state.favs) state.favs=[];      /* array of devo indexes */
+  if(!state.notes) state.notes={};    /* dateKey -> note text */
+
+  var todayIdx = dayIndex(new Date());
+  var current = todayIdx;
+
+  function dayIndex(d){
+    var epoch=Date.UTC(d.getFullYear(),d.getMonth(),d.getDate());
+    var days=Math.floor(epoch/86400000);
+    return ((days % DEVOS.length)+DEVOS.length)%DEVOS.length;
+  }
+  function dateKey(d){ return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+  function todayLabel(){ return new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"}); }
+
+  /* ---------- render ---------- */
+  function render(){
+    var d=DEVOS[current];
+    $("#dev-date").textContent = (current===todayIdx) ? "Today · "+todayLabel() : "A word for you";
+    $("#verse-text").textContent = "“"+d.v+"”";
+    $("#verse-cite").textContent = d.ref;
+    $("#dev-reflect").textContent = d.r;
+    if(d.p){ $("#prayer-lbl").textContent="A prayer"; $("#prayer-text").textContent=d.p; }
+    else { $("#prayer-lbl").textContent="To reflect on"; $("#prayer-text").textContent=d.q; }
+
+    var isFav = state.favs.indexOf(current)>=0;
+    var fav=$("#fav");
+    fav.classList.toggle("on",isFav);
+    fav.setAttribute("aria-pressed",isFav?"true":"false");
+    fav.textContent = isFav ? "♥ Saved as favorite" : "♡ Save as favorite";
+
+    /* note is tied to today's date only */
+    $("#note").value = state.notes[dateKey(new Date())] || "";
+  }
+
+  function renderFavs(){
+    var card=$("#fav-card"), list=$("#fav-list");
+    var hasFavs=state.favs.length>0;
+    var hasNotes=Object.keys(state.notes).length>0;
+    if(!hasFavs && !hasNotes){ card.hidden=true; return; }
+    card.hidden=false;
+    list.innerHTML="";
+
+    state.favs.slice().sort(function(a,b){return a-b}).forEach(function(idx){
+      var d=DEVOS[idx];
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML='<div class="grow"><strong>'+escapeHtml(d.ref)+'</strong>'+
+        '<small>“'+escapeHtml(d.v.slice(0,90))+(d.v.length>90?"…":"")+'”</small></div>'+
+        '<button class="icon-btn" aria-label="Remove favorite">✕</button>';
+      $(".icon-btn",row).onclick=function(){
+        state.favs=state.favs.filter(function(x){return x!==idx}); save(state);
+        renderFavs(); render(); toast("Removed from favorites");
+      };
+      row.querySelector(".grow").style.cursor="pointer";
+      row.querySelector(".grow").onclick=function(){ current=idx; render(); window.scrollTo({top:0,behavior:"smooth"}); };
+      list.appendChild(row);
+    });
+
+    Object.keys(state.notes).sort().reverse().forEach(function(k){
+      if(!state.notes[k]) return;
+      var parts=k.split("-");
+      var dt=new Date(parts[0],parts[1]-1,parts[2]);
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML='<div class="grow"><strong>📝 '+dt.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})+'</strong>'+
+        '<small>'+escapeHtml(state.notes[k])+'</small></div>'+
+        '<button class="icon-btn" aria-label="Delete reflection">✕</button>';
+      $(".icon-btn",row).onclick=function(){
+        delete state.notes[k]; save(state); renderFavs();
+        if(k===dateKey(new Date())) $("#note").value="";
+        toast("Reflection deleted");
+      };
+      list.appendChild(row);
+    });
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+
+  /* ---------- events ---------- */
+  $("#next").onclick=function(){ current=(current+1)%DEVOS.length; render(); };
+  $("#today").onclick=function(){ current=todayIdx; render(); toast("Back to today's word 🌿"); };
+
+  $("#fav").onclick=function(){
+    var i=state.favs.indexOf(current);
+    if(i>=0) state.favs.splice(i,1); else state.favs.push(current);
+    save(state); render(); renderFavs();
+    toast(state.favs.indexOf(current)>=0 ? "Saved to favorites ♥" : "Removed from favorites");
+  };
+
+  $("#copy-verse").onclick=function(){
+    var d=DEVOS[current];
+    var txt="“"+d.v+"”\n— "+d.ref;
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Verse copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  $("#save-note").onclick=function(){
+    var v=$("#note").value.trim();
+    if(!v){ toast("Write a few words first 🌿"); $("#note").focus(); return; }
+    state.notes[dateKey(new Date())]=v; save(state); renderFavs();
+    toast("Reflection saved ✓");
+  };
+
+  $("#clear-note").onclick=function(){
+    $("#note").value="";
+    var k=dateKey(new Date());
+    if(state.notes[k]){ delete state.notes[k]; save(state); renderFavs(); }
+    toast("Cleared 🌿");
+  };
+
+  $("#clear-all").onclick=function(){
+    if(!confirm("Clear all favorites and saved reflections? This can't be undone.")) return;
+    state={favs:[],notes:{}}; save(state);
+    render(); renderFavs(); toast("All saved items cleared");
+  };
+
+  /* ---------- init ---------- */
+  render();
+  renderFavs();
+})();
+</script>
+</body>
+</html>

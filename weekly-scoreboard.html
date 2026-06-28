@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Weekly Scoreboard — AI Profit Garden</title>
+<meta name="description" content="Track your 5 most important business metrics in one quick weekly check-in." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.metric-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.metric-row .input.mname{flex:1}
+.metric-row .input.mtarget{flex:0 0 120px}
+.entry-row{display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.entry-row:first-child{border-top:none}
+.entry-row .nm{flex:1;min-width:0}
+.entry-row .nm strong{display:block}
+.entry-row .nm small{color:var(--muted)}
+.entry-row .val-in{flex:0 0 110px}
+.metric-card{border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-top:12px;background:var(--cream)}
+.metric-card .top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.metric-card .top .nm{font-weight:700}
+.metric-card .nums{display:flex;align-items:baseline;gap:10px;margin-top:6px;flex-wrap:wrap}
+.metric-card .now{font-family:var(--serif);font-weight:700;font-size:1.5rem;color:var(--olive)}
+.metric-card .chg{font-weight:700;font-size:.86rem}
+.metric-card .chg.up{color:#2F7A4E}.metric-card .chg.down{color:var(--danger)}.metric-card .chg.flat{color:var(--muted)}
+.metric-card .tgt{font-size:.82rem;color:var(--muted)}
+.spark{display:flex;align-items:flex-end;gap:5px;height:46px;margin-top:12px}
+.spark .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.spark .col i{width:100%;max-width:26px;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,var(--sage),var(--olive));min-height:3px;transition:height .4s ease}
+.spark .col i.cur{background:linear-gradient(180deg,var(--gold),#B07F38)}
+.spark .col span{font-size:.6rem;color:var(--muted);white-space:nowrap}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Weekly Scoreboard</h1>
+      <p class="app-sub">Track your 5 most important numbers in one quick check-in.</p>
+    </div>
+  </header>
+
+  <!-- METRIC SETUP -->
+  <section class="card">
+    <h2 class="section-title">Your 5 metrics</h2>
+    <p class="section-note">Choose up to 5 numbers that matter most this season — sales, new leads, content posted, hours worked, whatever moves your business. A weekly target is optional.</p>
+
+    <div id="metric-list"></div>
+    <button type="button" class="btn btn-ghost btn-sm" id="add-metric">+ Add a metric</button>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-primary" id="save-metrics">Save my metrics</button>
+      <button type="button" class="btn btn-ghost" id="reset-metrics">Reset</button>
+    </div>
+  </section>
+
+  <!-- THIS WEEK ENTRY -->
+  <section class="card" id="entry-card" hidden>
+    <h2 class="section-title">This week's check-in</h2>
+    <p class="section-note">Pop in this week's number for each metric, then log it. A few minutes a week keeps you rooted in reality.</p>
+
+    <div class="field">
+      <label for="week-label">Week ending <span class="hint">— a date or label</span></label>
+      <input id="week-label" class="input" type="text" autocomplete="off" placeholder="e.g. Mar 14" />
+      <div class="err-text" id="week-err">Please add a date or label for this week.</div>
+    </div>
+
+    <div id="entry-list"></div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive" id="log-week">Log this week</button>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="card" id="result-card" hidden aria-live="polite">
+    <h2 class="section-title">Where you stand</h2>
+    <p class="section-note" id="result-note">Your latest week vs your targets and last week.</p>
+    <div id="metric-results"></div>
+    <div id="result-message" class="callout callout-info mt"></div>
+    <div class="verse" id="result-verse" hidden>
+      “Let us not grow weary of doing good, for in due season we will reap.”
+      <cite>Galatians 6:9 · steady, faithful work</cite>
+    </div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy this week's summary</button>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="card" id="history-card" hidden>
+    <h2 class="section-title">Logged weeks</h2>
+    <p class="section-note">Kept on this device only. Your weekly story, one check-in at a time.</p>
+    <div id="history"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-weeks">Clear all weeks</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_weekly_scoreboard_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var metricList=$("#metric-list"), entryCard=$("#entry-card"), entryList=$("#entry-list");
+  var resultCard=$("#result-card"), metricResults=$("#metric-results");
+  var histCard=$("#history-card"), hist=$("#history");
+  var MAX=5;
+
+  /* ---------- helpers ---------- */
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function fmt(n){ return (Math.round(n*100)/100).toLocaleString("en-US"); }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]});}
+
+  /* ---------- store ---------- */
+  function getStore(){
+    try{ return JSON.parse(localStorage.getItem(KEY)||'{"metrics":[],"weeks":[]}'); }
+    catch(e){ return {metrics:[],weeks:[]}; }
+  }
+  function setStore(s){ try{ localStorage.setItem(KEY,JSON.stringify(s)); }catch(e){} }
+
+  /* ---------- metric setup rows ---------- */
+  function addMetricRow(name,target){
+    if(metricList.children.length>=MAX) return null;
+    var row=document.createElement("div");
+    row.className="metric-row";
+    row.innerHTML=
+      '<input class="input mname" type="text" placeholder="Metric name (e.g. Sales)" aria-label="Metric name" autocomplete="off" />'+
+      '<input class="input mtarget" type="text" inputmode="decimal" placeholder="Target (optional)" aria-label="Weekly target" autocomplete="off" />'+
+      '<button type="button" class="icon-btn" aria-label="Remove metric">✕</button>';
+    $(".mname",row).value=name||"";
+    $(".mtarget",row).value=(target||target===0)&&target!=="" ? target : "";
+    $(".icon-btn",row).onclick=function(){ row.remove(); refreshAddBtn(); if(!metricList.children.length) addMetricRow(); };
+    metricList.appendChild(row);
+    refreshAddBtn();
+    return row;
+  }
+  function refreshAddBtn(){
+    $("#add-metric").disabled = metricList.children.length>=MAX;
+    $("#add-metric").style.opacity = metricList.children.length>=MAX ? ".5" : "1";
+  }
+  function readMetricRows(){
+    var out=[];
+    Array.prototype.forEach.call(metricList.querySelectorAll(".metric-row"),function(r){
+      var name=$(".mname",r).value.trim();
+      var tRaw=$(".mtarget",r).value.trim();
+      if(name) out.push({name:name, target: tRaw===""?null:num(tRaw)});
+    });
+    return out;
+  }
+
+  /* ---------- entry rows ---------- */
+  function buildEntry(metrics, lastWeek){
+    entryList.innerHTML="";
+    if(!metrics.length){ entryCard.hidden=true; return; }
+    entryCard.hidden=false;
+    metrics.forEach(function(m,i){
+      var prev = lastWeek && lastWeek.values && (lastWeek.values[i]!=null) ? lastWeek.values[i] : null;
+      var row=document.createElement("div");
+      row.className="entry-row";
+      row.innerHTML=
+        '<div class="nm"><strong>'+esc(m.name)+'</strong>'+
+        '<small>'+(m.target!=null?("Target "+fmt(m.target)):"No target")+
+        (prev!=null?(" · last week "+fmt(prev)):"")+'</small></div>'+
+        '<div class="val-in"><input class="input wv" type="text" inputmode="decimal" placeholder="0" aria-label="This week\'s value for '+esc(m.name)+'" autocomplete="off" /></div>';
+      entryList.appendChild(row);
+    });
+  }
+  function readEntryValues(){
+    var vals=[];
+    Array.prototype.forEach.call(entryList.querySelectorAll(".wv"),function(inp){
+      var raw=inp.value.trim();
+      vals.push(raw===""?null:num(raw));
+    });
+    return vals;
+  }
+
+  /* ---------- render results ---------- */
+  function renderResults(){
+    var s=getStore();
+    if(!s.metrics.length || !s.weeks.length){ resultCard.hidden=true; return; }
+    resultCard.hidden=false;
+    metricResults.innerHTML="";
+    var recent=s.weeks.slice(0,6).slice().reverse(); // oldest->newest for spark
+    var latest=s.weeks[0];
+    var prev=s.weeks[1];
+    $("#result-note").textContent="Latest: "+latest.label+" — vs your targets and last week.";
+
+    var onTrack=0, withTarget=0, improved=0, comparable=0;
+
+    s.metrics.forEach(function(m,i){
+      var now = latest.values[i];
+      var was = prev ? prev.values[i] : null;
+      var card=document.createElement("div");
+      card.className="metric-card";
+
+      var chgHtml="";
+      if(now!=null && was!=null){
+        comparable++;
+        var d=now-was;
+        if(d>0){ improved++; chgHtml='<span class="chg up">▲ '+fmt(Math.abs(d))+' vs last week</span>'; }
+        else if(d<0){ chgHtml='<span class="chg down">▼ '+fmt(Math.abs(d))+' vs last week</span>'; }
+        else{ chgHtml='<span class="chg flat">— same as last week</span>'; }
+      }
+
+      var badge="";
+      if(m.target!=null && now!=null){
+        withTarget++;
+        if(now>=m.target){ onTrack++; badge='<span class="badge badge-sage">On track</span>'; }
+        else{ badge='<span class="badge badge-gold">Below target</span>'; }
+      }
+
+      // spark across recent weeks for this metric
+      var series=recent.map(function(w){ return w.values[i]; });
+      var nums=series.filter(function(v){return v!=null;});
+      var maxV=nums.length?Math.max.apply(null,nums):0;
+      var sparkHtml='<div class="spark" aria-hidden="true">';
+      recent.forEach(function(w,wi){
+        var v=w.values[i];
+        var h = (v!=null && maxV>0) ? Math.max(3, Math.round(v/maxV*42)) : 3;
+        var isCur = (wi===recent.length-1);
+        sparkHtml+='<div class="col"><i class="'+(isCur?"cur":"")+'" style="height:'+h+'px"></i><span>'+esc(w.label)+'</span></div>';
+      });
+      sparkHtml+='</div>';
+
+      card.innerHTML=
+        '<div class="top"><span class="nm">'+esc(m.name)+'</span>'+badge+'</div>'+
+        '<div class="nums"><span class="now">'+(now!=null?fmt(now):"—")+'</span>'+
+        (m.target!=null?'<span class="tgt">/ target '+fmt(m.target)+'</span>':'')+
+        chgHtml+'</div>'+
+        sparkHtml;
+      metricResults.appendChild(card);
+    });
+
+    // encouraging message
+    var msg=$("#result-message"), verse=$("#result-verse"), bits=[];
+    if(withTarget>0){
+      if(onTrack===withTarget) bits.push("Every metric with a target is on track — that's beautiful work. 🌿");
+      else if(onTrack>0) bits.push("You hit "+onTrack+" of "+withTarget+" targets this week. Steady progress is still progress.");
+      else bits.push("No targets reached this week — and that's okay. You showed up and counted honestly, which is how growth begins.");
+    }
+    if(comparable>0){
+      if(improved===comparable) bits.push("Every comparable number rose since last week. Keep tending what's working.");
+      else if(improved>0) bits.push(improved+" metric"+(improved>1?"s":"")+" climbed since last week — celebrate that.");
+    }
+    if(!bits.length) bits.push("Your first numbers are in. Come back next week and watch the story take shape.");
+    msg.textContent=bits.join(" ");
+    msg.className="callout callout-info mt";
+    verse.hidden = !(improved>0 || onTrack>0);
+  }
+
+  /* ---------- history ---------- */
+  function renderHistory(){
+    var s=getStore();
+    if(!s.weeks.length){ histCard.hidden=true; return; }
+    histCard.hidden=false;
+    hist.innerHTML="";
+    s.weeks.forEach(function(w,i){
+      var parts=s.metrics.map(function(m,mi){
+        return esc(m.name)+": "+(w.values[mi]!=null?fmt(w.values[mi]):"—");
+      });
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML=
+        '<div class="grow"><strong>'+esc(w.label)+(i===0?' · latest':'')+'</strong>'+
+        '<small>'+parts.join(" · ")+'</small></div>'+
+        '<button class="icon-btn" aria-label="Delete week">✕</button>';
+      $(".icon-btn",row).onclick=function(){
+        var st=getStore(); st.weeks.splice(i,1); setStore(st);
+        renderHistory(); renderResults();
+        rebuildEntry();
+        toast("Week removed");
+      };
+      hist.appendChild(row);
+    });
+  }
+
+  function rebuildEntry(){
+    var s=getStore();
+    buildEntry(s.metrics, s.weeks[0]);
+  }
+
+  function todayLabel(){
+    var d=new Date();
+    return d.toLocaleDateString("en-US",{month:"short",day:"numeric"});
+  }
+
+  /* ---------- events ---------- */
+  $("#add-metric").onclick=function(){ var r=addMetricRow(); if(r) r.querySelector(".mname").focus(); };
+
+  $("#save-metrics").onclick=function(){
+    var metrics=readMetricRows();
+    if(!metrics.length){ toast("Add at least one metric first"); return; }
+    var s=getStore();
+    // keep existing weeks but pad/trim values to new metric count
+    s.metrics=metrics;
+    s.weeks=s.weeks.map(function(w){
+      var v=w.values.slice(0,metrics.length);
+      while(v.length<metrics.length) v.push(null);
+      return {label:w.label, values:v};
+    });
+    setStore(s);
+    rebuildEntry();
+    renderResults();
+    renderHistory();
+    toast("Metrics saved ✓");
+    entryCard.scrollIntoView({behavior:"smooth",block:"start"});
+  };
+
+  $("#reset-metrics").onclick=function(){
+    metricList.innerHTML=""; addMetricRow();
+    toast("Cleared 🌿");
+  };
+
+  $("#log-week").onclick=function(){
+    var s=getStore();
+    if(!s.metrics.length){ toast("Save your metrics first"); return; }
+    var lblEl=$("#week-label"), lblErr=$("#week-err");
+    var lbl=lblEl.value.trim();
+    if(lbl===""){ lbl=todayLabel(); lblEl.value=lbl; }
+    lblEl.classList.remove("error"); lblErr.classList.remove("show");
+    var vals=readEntryValues();
+    if(vals.every(function(v){return v==null;})){ toast("Enter at least one value"); return; }
+    s.weeks.unshift({label:lbl, values:vals});
+    s.weeks=s.weeks.slice(0,52);
+    setStore(s);
+    // clear entry inputs, refresh "last week" hints
+    rebuildEntry();
+    $("#week-label").value="";
+    renderResults();
+    renderHistory();
+    toast("Week logged ✓");
+    resultCard.scrollIntoView({behavior:"smooth",block:"start"});
+  };
+
+  $("#copy").onclick=function(){
+    var s=getStore();
+    if(!s.weeks.length){ toast("Nothing to copy yet"); return; }
+    var latest=s.weeks[0], prev=s.weeks[1];
+    var lines=["Weekly Scoreboard — "+latest.label];
+    s.metrics.forEach(function(m,i){
+      var now=latest.values[i], was=prev?prev.values[i]:null;
+      var line="• "+m.name+": "+(now!=null?fmt(now):"—");
+      if(m.target!=null) line+=" (target "+fmt(m.target)+(now!=null?(now>=m.target?", on track":", below"):"")+")";
+      if(now!=null && was!=null){ var d=now-was; line+= d>0?(" ▲"+fmt(d)):d<0?(" ▼"+fmt(Math.abs(d))):" (flat)"; }
+      lines.push(line);
+    });
+    var txt=lines.join("\n");
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Summary copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  $("#clear-weeks").onclick=function(){
+    var s=getStore(); s.weeks=[]; setStore(s);
+    renderHistory(); renderResults(); rebuildEntry();
+    toast("All weeks cleared");
+  };
+
+  /* ---------- init ---------- */
+  (function init(){
+    var s=getStore();
+    if(s.metrics.length){
+      s.metrics.forEach(function(m){ addMetricRow(m.name, m.target==null?"":m.target); });
+      rebuildEntry();
+      renderResults();
+      renderHistory();
+    }else{
+      addMetricRow();
+    }
+  })();
+})();
+</script>
+</body>
+</html>

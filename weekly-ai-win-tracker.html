@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Weekly AI Win Tracker — AI Profit Garden</title>
+<meta name="description" content="Log the time AI saved you each week and watch the hours add up." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.chart{display:flex;align-items:flex-end;gap:8px;height:120px;margin-top:14px;padding:0 2px}
+.chart .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.chart .colbar{width:100%;max-width:38px;background:linear-gradient(180deg,var(--sage),var(--olive));border-radius:6px 6px 0 0;min-height:4px;transition:height .5s ease}
+.chart .collabel{font-size:.68rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.chart .colval{font-size:.7rem;font-weight:700;color:var(--olive)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Weekly AI Win Tracker</h1>
+      <p class="app-sub">Log the time AI saved you and watch the hours add up.</p>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card">
+    <h2 class="section-title">Log a win</h2>
+    <p class="section-note">Every minute AI gives back is a minute for what matters most. Jot down what you used it for and how much time it saved you.</p>
+
+    <form id="form" novalidate>
+      <div class="row">
+        <div class="field">
+          <label for="date">Date <span class="hint">— when?</span></label>
+          <input id="date" class="input" type="date" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="mins">Time saved <span class="hint">— in minutes</span></label>
+          <input id="mins" class="input" type="text" inputmode="decimal" placeholder="e.g. 45" autocomplete="off" aria-describedby="mins-err" />
+          <div class="err-text" id="mins-err">Please enter the minutes saved (a number above 0).</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="task">What did you use AI for? <span class="hint">— the win</span></label>
+        <input id="task" class="input" type="text" placeholder="e.g. drafted a week of captions" autocomplete="off" aria-describedby="task-err" />
+        <div class="err-text" id="task-err">Please add a quick note about what you did.</div>
+      </div>
+
+      <div class="field">
+        <label for="rate">Your hourly rate <span class="hint">— optional, to see the dollar value</span></label>
+        <div class="input-money"><span>$</span>
+          <input id="rate" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Add this win</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset form</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- TOTALS -->
+  <section class="card" id="totals-card" hidden aria-live="polite">
+    <h2 class="section-title">Your harvest so far 🌿</h2>
+    <p class="section-note" id="celebrate">Look at that — the hours are adding up.</p>
+    <div class="stat-grid">
+      <div class="stat"><div class="label">This week</div><div class="value" id="t-week">0h</div></div>
+      <div class="stat"><div class="label">This month</div><div class="value" id="t-month">0h</div></div>
+      <div class="stat"><div class="label">All-time saved</div><div class="value" id="t-all">0h</div></div>
+      <div class="stat" id="t-value-stat" hidden><div class="label">Value of your time</div><div class="value pos" id="t-value">$0</div></div>
+    </div>
+
+    <div id="chart-wrap" hidden>
+      <p class="section-note mt" style="margin-bottom:4px">Recent weeks</p>
+      <div class="chart" id="chart" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="card" id="history-card">
+    <h2 class="section-title">Your wins</h2>
+    <p class="section-note">Kept on this device only. Every entry is proof of progress.</p>
+    <div id="history"></div>
+    <div class="btn-row mt" id="clear-row" hidden>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all wins</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_ai_win_tracker_v1";
+  var RATEKEY="apg_ai_win_tracker_v1_rate";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var histCard=$("#history-card"), hist=$("#history"), totalsCard=$("#totals-card");
+
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function escapeHtml(s){ return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]}); }
+
+  function fmtHours(mins){
+    var h=mins/60;
+    if(mins<60) return mins+"m";
+    if(h%1===0) return h+"h";
+    return h.toFixed(1)+"h";
+  }
+  function fmtDate(iso){
+    var d=new Date(iso+"T00:00:00");
+    if(isNaN(d)) return iso;
+    return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  }
+  function todayISO(){
+    var d=new Date(), p=function(n){return (n<10?"0":"")+n};
+    return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());
+  }
+  /* ISO-ish week key (year + week number) */
+  function weekKey(iso){
+    var d=new Date(iso+"T00:00:00");
+    if(isNaN(d)) return iso;
+    var onejan=new Date(d.getFullYear(),0,1);
+    var week=Math.ceil((((d-onejan)/86400000)+onejan.getDay()+1)/7);
+    return d.getFullYear()+"-W"+(week<10?"0":"")+week;
+  }
+  function weekLabel(iso){
+    var d=new Date(iso+"T00:00:00");
+    /* start of that week (Sunday) */
+    var s=new Date(d); s.setDate(d.getDate()-d.getDay());
+    return s.toLocaleDateString("en-US",{month:"short",day:"numeric"});
+  }
+
+  /* ---------- data ---------- */
+  function getWins(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setWins(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+  function getRate(){ return num(localStorage.getItem(RATEKEY)||"0"); }
+  function setRate(r){ try{localStorage.setItem(RATEKEY,String(r))}catch(e){} }
+
+  function totals(){
+    var wins=getWins();
+    var nowWeek=weekKey(todayISO());
+    var now=new Date();
+    var thisMonth=now.getFullYear()+"-"+(now.getMonth()+1);
+    var week=0,month=0,all=0;
+    wins.forEach(function(w){
+      all+=w.mins;
+      if(weekKey(w.date)===nowWeek) week+=w.mins;
+      var d=new Date(w.date+"T00:00:00");
+      if(!isNaN(d) && (d.getFullYear()+"-"+(d.getMonth()+1))===thisMonth) month+=w.mins;
+    });
+    return {week:week,month:month,all:all};
+  }
+
+  function renderTotals(){
+    var wins=getWins();
+    if(!wins.length){ totalsCard.hidden=true; return; }
+    totalsCard.hidden=false;
+    var t=totals();
+    $("#t-week").textContent=fmtHours(t.week);
+    $("#t-month").textContent=fmtHours(t.month);
+    $("#t-all").textContent=fmtHours(t.all);
+
+    var rate=getRate();
+    if(rate>0){
+      $("#t-value-stat").hidden=false;
+      $("#t-value").textContent=money(t.all/60*rate);
+    }else{
+      $("#t-value-stat").hidden=true;
+    }
+
+    /* celebratory note scales with hours */
+    var hrs=t.all/60, note;
+    if(hrs<1) note="Every win counts. You've already started reclaiming your time.";
+    else if(hrs<5) note="You've saved over an hour — that's real margin back in your week.";
+    else if(hrs<20) note="Hours and hours reclaimed. Imagine what you're doing with that time.";
+    else note="That's days of your life given back. Beautifully done — keep going. 🌿";
+    $("#celebrate").textContent=note;
+
+    renderChart(wins);
+  }
+
+  function renderChart(wins){
+    /* group by week, take last 6 weeks present */
+    var byWeek={};
+    wins.forEach(function(w){
+      var k=weekKey(w.date);
+      if(!byWeek[k]) byWeek[k]={mins:0,label:weekLabel(w.date),key:k};
+      byWeek[k].mins+=w.mins;
+    });
+    var arr=Object.keys(byWeek).map(function(k){return byWeek[k]});
+    arr.sort(function(a,b){return a.key<b.key?-1:1});
+    arr=arr.slice(-6);
+    var wrap=$("#chart-wrap"), chart=$("#chart");
+    if(arr.length<2){ wrap.hidden=true; return; }
+    wrap.hidden=false;
+    var max=Math.max.apply(null,arr.map(function(x){return x.mins})) || 1;
+    chart.innerHTML="";
+    arr.forEach(function(x){
+      var col=document.createElement("div");
+      col.className="col";
+      var h=Math.max(4,Math.round(x.mins/max*96));
+      col.innerHTML='<div class="colval">'+fmtHours(x.mins)+'</div>'+
+                    '<div class="colbar" style="height:'+h+'px"></div>'+
+                    '<div class="collabel">'+x.label+'</div>';
+      chart.appendChild(col);
+    });
+  }
+
+  function renderHistory(){
+    var wins=getWins();
+    if(!wins.length){
+      hist.innerHTML='<div class="empty"><span class="ico">🌱</span>No wins logged yet. Add your first one above — even five minutes counts.</div>';
+      $("#clear-row").hidden=true;
+      return;
+    }
+    $("#clear-row").hidden=false;
+    hist.innerHTML="";
+    /* newest first */
+    var sorted=wins.slice().sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:b.id-a.id});
+    sorted.forEach(function(w){
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML='<div class="grow"><strong>'+escapeHtml(w.task)+'</strong>'+
+                    '<small>'+fmtDate(w.date)+' · '+fmtHours(w.mins)+' saved</small></div>'+
+                    '<span class="badge badge-sage" style="align-self:center">'+fmtHours(w.mins)+'</span>'+
+                    '<button class="icon-btn" aria-label="Delete win">✕</button>';
+      row.querySelector(".icon-btn").onclick=function(){
+        var all=getWins().filter(function(x){return x.id!==w.id});
+        setWins(all); renderHistory(); renderTotals(); toast("Win removed");
+      };
+      hist.appendChild(row);
+    });
+  }
+
+  /* ---------- add ---------- */
+  $("#form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var dateEl=$("#date"), minsEl=$("#mins"), taskEl=$("#task"), rateEl=$("#rate");
+    var ok=true;
+
+    var date=dateEl.value || todayISO();
+    var mins=num(minsEl.value);
+    if(!(mins>0)){ minsEl.classList.add("error"); $("#mins-err").classList.add("show"); ok=false; }
+    else { minsEl.classList.remove("error"); $("#mins-err").classList.remove("show"); }
+
+    var task=taskEl.value.trim();
+    if(!task){ taskEl.classList.add("error"); $("#task-err").classList.add("show"); ok=false; }
+    else { taskEl.classList.remove("error"); $("#task-err").classList.remove("show"); }
+
+    if(!ok){ (mins>0?taskEl:minsEl).focus(); return; }
+
+    var rate=num(rateEl.value);
+    if(rate>0) setRate(rate); else if(rateEl.value.trim()==="") {}
+
+    var wins=getWins();
+    wins.unshift({id:Date.now(),date:date,mins:Math.round(mins),task:task});
+    setWins(wins);
+
+    minsEl.value=""; taskEl.value="";
+    renderHistory(); renderTotals();
+    toast("Win logged ✓ "+fmtHours(Math.round(mins))+" saved");
+    totalsCard.scrollIntoView({behavior:"smooth",block:"nearest"});
+  });
+
+  $("#reset").onclick=function(){
+    $("#mins").value=""; $("#task").value="";
+    $("#mins").classList.remove("error"); $("#mins-err").classList.remove("show");
+    $("#task").classList.remove("error"); $("#task-err").classList.remove("show");
+    $("#date").value=todayISO();
+    toast("Form cleared 🌿");
+    $("#mins").focus();
+  };
+
+  $("#clear-all").onclick=function(){
+    setWins([]); renderHistory(); renderTotals(); toast("All wins cleared");
+  };
+
+  /* ---------- init ---------- */
+  $("#date").value=todayISO();
+  var savedRate=getRate(); if(savedRate>0) $("#rate").value=savedRate;
+  renderHistory();
+  renderTotals();
+})();
+</script>
+</body>
+</html>

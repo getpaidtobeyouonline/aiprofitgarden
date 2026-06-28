@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Discovery Call Booker — AI Profit Garden</title>
+<meta name="description" content="Define your availability, generate a clear booking message, and track booked calls with show and win rates." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.prep-row{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.prep-row .input{flex:1}
+.msg-box{background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:16px;white-space:pre-wrap;font-size:.95rem;line-height:1.65;color:var(--ink)}
+.log-form{display:grid;grid-template-columns:1fr;gap:0}
+.status-pill{font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+.st-Booked{background:var(--gold-soft);color:#7A5520}
+.st-Showed{background:var(--sage-soft);color:#3C5240}
+.st-Won{background:#DCF0E3;color:#2F7A4E}
+.st-No-show{background:var(--danger-soft);color:var(--danger)}
+.log-item{flex-direction:column;align-items:stretch;gap:8px}
+.log-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.log-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.log-controls .select{flex:1;min-width:130px;padding:8px 12px;font-size:.86rem}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Discovery Call Booker</h1>
+      <p class="app-sub">A simple system to fill your calendar with the right calls.</p>
+    </div>
+  </header>
+
+  <!-- AVAILABILITY + DETAILS -->
+  <section class="card">
+    <h2 class="section-title">Set up your calls</h2>
+    <p class="section-note">Tell us when you're available and what a call looks like. We'll write a warm, copy-and-paste booking message for you.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="name">Your name <span class="hint">— how you sign off</span></label>
+        <input id="name" class="input" type="text" placeholder="e.g. Grace" autocomplete="off" />
+      </div>
+
+      <div class="field">
+        <label>Your availability <span class="hint">— add the days/times you offer calls</span></label>
+        <div id="avail-list"></div>
+        <button type="button" class="btn btn-ghost btn-sm" id="add-avail">+ Add a time block</button>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="length">Call length</label>
+          <input id="length" class="input" type="text" placeholder="e.g. 30 minutes" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="where">Where / how <span class="hint">— optional</span></label>
+          <input id="where" class="input" type="text" placeholder="e.g. Zoom, I'll send a link" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Pre-call prep list <span class="hint">— what to think about before we talk</span></label>
+        <div id="prep-list"></div>
+        <button type="button" class="btn btn-ghost btn-sm" id="add-prep">+ Add a prep item</button>
+      </div>
+
+      <div class="field">
+        <label for="how-book">How to book <span class="hint">— optional, e.g. your link or "reply to this"</span></label>
+        <input id="how-book" class="input" type="text" placeholder="e.g. reply with your top 2 time choices" autocomplete="off" />
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Generate booking message</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- MESSAGE -->
+  <section class="card" id="msg-card" hidden aria-live="polite">
+    <h2 class="section-title">Your "book a call with me" message</h2>
+    <p class="section-note">Copy this anywhere — DMs, email, your bio link, a sales page.</p>
+    <div class="msg-box" id="msg-box"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="copy-msg">Copy message</button>
+    </div>
+    <div class="verse">
+      “Commit your work to the Lord, and your plans will be established.”
+      <cite>Proverbs 16:3 · steady, faithful effort</cite>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="card" id="stats-card" hidden>
+    <h2 class="section-title">Your call pipeline</h2>
+    <p class="section-note">A quick look at how your calls are converting.</p>
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Calls booked</div><div class="value" id="s-booked">0</div></div>
+      <div class="stat"><div class="label">Show rate</div><div class="value" id="s-show">—</div></div>
+      <div class="stat"><div class="label">Win rate</div><div class="value" id="s-win">—</div></div>
+    </div>
+  </section>
+
+  <!-- BOOKING LOG -->
+  <section class="card">
+    <h2 class="section-title">Booking log</h2>
+    <p class="section-note">Record each call as it's booked. Update the status as things move along — it all stays on this device.</p>
+
+    <form id="log-form" novalidate>
+      <div class="field">
+        <label for="l-name">Who's the call with?</label>
+        <input id="l-name" class="input" type="text" placeholder="e.g. Maria Lopez" autocomplete="off" aria-describedby="l-name-err" />
+        <div class="err-text" id="l-name-err">Please add a name.</div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="l-when">Date &amp; time <span class="hint">— optional</span></label>
+          <input id="l-when" class="input" type="text" placeholder="e.g. Tue 2 Jul, 11am" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="l-status">Status</label>
+          <select id="l-status" class="select">
+            <option value="Booked">Booked</option>
+            <option value="Showed">Showed</option>
+            <option value="Won">Won</option>
+            <option value="No-show">No-show</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn-olive btn-sm">Add to log</button>
+      </div>
+    </form>
+
+    <div id="log" class="mt"></div>
+    <div class="btn-row mt" id="log-actions" hidden>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-log">Clear log</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_discovery_call_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var availList=$("#avail-list"), prepList=$("#prep-list");
+
+  /* ---------- helpers ---------- */
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+  function copyText(txt,ok){
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast(ok||"Copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  }
+
+  /* ---------- repeatable rows ---------- */
+  function makeRow(list,placeholder,val,cls){
+    var row=document.createElement("div");
+    row.className=cls;
+    row.innerHTML=
+      '<input class="input" type="text" placeholder="'+placeholder+'" autocomplete="off" />'+
+      '<button type="button" class="icon-btn" aria-label="Remove">✕</button>';
+    $(".input",row).value=val||"";
+    $(".input",row).addEventListener("input",saveDraft);
+    $(".icon-btn",row).onclick=function(){ row.remove(); if(!list.children.length) makeRow(list,placeholder,"",cls); saveDraft(); };
+    list.appendChild(row);
+    return row;
+  }
+  function addAvail(v){ return makeRow(availList,"e.g. Tuesdays 10am–1pm",v,"prep-row"); }
+  function addPrep(v){ return makeRow(prepList,"e.g. Your #1 goal for the next 90 days",v,"prep-row"); }
+  function readList(list){
+    var out=[];
+    Array.prototype.forEach.call(list.querySelectorAll(".input"),function(i){ var v=i.value.trim(); if(v) out.push(v); });
+    return out;
+  }
+
+  /* ---------- collect + generate ---------- */
+  function collect(){
+    return {
+      name:$("#name").value.trim(),
+      avail:readList(availList),
+      length:$("#length").value.trim(),
+      where:$("#where").value.trim(),
+      prep:readList(prepList),
+      howBook:$("#how-book").value.trim()
+    };
+  }
+
+  function buildMessage(d){
+    var L=[];
+    L.push("Let's hop on a call! 🌿");
+    L.push("");
+    L.push("I'd love to find a time to connect"+(d.length?" for a "+d.length+" call":"")+". No pressure at all — just a relaxed chat to see if we're a good fit.");
+    L.push("");
+    if(d.avail.length){
+      L.push("Here's when I'm available:");
+      d.avail.forEach(function(a){ L.push("  • "+a); });
+      L.push("");
+    }
+    if(d.where) L.push("Where: "+d.where);
+    if(d.length) L.push("Length: "+d.length);
+    if(d.where||d.length) L.push("");
+    if(d.prep.length){
+      L.push("To make the most of our time, it helps to have a think about:");
+      d.prep.forEach(function(p){ L.push("  • "+p); });
+      L.push("");
+    }
+    L.push("To book: "+(d.howBook||"just reply and let me know which time works best for you")+".");
+    L.push("");
+    L.push("Looking forward to it!");
+    if(d.name) L.push(d.name);
+    return L.join("\n");
+  }
+
+  function generate(){
+    var d=collect();
+    if(!d.avail.length){
+      toast("Add at least one availability block");
+      var first=availList.querySelector(".input"); if(first) first.focus();
+      return;
+    }
+    $("#msg-box").textContent=buildMessage(d);
+    $("#msg-card").hidden=false;
+    $("#msg-card").scrollIntoView({behavior:"smooth",block:"start"});
+    saveDraft();
+  }
+
+  /* ---------- draft ---------- */
+  function saveDraft(){ try{ localStorage.setItem(KEY+"_draft",JSON.stringify(collect())); }catch(e){} }
+  function loadDraft(){
+    try{
+      var d=JSON.parse(localStorage.getItem(KEY+"_draft")||"null"); if(!d) return false;
+      $("#name").value=d.name||""; $("#length").value=d.length||""; $("#where").value=d.where||""; $("#how-book").value=d.howBook||"";
+      availList.innerHTML=""; (d.avail&&d.avail.length?d.avail:[""]).forEach(addAvail);
+      prepList.innerHTML=""; (d.prep&&d.prep.length?d.prep:[""]).forEach(addPrep);
+      return true;
+    }catch(e){ return false; }
+  }
+
+  /* ---------- booking log ---------- */
+  function getLog(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setLog(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+
+  function renderStats(items){
+    if(!items.length){ $("#stats-card").hidden=true; return; }
+    $("#stats-card").hidden=false;
+    var booked=items.length;
+    var showed=items.filter(function(x){return x.status==="Showed"||x.status==="Won"}).length;
+    var won=items.filter(function(x){return x.status==="Won"}).length;
+    $("#s-booked").textContent=booked;
+    $("#s-show").textContent=booked?Math.round(showed/booked*100)+"%":"—";
+    $("#s-win").textContent=showed?Math.round(won/showed*100)+"%":(booked?"0%":"—");
+  }
+
+  function renderLog(){
+    var items=getLog(), log=$("#log");
+    renderStats(items);
+    if(!items.length){
+      log.innerHTML='<div class="empty"><span class="ico">📅</span>No calls logged yet. As soon as someone books, add them here so you can watch your pipeline grow.</div>';
+      $("#log-actions").hidden=true; return;
+    }
+    $("#log-actions").hidden=false;
+    log.innerHTML="";
+    items.forEach(function(it,i){
+      var row=document.createElement("div");
+      row.className="item log-item";
+      var opts=["Booked","Showed","Won","No-show"].map(function(s){
+        return '<option value="'+s+'"'+(s===it.status?" selected":"")+'>'+s+'</option>';
+      }).join("");
+      row.innerHTML=
+        '<div class="log-top"><div class="grow"><strong>'+esc(it.name)+'</strong>'+
+        (it.when?'<small>'+esc(it.when)+'</small>':'<small>No time set</small>')+'</div>'+
+        '<span class="status-pill st-'+it.status.replace(/\s/g,"-")+'">'+esc(it.status)+'</span></div>'+
+        '<div class="log-controls">'+
+        '<select class="select" aria-label="Update status">'+opts+'</select>'+
+        '<button class="icon-btn" aria-label="Delete">✕</button></div>';
+      $(".select",row).onchange=function(){ items[i].status=this.value; setLog(items); renderLog(); toast("Status updated"); };
+      $(".icon-btn",row).onclick=function(){ items.splice(i,1); setLog(items); renderLog(); toast("Call removed"); };
+      log.appendChild(row);
+    });
+  }
+
+  /* ---------- events ---------- */
+  $("#add-avail").onclick=function(){ addAvail().querySelector(".input").focus(); };
+  $("#add-prep").onclick=function(){ addPrep().querySelector(".input").focus(); };
+  $("#form").addEventListener("submit",function(e){ e.preventDefault(); generate(); });
+  ["name","length","where","how-book"].forEach(function(id){ $("#"+id).addEventListener("input",saveDraft); });
+
+  $("#copy-msg").onclick=function(){ copyText($("#msg-box").textContent,"Message copied ✓"); };
+
+  $("#reset").onclick=function(){
+    ["name","length","where","how-book"].forEach(function(id){ $("#"+id).value=""; });
+    availList.innerHTML=""; addAvail();
+    prepList.innerHTML=""; addPrep();
+    $("#msg-card").hidden=true;
+    try{ localStorage.removeItem(KEY+"_draft"); }catch(e){}
+    toast("Cleared 🌿"); $("#name").focus();
+  };
+
+  $("#log-form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var nameEl=$("#l-name"), name=nameEl.value.trim();
+    if(!name){ nameEl.classList.add("error"); $("#l-name-err").classList.add("show"); nameEl.focus(); return; }
+    nameEl.classList.remove("error"); $("#l-name-err").classList.remove("show");
+    var items=getLog();
+    items.unshift({name:name,when:$("#l-when").value.trim(),status:$("#l-status").value});
+    setLog(items);
+    renderLog();
+    nameEl.value=""; $("#l-when").value=""; $("#l-status").value="Booked";
+    toast("Call added ✓");
+  });
+
+  $("#clear-log").onclick=function(){
+    if(!getLog().length){ toast("Log is already empty"); return; }
+    setLog([]); renderLog(); toast("Log cleared");
+  };
+
+  /* ---------- init ---------- */
+  if(!loadDraft()){ addAvail(); addPrep(); }
+  renderLog();
+})();
+</script>
+</body>
+</html>

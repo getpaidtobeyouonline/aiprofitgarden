@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Profit Snapshot — AI Profit Garden</title>
-<meta name="description" content="Enter your revenue and expenses to see your real profit and margin in seconds." />
+<title>Payment Terms Optimizer — AI Profit Garden</title>
+<meta name="description" content="See how getting paid faster frees up cash tied in unpaid invoices." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -97,26 +97,11 @@ textarea.input{min-height:96px;resize:vertical}
 .mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 /* ---- App-specific touches ---- */
-.exp-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
-.exp-row .input-money{flex:0 0 130px}
-.exp-row .input.name{flex:1}
 .result-hero{text-align:center;padding:8px 0 4px}
-.result-hero .big{font-family:var(--serif);font-weight:700;font-size:2.8rem;line-height:1;color:var(--olive)}
-.result-hero .big.neg{color:var(--danger)}
-.result-hero .big.pos{color:#2F7A4E}
+.result-hero .big{font-family:var(--serif);font-weight:700;font-size:2.8rem;line-height:1;color:#2F7A4E}
 .result-hero .cap{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.result-hero .period{font-size:.9rem;font-weight:700;color:var(--olive);margin-bottom:2px}
+.stat .value.freed{color:#2F7A4E}
 [hidden]{display:none!important}
-/* Print / Save-as-PDF: show only the result snapshot, cleanly */
-@media print{
-  body::before{display:none}
-  .wrap{max-width:none;padding:0}
-  body *{visibility:hidden}
-  #print-area,#print-area *{visibility:visible}
-  #print-area{position:absolute;left:0;top:0;width:100%;box-shadow:none;border:none;margin:0;padding:8px 4px}
-  .btn-row,.no-print{display:none!important}
-  @page{margin:14mm}
-}
 </style>
 </head>
 <body>
@@ -138,38 +123,48 @@ textarea.input{min-height:96px;resize:vertical}
     </div>
     <div class="app-titles">
       <div class="app-eyebrow">AI Profit Garden</div>
-      <h1 class="app-title">Profit Snapshot</h1>
-      <p class="app-sub">See your real profit and margin in seconds.</p>
+      <h1 class="app-title">Payment Terms Optimizer</h1>
+      <p class="app-sub">See how getting paid faster frees up cash.</p>
     </div>
   </header>
 
   <!-- INPUT -->
   <section class="card">
-    <h2 class="section-title">Your month at a glance</h2>
-    <p class="section-note">Enter what came in and what went out. We'll do the math — no spreadsheet required.</p>
+    <h2 class="section-title">Let's test faster payment terms</h2>
+    <p class="section-note">When clients take a long time to pay, your money sits "tied up" in unpaid invoices. Let's see how much you'd free up by getting paid sooner.</p>
 
     <form id="form" novalidate>
       <div class="field">
-        <label for="period">Which month? <span class="hint">— name the month &amp; year you're entering</span></label>
-        <input id="period" class="input" type="month" aria-label="Month and year for this snapshot" />
-      </div>
-
-      <div class="field">
-        <label for="rev">Revenue this month <span class="hint">— money that came in</span></label>
+        <label for="sales">Average monthly sales on credit <span class="hint">— what you invoice each month</span></label>
         <div class="input-money"><span>$</span>
-          <input id="rev" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="rev-err" />
+          <input id="sales" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="sales-err" />
         </div>
-        <div class="err-text" id="rev-err">Please enter your revenue (a number of 0 or more).</div>
+        <div class="err-text" id="sales-err">Please enter your average monthly invoiced sales (more than 0).</div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="current">Current days to get paid <span class="hint">— on average</span></label>
+          <input id="current" class="input" type="text" inputmode="numeric" placeholder="45" autocomplete="off" aria-describedby="current-err" />
+          <div class="err-text" id="current-err">Enter your current average days (1–365).</div>
+        </div>
+        <div class="field">
+          <label for="target">New target days <span class="hint">— your goal</span></label>
+          <input id="target" class="input" type="text" inputmode="numeric" placeholder="15" autocomplete="off" aria-describedby="target-err" />
+          <div class="err-text" id="target-err">Enter a target that's lower than your current days.</div>
+        </div>
       </div>
 
       <div class="field">
-        <label>Expenses <span class="hint">— add as many as you like</span></label>
-        <div id="exp-list"></div>
-        <button type="button" class="btn btn-ghost btn-sm" id="add-exp">+ Add an expense</button>
+        <label for="upfront">Deposit / upfront payment <span class="hint">— optional, % paid before you start</span></label>
+        <div style="position:relative">
+          <input id="upfront" class="input" type="text" inputmode="numeric" placeholder="0" autocomplete="off" style="padding-right:34px" />
+          <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600">%</span>
+        </div>
       </div>
 
       <div class="btn-row">
-        <button type="submit" class="btn btn-primary">Show my profit</button>
+        <button type="submit" class="btn btn-primary">Show what I'd free up</button>
         <button type="button" class="btn btn-ghost" id="reset">Reset</button>
       </div>
     </form>
@@ -177,51 +172,28 @@ textarea.input{min-height:96px;resize:vertical}
 
   <!-- RESULT -->
   <section class="card" id="result" hidden aria-live="polite">
-    <div id="print-area">
-      <div class="result-hero">
-        <div class="period" id="r-period" hidden></div>
-        <div class="cap" id="r-cap">Your real profit</div>
-        <div class="big" id="r-profit">$0</div>
-        <div id="r-badge" style="margin-top:10px"></div>
-      </div>
-
-      <div class="bar mt" aria-hidden="true"><i id="r-bar"></i></div>
-
-      <div class="stat-grid">
-        <div class="stat"><div class="label">Revenue</div><div class="value" id="s-rev">$0</div></div>
-        <div class="stat"><div class="label">Total expenses</div><div class="value" id="s-exp">$0</div></div>
-        <div class="stat"><div class="label">Profit margin</div><div class="value" id="s-margin">0%</div></div>
-      </div>
-
-      <div id="r-message" class="callout callout-info mt"></div>
-
-      <!-- shown when there's profit to celebrate -->
-      <div class="verse" id="r-verse" hidden>
-        “Whoever is faithful with little will be faithful with much.”
-        <cite>Luke 16:10 · small steps, steady growth</cite>
-      </div>
-
-      <!-- shown gently when the month ran at a loss -->
-      <div class="verse" id="r-verse-loss" hidden>
-        “You shall remember the Lord your God, for it is he who gives you power to get wealth, that he may confirm his covenant that he swore to your fathers, as it is this day.”
-        <cite>Deuteronomy 8:18 · He gives you power to get wealth</cite>
-      </div>
+    <div class="result-hero">
+      <div class="cap">Cash you'd free up</div>
+      <div class="big" id="r-freed">$0</div>
     </div>
 
-    <div class="btn-row mt no-print">
-      <button type="button" class="btn btn-olive btn-sm" id="save">Save this snapshot</button>
-      <button type="button" class="btn btn-primary btn-sm" id="pdf">Save as PDF</button>
-      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy summary</button>
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Tied up now</div><div class="value" id="s-now">$0</div></div>
+      <div class="stat"><div class="label">Tied up under new terms</div><div class="value" id="s-new">$0</div></div>
+      <div class="stat"><div class="label">Freed up</div><div class="value freed" id="s-freed">$0</div></div>
     </div>
-  </section>
 
-  <!-- SAVED HISTORY -->
-  <section class="card" id="history-card" hidden>
-    <h2 class="section-title">Saved snapshots</h2>
-    <p class="section-note">Kept on this device only. Watch your fruit grow over time.</p>
-    <div id="history"></div>
+    <div id="r-takeaway" class="callout callout-info"></div>
+    <div id="r-upfront" class="callout callout-info" hidden></div>
+
+    <div class="verse">
+      “The plans of the diligent lead surely to plenty.”
+      <cite>Proverbs 21:5 · small, wise changes add up</cite>
+    </div>
+
     <div class="btn-row mt">
-      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all saved</button>
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save these numbers</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy summary</button>
     </div>
   </section>
 
@@ -236,9 +208,9 @@ textarea.input{min-height:96px;resize:vertical}
 <script>
 (function(){
   "use strict";
-  var KEY="apg_profit_snapshot_v1";
+  var KEY="apg_payment_terms_v1";
   var $=function(s,el){return (el||document).querySelector(s)};
-  var expList=$("#exp-list"), result=$("#result"), histCard=$("#history-card"), hist=$("#history");
+  var result=$("#result");
 
   /* ---------- helpers ---------- */
   function money(n){
@@ -246,198 +218,104 @@ textarea.input{min-height:96px;resize:vertical}
     var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
     return neg?"-"+s:s;
   }
+  function money0(n){ return "$"+Math.round(n).toLocaleString("en-US"); }
   function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
   function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
-  /* turn a <input type="month"> value ("2026-06") into "June 2026" */
-  function periodLabel(v){
-    if(!v||!/^\d{4}-\d{2}$/.test(v)) return "";
-    var p=v.split("-"), names=["January","February","March","April","May","June","July","August","September","October","November","December"];
-    var mi=parseInt(p[1],10)-1;
-    return (names[mi]||"")+" "+p[0];
-  }
-
-  /* ---------- expense rows ---------- */
-  function addExpense(name,amt){
-    var row=document.createElement("div");
-    row.className="exp-row";
-    row.innerHTML=
-      '<input class="input name" type="text" placeholder="What for? (e.g. software)" aria-label="Expense name" />'+
-      '<div class="input-money"><span>$</span><input class="input amt" type="text" inputmode="decimal" placeholder="0.00" aria-label="Expense amount" autocomplete="off" /></div>'+
-      '<button type="button" class="icon-btn" aria-label="Remove expense">✕</button>';
-    $(".name",row).value=name||"";
-    $(".amt",row).value=(amt||amt===0)?amt:"";
-    $(".icon-btn",row).onclick=function(){ row.remove(); if(!expList.children.length) addExpense(); };
-    expList.appendChild(row);
-    return row;
-  }
-
-  function readExpenses(){
-    var out=[];
-    Array.prototype.forEach.call(expList.querySelectorAll(".exp-row"),function(r){
-      var name=$(".name",r).value.trim(), amt=num($(".amt",r).value);
-      if(name||amt) out.push({name:name||"Expense",amt:amt});
-    });
-    return out;
-  }
 
   /* ---------- calculate ---------- */
   function calculate(){
-    var revEl=$("#rev"), revErr=$("#rev-err");
-    var revRaw=revEl.value.trim();
-    if(revRaw==="" || num(revRaw)<0){
-      revEl.classList.add("error"); revErr.classList.add("show"); revEl.focus();
-      return;
-    }
-    revEl.classList.remove("error"); revErr.classList.remove("show");
+    var ok=true;
+    var sales=num($("#sales").value), current=num($("#current").value), target=num($("#target").value);
+    var upfront=Math.max(0,Math.min(100,num($("#upfront").value)));
 
-    var rev=num(revRaw);
-    var exps=readExpenses();
-    var totalExp=exps.reduce(function(a,e){return a+e.amt},0);
-    var profit=rev-totalExp;
-    var margin=rev>0?(profit/rev*100):0;
+    if(!(sales>0)){ flag("sales",true); ok=false; } else flag("sales",false);
+    if(!(current>=1 && current<=365)){ flag("current",true); ok=false; } else flag("current",false);
+    if(!(target>=0 && target<=365) || target>=current){ flag("target",true); ok=false; } else flag("target",false);
+    if(!ok){ return null; }
 
-    $("#s-rev").textContent=money(rev);
-    $("#s-exp").textContent=money(totalExp);
-    $("#s-margin").textContent=(rev>0?margin.toFixed(0):"—")+"%";
+    // daily credit sales (use 30-day month). Portion on credit = remainder after upfront deposit.
+    var creditFraction = 1 - upfront/100;
+    var perDay = sales / 30;
+    var tiedNow = perDay * current * creditFraction;
+    var tiedNew = perDay * target * creditFraction;
+    var freed = tiedNow - tiedNew;
+    var daysSooner = current - target;
 
-    var big=$("#r-profit");
-    big.textContent=money(profit);
-    big.className="big "+(profit>0?"pos":profit<0?"neg":"");
-    $("#r-cap").textContent = profit<0 ? "Your shortfall this month" : "Your real profit";
+    $("#s-now").textContent=money0(tiedNow);
+    $("#s-new").textContent=money0(tiedNew);
+    $("#s-freed").textContent=money0(freed);
+    $("#r-freed").textContent=money0(freed);
 
-    $("#r-bar").style.width=Math.max(0,Math.min(100,margin))+"%";
+    $("#r-takeaway").innerHTML="Getting paid <strong>"+daysSooner+" day"+(daysSooner===1?"":"s")+" sooner</strong> frees about <strong>"+money0(freed)+
+      "</strong> you can use right now — to cover a slow month, restock, pay yourself, or simply breathe easier. That money was always yours; it was just waiting in someone else's inbox.";
 
-    /* friendly, encouraging interpretation */
-    var badge=$("#r-badge"), msg=$("#r-message"), verse=$("#r-verse");
-    var b,m;
-    if(profit<0){
-      b='<span class="badge badge-danger">Running at a loss</span>';
-      m="You spent more than you earned this month — and now you can see it clearly, which is the first step to fixing it. Look for one expense to trim, or one small offer to add. You've got this.";
-      msg.className="callout callout-warn mt";
-    }else if(margin<10){
-      b='<span class="badge badge-gold">Thin margin</span>';
-      m="You're profitable — well done! A margin under 10% is tight, though. A small price increase or trimming one cost could make a real difference.";
-      msg.className="callout callout-info mt";
-    }else if(margin<25){
-      b='<span class="badge badge-sage">Healthy</span>';
-      m="A solid, healthy margin. Your business is feeding itself. Keep nurturing it — you're on good ground.";
-      msg.className="callout callout-info mt";
+    var up=$("#r-upfront");
+    if(upfront>0){
+      up.hidden=false;
+      up.innerHTML="With a <strong>"+upfront+"% deposit</strong> collected upfront, only "+Math.round(creditFraction*100)+"% of each invoice sits in waiting — so less of your cash is ever tied up to begin with. Deposits are one of the gentlest, most effective ways to steady your cash flow.";
     }else{
-      b='<span class="badge badge-sage">Flourishing</span>';
-      m="Beautiful — a strong, flourishing margin. This is room to pay yourself well, give generously, and reinvest in growth.";
-      msg.className="callout callout-info mt";
+      up.hidden=true;
     }
-    badge.innerHTML=b; msg.textContent=m;
-    /* a gentle word either way: celebrate fruit, or steady the heart in a loss */
-    verse.hidden = profit<=0;
-    $("#r-verse-loss").hidden = profit>=0;
-
-    /* show the month/year they named */
-    var period=periodLabel($("#period").value);
-    var pEl=$("#r-period");
-    pEl.textContent=period; pEl.hidden=!period;
 
     result.hidden=false;
     result.scrollIntoView({behavior:"smooth",block:"start"});
-
-    /* remember the working inputs (not the same as saved snapshots) */
-    persistDraft(rev,exps,$("#period").value);
-    return {rev:rev,exps:exps,totalExp:totalExp,profit:profit,margin:margin,period:period};
+    persist();
+    return {sales:sales,current:current,target:target,upfront:upfront,tiedNow:tiedNow,tiedNew:tiedNew,freed:freed};
   }
 
-  /* ---------- draft persistence (auto) ---------- */
-  function persistDraft(rev,exps,period){
-    try{ localStorage.setItem(KEY+"_draft",JSON.stringify({rev:rev,exps:exps,period:period||""})); }catch(e){}
+  function flag(id,on){
+    $("#"+id).classList.toggle("error",on);
+    $("#"+id+"-err").classList.toggle("show",on);
   }
-  function loadDraft(){
+
+  /* ---------- persistence ---------- */
+  function persist(){
     try{
-      var d=JSON.parse(localStorage.getItem(KEY+"_draft")||"null");
-      if(!d) return false;
-      $("#rev").value=d.rev||"";
-      $("#period").value=d.period||"";
-      expList.innerHTML="";
-      (d.exps&&d.exps.length?d.exps:[null]).forEach(function(e){ e?addExpense(e.name,e.amt):addExpense(); });
-      return true;
-    }catch(e){ return false; }
+      localStorage.setItem(KEY,JSON.stringify({
+        sales:$("#sales").value, current:$("#current").value,
+        target:$("#target").value, upfront:$("#upfront").value
+      }));
+    }catch(e){}
   }
-
-  /* ---------- saved snapshots ---------- */
-  function getSaved(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
-  function setSaved(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
-
-  function renderHistory(){
-    var items=getSaved();
-    if(!items.length){ histCard.hidden=true; return; }
-    histCard.hidden=false;
-    hist.innerHTML="";
-    items.forEach(function(it,i){
-      var row=document.createElement("div");
-      row.className="item";
-      var when=it.period?it.period:it.date;
-      row.innerHTML=
-        '<div class="grow"><strong>'+money(it.profit)+' profit · '+
-        (it.rev>0?Math.round(it.margin):0)+'% margin</strong>'+
-        '<small>'+when+' · '+money(it.rev)+' in, '+money(it.totalExp)+' out · saved '+it.date+'</small></div>'+
-        '<button class="icon-btn" aria-label="Delete snapshot">✕</button>';
-      $(".icon-btn",row).onclick=function(){ items.splice(i,1); setSaved(items); renderHistory(); toast("Snapshot removed"); };
-      hist.appendChild(row);
-    });
-  }
-
-  function todayStr(){
-    var d=new Date();
-    return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  function load(){
+    try{
+      var d=JSON.parse(localStorage.getItem(KEY)||"null");
+      if(!d) return;
+      $("#sales").value=d.sales||""; $("#current").value=d.current||"";
+      $("#target").value=d.target||""; $("#upfront").value=d.upfront||"";
+    }catch(e){}
   }
 
   /* ---------- events ---------- */
-  $("#add-exp").onclick=function(){ addExpense().querySelector(".name").focus(); };
-
   $("#form").addEventListener("submit",function(e){ e.preventDefault(); calculate(); });
 
   $("#reset").onclick=function(){
-    $("#rev").value=""; $("#rev").classList.remove("error"); $("#rev-err").classList.remove("show");
-    $("#period").value="";
-    expList.innerHTML=""; addExpense();
+    ["sales","current","target","upfront"].forEach(function(id){ flag(id,false); $("#"+id).value=""; });
     result.hidden=true;
-    try{ localStorage.removeItem(KEY+"_draft"); }catch(e){}
-    toast("Cleared 🌿");
-    $("#rev").focus();
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    toast("Cleared 🌿"); $("#sales").focus();
   };
 
   $("#save").onclick=function(){
     var r=calculate(); if(!r) return;
-    var items=getSaved();
-    items.unshift({date:todayStr(),period:r.period,rev:r.rev,totalExp:r.totalExp,profit:r.profit,margin:r.margin});
-    setSaved(items.slice(0,24));
-    renderHistory();
-    toast("Snapshot saved ✓");
-  };
-
-  $("#pdf").onclick=function(){
-    var r=calculate(); if(!r) return;        /* make sure the snapshot is shown & valid */
-    toast("Opening print → choose 'Save as PDF'");
-    setTimeout(function(){ window.print(); },300);
+    persist();
+    toast("Saved on this device ✓");
   };
 
   $("#copy").onclick=function(){
-    var period=periodLabel($("#period").value)||todayStr();
-    var txt="Profit Snapshot — "+period+"\n"+
-      "Revenue: "+$("#s-rev").textContent+"\n"+
-      "Expenses: "+$("#s-exp").textContent+"\n"+
-      "Profit: "+$("#r-profit").textContent+"\n"+
-      "Margin: "+$("#s-margin").textContent;
+    var txt="Payment Terms Optimizer\n"+
+      "Monthly invoiced sales: "+$("#sales").value+"\n"+
+      "Current days to pay: "+$("#current").value+" → target: "+$("#target").value+"\n"+
+      "Tied up now: "+$("#s-now").textContent+"\n"+
+      "Tied up under new terms: "+$("#s-new").textContent+"\n"+
+      "Cash freed up: "+$("#s-freed").textContent;
     if(navigator.clipboard&&navigator.clipboard.writeText){
       navigator.clipboard.writeText(txt).then(function(){toast("Summary copied ✓")},function(){toast("Couldn't copy")});
     }else{ toast("Copy not supported here"); }
   };
 
-  $("#clear-all").onclick=function(){
-    setSaved([]); renderHistory(); toast("All saved snapshots cleared");
-  };
-
   /* ---------- init ---------- */
-  if(!loadDraft()) addExpense();
-  renderHistory();
+  load();
 })();
 </script>
 </body>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Faith &amp; Focus Tracker — AI Profit Garden</title>
+<meta name="description" content="Log your energy and focus so you do deep work from a place of peace." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+[hidden]{display:none!important}
+.scale{display:flex;gap:7px;flex-wrap:wrap}
+.scale button{flex:1;min-width:40px;font-family:var(--sans);font-weight:700;font-size:1rem;border:1.5px solid var(--line);background:var(--cream);color:var(--ink);border-radius:var(--radius);padding:11px 0;cursor:pointer;transition:.12s}
+.scale button:hover{border-color:var(--sage)}
+.scale button[aria-pressed="true"]{background:var(--olive);color:#fff;border-color:var(--olive)}
+.scale-ends{display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted);margin-top:4px}
+.trend{margin-top:10px}
+.trend .trend-label{display:flex;justify-content:space-between;font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:5px}
+.spark{display:flex;align-items:flex-end;gap:4px;height:54px}
+.spark .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px}
+.spark .col i{display:block;width:100%;max-width:22px;border-radius:5px 5px 0 0;background:linear-gradient(180deg,var(--sage),var(--olive));min-height:3px}
+.spark .col em{font-size:.6rem;font-style:normal;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Faith &amp; Focus Tracker</h1>
+      <p class="app-sub">Do deep work from a place of peace.</p>
+    </div>
+  </header>
+
+  <!-- VERSE -->
+  <section class="card" id="verse-card">
+    <h2 class="section-title">Peace is your power source</h2>
+    <p class="section-note">You weren't made to run on adrenaline and pressure. When you keep your mind stayed on God, focus follows — and you can give your best work from rest, not from striving. Notice your patterns, gently.</p>
+    <div class="verse">
+      “Thou wilt keep him in perfect peace, whose mind is stayed on thee: because he trusteth in thee.”
+      <cite>Isaiah 26:3 (KJV)</cite>
+    </div>
+  </section>
+
+  <!-- CHECK-IN -->
+  <section class="card" id="form-card">
+    <h2 class="section-title">Today's check-in</h2>
+    <p class="section-note">How are you, honestly? Rate each from 1 (low) to 5 (full).</p>
+
+    <div class="field">
+      <label id="lbl-energy">Energy</label>
+      <div class="scale" role="group" aria-labelledby="lbl-energy" data-metric="energy"></div>
+      <div class="scale-ends"><span>Running on empty</span><span>Full of life</span></div>
+    </div>
+    <div class="field">
+      <label id="lbl-focus">Focus</label>
+      <div class="scale" role="group" aria-labelledby="lbl-focus" data-metric="focus"></div>
+      <div class="scale-ends"><span>Scattered</span><span>Sharp &amp; clear</span></div>
+    </div>
+    <div class="field">
+      <label id="lbl-peace">Peace</label>
+      <div class="scale" role="group" aria-labelledby="lbl-peace" data-metric="peace"></div>
+      <div class="scale-ends"><span>Anxious</span><span>Settled in Him</span></div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="helped">What helped me <span class="hint">— optional tag</span></label>
+        <input id="helped" class="input" type="text" placeholder="e.g. Prayer walk, early start" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="drained">What drained me <span class="hint">— optional</span></label>
+        <input id="drained" class="input" type="text" placeholder="e.g. Too many tabs open" autocomplete="off" />
+      </div>
+    </div>
+    <div class="field">
+      <label for="note">A note <span class="hint">— optional</span></label>
+      <textarea id="note" class="input" placeholder="Anything you want to remember about today…"></textarea>
+    </div>
+
+    <div class="err-text" id="form-err">Please rate energy, focus, and peace before saving.</div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-primary" id="save">Save check-in</button>
+      <button type="button" class="btn btn-ghost" id="clear-form">Clear</button>
+    </div>
+  </section>
+
+  <!-- TRENDS -->
+  <section class="card" id="trends-card" hidden>
+    <h2 class="section-title">Your recent rhythm</h2>
+    <p class="section-note">The last several check-ins — energy, focus, and peace over time.</p>
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Avg energy</div><div class="value" id="avg-energy">—</div></div>
+      <div class="stat"><div class="label">Avg focus</div><div class="value" id="avg-focus">—</div></div>
+      <div class="stat"><div class="label">Avg peace</div><div class="value" id="avg-peace">—</div></div>
+    </div>
+
+    <div class="trend">
+      <div class="trend-label"><span>Energy</span><span aria-hidden="true">⚡</span></div>
+      <div class="spark" id="sp-energy" aria-hidden="true"></div>
+    </div>
+    <div class="trend">
+      <div class="trend-label"><span>Focus</span><span aria-hidden="true">🎯</span></div>
+      <div class="spark" id="sp-focus" aria-hidden="true"></div>
+    </div>
+    <div class="trend">
+      <div class="trend-label"><span>Peace</span><span aria-hidden="true">🕊️</span></div>
+      <div class="spark" id="sp-peace" aria-hidden="true"></div>
+    </div>
+
+    <div class="callout callout-info" id="insight"></div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="card" id="history-card">
+    <h2 class="section-title">Past check-ins</h2>
+    <p class="section-note">Kept on this device only.</p>
+    <div id="history"></div>
+    <div class="btn-row mt" id="clear-row" hidden>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all check-ins</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_faith_focus_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var $$=function(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))};
+
+  var sel={energy:0,focus:0,peace:0};
+
+  /* ---------- helpers ---------- */
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+  function dayKey(d){d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+  function pretty(key){var p=key.split("-"),d=new Date(+p[0],+p[1]-1,+p[2]);return d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});}
+  function shortDay(key){var p=key.split("-"),d=new Date(+p[0],+p[1]-1,+p[2]);return d.toLocaleDateString("en-US",{day:"numeric"});}
+
+  function getAll(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setAll(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+
+  /* ---------- scales ---------- */
+  function buildScales(){
+    $$(".scale").forEach(function(g){
+      var metric=g.getAttribute("data-metric");
+      for(var i=1;i<=5;i++){
+        (function(v){
+          var b=document.createElement("button");
+          b.type="button"; b.textContent=v; b.setAttribute("aria-pressed","false");
+          b.setAttribute("aria-label",metric+" "+v+" of 5");
+          b.onclick=function(){
+            sel[metric]=v;
+            $$("button",g).forEach(function(x){x.setAttribute("aria-pressed","false");});
+            b.setAttribute("aria-pressed","true");
+          };
+          g.appendChild(b);
+        })(i);
+      }
+    });
+  }
+  function resetScales(){
+    sel={energy:0,focus:0,peace:0};
+    $$(".scale button").forEach(function(x){x.setAttribute("aria-pressed","false");});
+  }
+
+  /* ---------- trends ---------- */
+  function renderTrends(){
+    var items=getAll(), card=$("#trends-card");
+    if(!items.length){ card.hidden=true; return; }
+    card.hidden=false;
+    var recent=items.slice(0,7).slice().reverse(); // oldest→newest of last 7
+    function avg(k){ if(!items.length) return 0; return items.reduce(function(a,it){return a+it[k]},0)/items.length; }
+    $("#avg-energy").textContent=avg("energy").toFixed(1);
+    $("#avg-focus").textContent=avg("focus").toFixed(1);
+    $("#avg-peace").textContent=avg("peace").toFixed(1);
+
+    ["energy","focus","peace"].forEach(function(k){
+      var sp=$("#sp-"+k); sp.innerHTML="";
+      recent.forEach(function(it){
+        var col=document.createElement("div"); col.className="col";
+        var h=Math.round((it[k]/5)*48)+3;
+        col.innerHTML='<i style="height:'+h+'px"></i><em>'+shortDay(it.day)+'</em>';
+        sp.appendChild(col);
+      });
+    });
+
+    $("#insight").textContent=buildInsight(items);
+  }
+
+  function buildInsight(items){
+    // tag-based insight: which "helped" tag co-occurs with high focus
+    var tagged=items.filter(function(it){return it.helped;});
+    if(tagged.length>=2){
+      var byTag={};
+      tagged.forEach(function(it){
+        var t=it.helped.toLowerCase().trim();
+        (byTag[t]=byTag[t]||[]).push(it.focus);
+      });
+      var best=null,bestAvg=0,bestRaw="";
+      Object.keys(byTag).forEach(function(t){
+        if(byTag[t].length<1) return;
+        var a=byTag[t].reduce(function(x,y){return x+y},0)/byTag[t].length;
+        if(a>bestAvg){ bestAvg=a; best=t; }
+      });
+      if(best && bestAvg>=3.5){
+        // find original casing
+        for(var i=0;i<tagged.length;i++){ if(tagged[i].helped.toLowerCase().trim()===best){ bestRaw=tagged[i].helped.trim(); break; } }
+        return "Your focus tends to be highest when you note “"+bestRaw+"”. Whatever fills your cup is worth protecting — build more of it into your week.";
+      }
+    }
+    var avgPeace=items.reduce(function(a,it){return a+it.peace},0)/items.length;
+    if(avgPeace>=4) return "Your peace has been steady and high lately — that's holy ground for deep work. Keep your mind stayed on Him.";
+    if(avgPeace<=2.5) return "Your peace has been running low. Before the next deep-work block, pause: a few minutes of prayer or stillness can reset everything. Tag what helps so you can see the pattern.";
+    return "Keep checking in. As entries gather, you'll start to see exactly what helps you focus — and what to set down.";
+  }
+
+  /* ---------- history ---------- */
+  function renderHistory(){
+    var items=getAll(), hist=$("#history"), clearRow=$("#clear-row");
+    hist.innerHTML="";
+    if(!items.length){
+      hist.innerHTML='<div class="empty"><span class="ico" aria-hidden="true">🌿</span>No check-ins yet. Rate today above and save — patterns appear after a few days.</div>';
+      clearRow.hidden=true; return;
+    }
+    clearRow.hidden=false;
+    items.forEach(function(it,i){
+      var row=document.createElement("div");
+      row.className="item";
+      var meta=[];
+      if(it.helped) meta.push("helped: "+it.helped);
+      if(it.drained) meta.push("drained: "+it.drained);
+      var sub="⚡"+it.energy+" · 🎯"+it.focus+" · 🕊️"+it.peace+(meta.length?" · "+esc(meta.join(" · ")):"");
+      var noteHtml=it.note?'<small style="display:block;margin-top:3px;font-style:italic">'+esc(it.note)+'</small>':"";
+      row.innerHTML=
+        '<div class="grow"><strong>'+pretty(it.day)+'</strong><small>'+sub+'</small>'+noteHtml+'</div>'+
+        '<button class="icon-btn" aria-label="Delete check-in">✕</button>';
+      $(".icon-btn",row).onclick=function(){
+        var all=getAll();
+        // match by day+timestamp to avoid index drift
+        var idx=all.indexOf(all.filter(function(x){return x.ts===it.ts;})[0]);
+        if(idx>-1){ all.splice(idx,1); setAll(all); renderHistory(); renderTrends(); toast("Check-in removed"); }
+      };
+      hist.appendChild(row);
+    });
+  }
+
+  /* ---------- save ---------- */
+  $("#save").onclick=function(){
+    var err=$("#form-err");
+    if(!sel.energy||!sel.focus||!sel.peace){ err.classList.add("show"); return; }
+    err.classList.remove("show");
+    var items=getAll(), today=dayKey();
+    var entry={day:today,ts:Date.now(),energy:sel.energy,focus:sel.focus,peace:sel.peace,
+      helped:$("#helped").value.trim(),drained:$("#drained").value.trim(),note:$("#note").value.trim()};
+    // replace today's existing entry if present
+    var existingIdx=-1;
+    for(var i=0;i<items.length;i++){ if(items[i].day===today){ existingIdx=i; break; } }
+    if(existingIdx>-1){ entry.ts=items[existingIdx].ts; items[existingIdx]=entry; }
+    else { items.unshift(entry); }
+    items.sort(function(a,b){return b.ts-a.ts;});
+    setAll(items);
+    clearForm();
+    renderTrends(); renderHistory();
+    toast(existingIdx>-1?"Today updated ✓":"Check-in saved ✓ 🌿");
+  };
+
+  function clearForm(){
+    resetScales();
+    $("#helped").value=""; $("#drained").value=""; $("#note").value="";
+    $("#form-err").classList.remove("show");
+  }
+  $("#clear-form").onclick=function(){ clearForm(); toast("Cleared"); };
+
+  $("#clear-all").onclick=function(){
+    if(!confirm("Clear all check-ins? This can't be undone.")) return;
+    setAll([]); renderTrends(); renderHistory(); toast("All check-ins cleared");
+  };
+
+  /* ---------- init ---------- */
+  buildScales();
+  renderTrends();
+  renderHistory();
+})();
+</script>
+</body>
+</html>

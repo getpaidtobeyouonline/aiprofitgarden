@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Profit Snapshot — AI Profit Garden</title>
-<meta name="description" content="Enter your revenue and expenses to see your real profit and margin in seconds." />
+<title>Upsell Revenue Estimator — AI Profit Garden</title>
+<meta name="description" content="See how much extra profit one simple upsell could add to your business this year." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -97,26 +97,21 @@ textarea.input{min-height:96px;resize:vertical}
 .mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 /* ---- App-specific touches ---- */
-.exp-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
-.exp-row .input-money{flex:0 0 130px}
-.exp-row .input.name{flex:1}
 .result-hero{text-align:center;padding:8px 0 4px}
 .result-hero .big{font-family:var(--serif);font-weight:700;font-size:2.8rem;line-height:1;color:var(--olive)}
 .result-hero .big.neg{color:var(--danger)}
 .result-hero .big.pos{color:#2F7A4E}
 .result-hero .cap{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.result-hero .period{font-size:.9rem;font-weight:700;color:var(--olive);margin-bottom:2px}
 [hidden]{display:none!important}
-/* Print / Save-as-PDF: show only the result snapshot, cleanly */
-@media print{
-  body::before{display:none}
-  .wrap{max-width:none;padding:0}
-  body *{visibility:hidden}
-  #print-area,#print-area *{visibility:visible}
-  #print-area{position:absolute;left:0;top:0;width:100%;box-shadow:none;border:none;margin:0;padding:8px 4px}
-  .btn-row,.no-print{display:none!important}
-  @page{margin:14mm}
-}
+/* upsell-revenue-estimator specific */
+.sens{margin-top:14px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.sens-row{display:flex;align-items:center;gap:12px;padding:12px 15px;border-top:1px solid var(--line)}
+.sens-row:first-child{border-top:none;background:var(--sage-soft)}
+.sens-row .rate{flex:0 0 84px;font-weight:700;color:var(--olive)}
+.sens-row .rate small{display:block;font-weight:400;font-size:.74rem;color:var(--muted)}
+.sens-row .annual{margin-left:auto;font-family:var(--serif);font-weight:700;color:var(--olive)}
+.sens-row.hi .annual{color:#2F7A4E}
+.sens-row.head{background:var(--cream);font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -138,38 +133,51 @@ textarea.input{min-height:96px;resize:vertical}
     </div>
     <div class="app-titles">
       <div class="app-eyebrow">AI Profit Garden</div>
-      <h1 class="app-title">Profit Snapshot</h1>
-      <p class="app-sub">See your real profit and margin in seconds.</p>
+      <h1 class="app-title">Upsell Revenue Estimator</h1>
+      <p class="app-sub">See the extra profit one simple upsell could add.</p>
     </div>
   </header>
 
   <!-- INPUT -->
   <section class="card">
-    <h2 class="section-title">Your month at a glance</h2>
-    <p class="section-note">Enter what came in and what went out. We'll do the math — no spreadsheet required.</p>
+    <h2 class="section-title">Your upsell, in numbers</h2>
+    <p class="section-note">An upsell is a little extra you offer at checkout — a bonus, an add-on, an upgrade. It's often the easiest profit you'll ever make, because she's already saying yes.</p>
 
     <form id="form" novalidate>
       <div class="field">
-        <label for="period">Which month? <span class="hint">— name the month &amp; year you're entering</span></label>
-        <input id="period" class="input" type="month" aria-label="Month and year for this snapshot" />
+        <label for="customers">Customers or orders per month <span class="hint">— roughly</span></label>
+        <input id="customers" class="input" type="text" inputmode="numeric" placeholder="e.g. 40" autocomplete="off" aria-describedby="customers-err" />
+        <div class="err-text" id="customers-err">Please enter how many customers you serve each month (1 or more).</div>
       </div>
 
-      <div class="field">
-        <label for="rev">Revenue this month <span class="hint">— money that came in</span></label>
-        <div class="input-money"><span>$</span>
-          <input id="rev" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="rev-err" />
+      <div class="row">
+        <div class="field">
+          <label for="price">Upsell price</label>
+          <div class="input-money"><span>$</span>
+            <input id="price" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="price-err" />
+          </div>
+          <div class="err-text" id="price-err">Please enter the upsell price (more than 0).</div>
         </div>
-        <div class="err-text" id="rev-err">Please enter your revenue (a number of 0 or more).</div>
+        <div class="field">
+          <label for="cost">Cost to deliver it <span class="hint">— optional</span></label>
+          <div class="input-money"><span>$</span>
+            <input id="cost" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="cost-err" />
+          </div>
+          <div class="err-text" id="cost-err">Cost can't be more than the upsell price.</div>
+        </div>
       </div>
 
       <div class="field">
-        <label>Expenses <span class="hint">— add as many as you like</span></label>
-        <div id="exp-list"></div>
-        <button type="button" class="btn btn-ghost btn-sm" id="add-exp">+ Add an expense</button>
+        <label for="rate">Take-rate <span class="hint">— what portion say yes</span></label>
+        <div style="position:relative">
+          <input id="rate" class="input" type="text" inputmode="decimal" placeholder="20" autocomplete="off" style="padding-right:34px" aria-describedby="rate-err" />
+          <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600">%</span>
+        </div>
+        <div class="err-text" id="rate-err">Take-rate should be between 0 and 100%.</div>
       </div>
 
       <div class="btn-row">
-        <button type="submit" class="btn btn-primary">Show my profit</button>
+        <button type="submit" class="btn btn-primary">Estimate my extra profit</button>
         <button type="button" class="btn btn-ghost" id="reset">Reset</button>
       </div>
     </form>
@@ -177,51 +185,31 @@ textarea.input{min-height:96px;resize:vertical}
 
   <!-- RESULT -->
   <section class="card" id="result" hidden aria-live="polite">
-    <div id="print-area">
-      <div class="result-hero">
-        <div class="period" id="r-period" hidden></div>
-        <div class="cap" id="r-cap">Your real profit</div>
-        <div class="big" id="r-profit">$0</div>
-        <div id="r-badge" style="margin-top:10px"></div>
-      </div>
-
-      <div class="bar mt" aria-hidden="true"><i id="r-bar"></i></div>
-
-      <div class="stat-grid">
-        <div class="stat"><div class="label">Revenue</div><div class="value" id="s-rev">$0</div></div>
-        <div class="stat"><div class="label">Total expenses</div><div class="value" id="s-exp">$0</div></div>
-        <div class="stat"><div class="label">Profit margin</div><div class="value" id="s-margin">0%</div></div>
-      </div>
-
-      <div id="r-message" class="callout callout-info mt"></div>
-
-      <!-- shown when there's profit to celebrate -->
-      <div class="verse" id="r-verse" hidden>
-        “Whoever is faithful with little will be faithful with much.”
-        <cite>Luke 16:10 · small steps, steady growth</cite>
-      </div>
-
-      <!-- shown gently when the month ran at a loss -->
-      <div class="verse" id="r-verse-loss" hidden>
-        “You shall remember the Lord your God, for it is he who gives you power to get wealth, that he may confirm his covenant that he swore to your fathers, as it is this day.”
-        <cite>Deuteronomy 8:18 · He gives you power to get wealth</cite>
-      </div>
+    <div class="result-hero">
+      <div class="cap">Extra profit this year</div>
+      <div class="big pos" id="r-annual">$0</div>
     </div>
 
-    <div class="btn-row mt no-print">
-      <button type="button" class="btn btn-olive btn-sm" id="save">Save this snapshot</button>
-      <button type="button" class="btn btn-primary btn-sm" id="pdf">Save as PDF</button>
-      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy summary</button>
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Extra profit / month</div><div class="value pos" id="s-monthly">$0</div></div>
+      <div class="stat"><div class="label">Yeses / month</div><div class="value" id="s-yeses">0</div></div>
+      <div class="stat"><div class="label">Profit per yes</div><div class="value" id="s-each">$0</div></div>
     </div>
-  </section>
 
-  <!-- SAVED HISTORY -->
-  <section class="card" id="history-card" hidden>
-    <h2 class="section-title">Saved snapshots</h2>
-    <p class="section-note">Kept on this device only. Watch your fruit grow over time.</p>
-    <div id="history"></div>
+    <div id="r-message" class="callout callout-info mt"></div>
+
+    <h3 class="section-title mt" style="font-size:1.05rem">If more (or fewer) say yes</h3>
+    <p class="section-note">Take-rates vary. Here's the yearly range so you can plan with eyes open.</p>
+    <div class="sens" id="sens"></div>
+
+    <div class="verse" id="r-verse">
+      “The plans of the diligent lead surely to abundance.”
+      <cite>Proverbs 21:5 · small, steady offers add up</cite>
+    </div>
+
     <div class="btn-row mt">
-      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all saved</button>
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save these inputs</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy summary</button>
     </div>
   </section>
 
@@ -236,9 +224,8 @@ textarea.input{min-height:96px;resize:vertical}
 <script>
 (function(){
   "use strict";
-  var KEY="apg_profit_snapshot_v1";
+  var KEY="apg_upsell_estimator_v1";
   var $=function(s,el){return (el||document).querySelector(s)};
-  var expList=$("#exp-list"), result=$("#result"), histCard=$("#history-card"), hist=$("#history");
 
   /* ---------- helpers ---------- */
   function money(n){
@@ -248,196 +235,101 @@ textarea.input{min-height:96px;resize:vertical}
   }
   function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
   function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
-  /* turn a <input type="month"> value ("2026-06") into "June 2026" */
-  function periodLabel(v){
-    if(!v||!/^\d{4}-\d{2}$/.test(v)) return "";
-    var p=v.split("-"), names=["January","February","March","April","May","June","July","August","September","October","November","December"];
-    var mi=parseInt(p[1],10)-1;
-    return (names[mi]||"")+" "+p[0];
-  }
-
-  /* ---------- expense rows ---------- */
-  function addExpense(name,amt){
-    var row=document.createElement("div");
-    row.className="exp-row";
-    row.innerHTML=
-      '<input class="input name" type="text" placeholder="What for? (e.g. software)" aria-label="Expense name" />'+
-      '<div class="input-money"><span>$</span><input class="input amt" type="text" inputmode="decimal" placeholder="0.00" aria-label="Expense amount" autocomplete="off" /></div>'+
-      '<button type="button" class="icon-btn" aria-label="Remove expense">✕</button>';
-    $(".name",row).value=name||"";
-    $(".amt",row).value=(amt||amt===0)?amt:"";
-    $(".icon-btn",row).onclick=function(){ row.remove(); if(!expList.children.length) addExpense(); };
-    expList.appendChild(row);
-    return row;
-  }
-
-  function readExpenses(){
-    var out=[];
-    Array.prototype.forEach.call(expList.querySelectorAll(".exp-row"),function(r){
-      var name=$(".name",r).value.trim(), amt=num($(".amt",r).value);
-      if(name||amt) out.push({name:name||"Expense",amt:amt});
-    });
-    return out;
-  }
+  function clearErr(id){ $("#"+id).classList.remove("error"); $("#"+id+"-err").classList.remove("show"); }
+  function setErr(id){ var el=$("#"+id); el.classList.add("error"); $("#"+id+"-err").classList.add("show"); return el; }
 
   /* ---------- calculate ---------- */
   function calculate(){
-    var revEl=$("#rev"), revErr=$("#rev-err");
-    var revRaw=revEl.value.trim();
-    if(revRaw==="" || num(revRaw)<0){
-      revEl.classList.add("error"); revErr.classList.add("show"); revEl.focus();
-      return;
-    }
-    revEl.classList.remove("error"); revErr.classList.remove("show");
+    ["customers","price","cost","rate"].forEach(clearErr);
+    var customers=num($("#customers").value);
+    var price=num($("#price").value);
+    var cost=num($("#cost").value);
+    var rate=$("#rate").value.trim()===""?20:num($("#rate").value);
 
-    var rev=num(revRaw);
-    var exps=readExpenses();
-    var totalExp=exps.reduce(function(a,e){return a+e.amt},0);
-    var profit=rev-totalExp;
-    var margin=rev>0?(profit/rev*100):0;
+    var bad=null;
+    if(customers<1){ bad=bad||setErr("customers"); }
+    if(price<=0){ bad=bad||setErr("price"); }
+    if(cost>price && price>0){ bad=bad||setErr("cost"); }
+    if(rate<0||rate>100){ bad=bad||setErr("rate"); }
+    if(bad){ bad.focus(); return; }
 
-    $("#s-rev").textContent=money(rev);
-    $("#s-exp").textContent=money(totalExp);
-    $("#s-margin").textContent=(rev>0?margin.toFixed(0):"—")+"%";
+    var profitEach=price-cost;             // profit per yes
+    var yeses=customers*(rate/100);        // yeses per month
+    var monthly=yeses*profitEach;
+    var annual=monthly*12;
 
-    var big=$("#r-profit");
-    big.textContent=money(profit);
-    big.className="big "+(profit>0?"pos":profit<0?"neg":"");
-    $("#r-cap").textContent = profit<0 ? "Your shortfall this month" : "Your real profit";
+    $("#r-annual").textContent=money(annual);
+    $("#s-monthly").textContent=money(monthly);
+    $("#s-yeses").textContent=yeses.toLocaleString("en-US",{maximumFractionDigits:1});
+    $("#s-each").textContent=money(profitEach);
 
-    $("#r-bar").style.width=Math.max(0,Math.min(100,margin))+"%";
+    var msg=$("#r-message");
+    var saySentence="If you offer this upsell at "+money(price)+" and about "+Math.round(rate)+
+      "% of your "+Math.round(customers)+" monthly customers say yes, you'd add roughly "+
+      money(monthly)+" in profit each month — about "+money(annual)+" over a year.";
+    msg.textContent=saySentence;
+    msg.className="callout callout-info mt";
 
-    /* friendly, encouraging interpretation */
-    var badge=$("#r-badge"), msg=$("#r-message"), verse=$("#r-verse");
-    var b,m;
-    if(profit<0){
-      b='<span class="badge badge-danger">Running at a loss</span>';
-      m="You spent more than you earned this month — and now you can see it clearly, which is the first step to fixing it. Look for one expense to trim, or one small offer to add. You've got this.";
-      msg.className="callout callout-warn mt";
-    }else if(margin<10){
-      b='<span class="badge badge-gold">Thin margin</span>';
-      m="You're profitable — well done! A margin under 10% is tight, though. A small price increase or trimming one cost could make a real difference.";
-      msg.className="callout callout-info mt";
-    }else if(margin<25){
-      b='<span class="badge badge-sage">Healthy</span>';
-      m="A solid, healthy margin. Your business is feeding itself. Keep nurturing it — you're on good ground.";
-      msg.className="callout callout-info mt";
-    }else{
-      b='<span class="badge badge-sage">Flourishing</span>';
-      m="Beautiful — a strong, flourishing margin. This is room to pay yourself well, give generously, and reinvest in growth.";
-      msg.className="callout callout-info mt";
-    }
-    badge.innerHTML=b; msg.textContent=m;
-    /* a gentle word either way: celebrate fruit, or steady the heart in a loss */
-    verse.hidden = profit<=0;
-    $("#r-verse-loss").hidden = profit>=0;
-
-    /* show the month/year they named */
-    var period=periodLabel($("#period").value);
-    var pEl=$("#r-period");
-    pEl.textContent=period; pEl.hidden=!period;
-
-    result.hidden=false;
-    result.scrollIntoView({behavior:"smooth",block:"start"});
-
-    /* remember the working inputs (not the same as saved snapshots) */
-    persistDraft(rev,exps,$("#period").value);
-    return {rev:rev,exps:exps,totalExp:totalExp,profit:profit,margin:margin,period:period};
-  }
-
-  /* ---------- draft persistence (auto) ---------- */
-  function persistDraft(rev,exps,period){
-    try{ localStorage.setItem(KEY+"_draft",JSON.stringify({rev:rev,exps:exps,period:period||""})); }catch(e){}
-  }
-  function loadDraft(){
-    try{
-      var d=JSON.parse(localStorage.getItem(KEY+"_draft")||"null");
-      if(!d) return false;
-      $("#rev").value=d.rev||"";
-      $("#period").value=d.period||"";
-      expList.innerHTML="";
-      (d.exps&&d.exps.length?d.exps:[null]).forEach(function(e){ e?addExpense(e.name,e.amt):addExpense(); });
-      return true;
-    }catch(e){ return false; }
-  }
-
-  /* ---------- saved snapshots ---------- */
-  function getSaved(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
-  function setSaved(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
-
-  function renderHistory(){
-    var items=getSaved();
-    if(!items.length){ histCard.hidden=true; return; }
-    histCard.hidden=false;
-    hist.innerHTML="";
-    items.forEach(function(it,i){
+    /* sensitivity at 10 / 20 / 30 (plus the chosen rate if different) */
+    var rates=[10,20,30];
+    if(rates.indexOf(Math.round(rate))===-1) rates.push(Math.round(rate));
+    rates.sort(function(a,b){return a-b});
+    var sens=$("#sens");
+    sens.innerHTML='<div class="sens-row head"><span class="rate">Take-rate</span><span class="annual">Extra / year</span></div>';
+    rates.forEach(function(rp){
+      var a=customers*(rp/100)*profitEach*12;
       var row=document.createElement("div");
-      row.className="item";
-      var when=it.period?it.period:it.date;
-      row.innerHTML=
-        '<div class="grow"><strong>'+money(it.profit)+' profit · '+
-        (it.rev>0?Math.round(it.margin):0)+'% margin</strong>'+
-        '<small>'+when+' · '+money(it.rev)+' in, '+money(it.totalExp)+' out · saved '+it.date+'</small></div>'+
-        '<button class="icon-btn" aria-label="Delete snapshot">✕</button>';
-      $(".icon-btn",row).onclick=function(){ items.splice(i,1); setSaved(items); renderHistory(); toast("Snapshot removed"); };
-      hist.appendChild(row);
+      row.className="sens-row"+(rp===Math.round(rate)?" hi":"");
+      row.innerHTML='<span class="rate">'+rp+'%'+(rp===Math.round(rate)?'<small>your estimate</small>':'')+
+        '</span><span class="annual">'+money(a)+'</span>';
+      sens.appendChild(row);
     });
+
+    persist({customers:customers,price:price,cost:cost,rate:rate});
+    $("#result").hidden=false;
+    $("#result").scrollIntoView({behavior:"smooth",block:"start"});
+    return {monthly:monthly,annual:annual,profitEach:profitEach,yeses:yeses,price:price,rate:rate};
   }
 
-  function todayStr(){
-    var d=new Date();
-    return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  /* ---------- persistence ---------- */
+  function persist(d){ try{ localStorage.setItem(KEY,JSON.stringify(d)); }catch(e){} }
+  function load(){
+    try{
+      var d=JSON.parse(localStorage.getItem(KEY)||"null");
+      if(!d) return;
+      if(d.customers) $("#customers").value=d.customers;
+      if(d.price) $("#price").value=d.price;
+      if(d.cost) $("#cost").value=d.cost;
+      if(d.rate||d.rate===0) $("#rate").value=d.rate;
+    }catch(e){}
   }
 
   /* ---------- events ---------- */
-  $("#add-exp").onclick=function(){ addExpense().querySelector(".name").focus(); };
-
   $("#form").addEventListener("submit",function(e){ e.preventDefault(); calculate(); });
 
   $("#reset").onclick=function(){
-    $("#rev").value=""; $("#rev").classList.remove("error"); $("#rev-err").classList.remove("show");
-    $("#period").value="";
-    expList.innerHTML=""; addExpense();
-    result.hidden=true;
-    try{ localStorage.removeItem(KEY+"_draft"); }catch(e){}
+    ["customers","price","cost","rate"].forEach(function(id){ $("#"+id).value=""; clearErr(id); });
+    $("#result").hidden=true;
+    try{ localStorage.removeItem(KEY); }catch(e){}
     toast("Cleared 🌿");
-    $("#rev").focus();
+    $("#customers").focus();
   };
 
-  $("#save").onclick=function(){
-    var r=calculate(); if(!r) return;
-    var items=getSaved();
-    items.unshift({date:todayStr(),period:r.period,rev:r.rev,totalExp:r.totalExp,profit:r.profit,margin:r.margin});
-    setSaved(items.slice(0,24));
-    renderHistory();
-    toast("Snapshot saved ✓");
-  };
-
-  $("#pdf").onclick=function(){
-    var r=calculate(); if(!r) return;        /* make sure the snapshot is shown & valid */
-    toast("Opening print → choose 'Save as PDF'");
-    setTimeout(function(){ window.print(); },300);
-  };
+  $("#save").onclick=function(){ var r=calculate(); if(r) toast("Inputs saved ✓"); };
 
   $("#copy").onclick=function(){
-    var period=periodLabel($("#period").value)||todayStr();
-    var txt="Profit Snapshot — "+period+"\n"+
-      "Revenue: "+$("#s-rev").textContent+"\n"+
-      "Expenses: "+$("#s-exp").textContent+"\n"+
-      "Profit: "+$("#r-profit").textContent+"\n"+
-      "Margin: "+$("#s-margin").textContent;
+    var txt="Upsell Revenue Estimator\n"+
+      "Profit per yes: "+$("#s-each").textContent+"\n"+
+      "Yeses / month: "+$("#s-yeses").textContent+"\n"+
+      "Extra profit / month: "+$("#s-monthly").textContent+"\n"+
+      "Extra profit / year: "+$("#r-annual").textContent;
     if(navigator.clipboard&&navigator.clipboard.writeText){
       navigator.clipboard.writeText(txt).then(function(){toast("Summary copied ✓")},function(){toast("Couldn't copy")});
     }else{ toast("Copy not supported here"); }
   };
 
-  $("#clear-all").onclick=function(){
-    setSaved([]); renderHistory(); toast("All saved snapshots cleared");
-  };
-
   /* ---------- init ---------- */
-  if(!loadDraft()) addExpense();
-  renderHistory();
+  load();
 })();
 </script>
 </body>

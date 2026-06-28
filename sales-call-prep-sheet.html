@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sales Call Prep Sheet — AI Profit Garden</title>
+<meta name="description" content="Walk into every sales conversation prepared and confident. Build a one-page prep sheet you can glance at before the call." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.pair-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.pair-row .pair-stack{flex:1;display:flex;flex-direction:column;gap:8px}
+.single-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.single-row .input{flex:1}
+.sheet{background:var(--cream);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+.sheet h4{font-family:var(--serif);color:var(--olive);font-size:1rem;margin:14px 0 4px}
+.sheet h4:first-child{margin-top:0}
+.sheet p{font-size:.92rem;margin:0 0 2px;white-space:pre-wrap}
+.sheet ul{margin:4px 0 0 18px;font-size:.92rem}
+.sheet .qa{margin-bottom:8px}
+.sheet .qa .q{font-weight:700}
+.affirm{font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.96rem;margin-top:6px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Sales Call Prep Sheet</h1>
+      <p class="app-sub">Walk into every conversation prepared and confident.</p>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card">
+    <h2 class="section-title">Prepare for your call</h2>
+    <p class="section-note">Fill in what you know. The more you prepare, the calmer and clearer you'll feel. You're not selling — you're serving someone who needs what you offer.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="prospect">Who are you meeting? <span class="hint">— prospect or business name</span></label>
+        <input id="prospect" class="input" type="text" placeholder="e.g. Sarah at Bloom Studio" autocomplete="off" aria-describedby="prospect-err" />
+        <div class="err-text" id="prospect-err">Please add a name so you can save this sheet.</div>
+      </div>
+
+      <div class="field">
+        <label for="problem">What do you know about their problem?</label>
+        <textarea id="problem" class="input" placeholder="What are they struggling with? What brought them to you?"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="goals">Their likely goals</label>
+        <textarea id="goals" class="input" placeholder="What does a win look like for them?"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="offer">Your relevant offer or solution</label>
+        <textarea id="offer" class="input" placeholder="Which of your services best fits — and how it helps them specifically."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Anticipated objections <span class="hint">— and how you'll respond</span></label>
+        <div id="obj-list"></div>
+        <button type="button" class="btn btn-ghost btn-sm" id="add-obj">+ Add an objection</button>
+      </div>
+
+      <div class="field">
+        <label>Key questions you'll ask <span class="hint">— curiosity builds trust</span></label>
+        <div id="q-list"></div>
+        <button type="button" class="btn btn-ghost btn-sm" id="add-q">+ Add a question</button>
+      </div>
+
+      <div class="field">
+        <label for="pricing">Pricing you'll quote</label>
+        <input id="pricing" class="input" type="text" placeholder="e.g. $1,500 package, or $150/hr" autocomplete="off" />
+      </div>
+
+      <div class="field">
+        <label for="outcome">Your desired outcome / next step</label>
+        <input id="outcome" class="input" type="text" placeholder="e.g. Book a follow-up, send a proposal, get a yes" autocomplete="off" />
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Build my prep sheet</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <div class="btn-row" style="justify-content:space-between;margin-top:0">
+      <h2 class="section-title" style="margin:0">Your one-page prep sheet</h2>
+      <span class="badge badge-sage">Ready</span>
+    </div>
+    <p class="section-note mt-s">Glance at this just before your call — then trust your preparation.</p>
+
+    <div class="sheet" id="sheet"></div>
+
+    <div class="verse">
+      “Commit your work to the Lord, and your plans will be established.”
+      <cite>Proverbs 16:3 · prepared, then peaceful</cite>
+    </div>
+
+    <h3 class="section-title mt" style="font-size:1.02rem">A word before you dial</h3>
+    <div id="affirms"></div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save this sheet</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy sheet</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="print">Print</button>
+    </div>
+  </section>
+
+  <!-- SAVED -->
+  <section class="card" id="history-card">
+    <h2 class="section-title">Saved prep sheets</h2>
+    <p class="section-note">One per prospect, kept on this device only.</p>
+    <div id="history"></div>
+    <div class="empty" id="empty">
+      <span class="ico">🌱</span>
+      No saved sheets yet. Prepare for your first call above and tap <strong>Save this sheet</strong>.
+    </div>
+    <div class="btn-row mt" id="clear-row" hidden>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all saved</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_sales_call_prep_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var objList=$("#obj-list"), qList=$("#q-list"), result=$("#result"), hist=$("#history");
+  var editId=null, last=null;
+
+  var AFFIRMS=[
+    "I am prepared, and preparation brings peace. (Proverbs 16:3)",
+    "I'm here to serve, not to convince. The right fit will feel right to us both.",
+    "My work has real value, and I can name my price without apology.",
+    "I can listen more than I speak — questions open doors.",
+    "Whatever the outcome, I am rooted and unshaken. (Jeremiah 17:8)",
+    "I trust God with the result and bring my best to the conversation."
+  ];
+
+  function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function todayStr(){ return new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); }
+
+  /* ---------- objection rows (paired) ---------- */
+  function addObjection(o,r){
+    var row=document.createElement("div"); row.className="pair-row";
+    row.innerHTML=
+      '<div class="pair-stack">'+
+        '<input class="input obj" type="text" placeholder="Objection — e.g. “It’s out of my budget”" aria-label="Objection" autocomplete="off" />'+
+        '<input class="input resp" type="text" placeholder="Your prepared response" aria-label="Prepared response" autocomplete="off" />'+
+      '</div>'+
+      '<button type="button" class="icon-btn" aria-label="Remove objection">✕</button>';
+    $(".obj",row).value=o||""; $(".resp",row).value=r||"";
+    $(".icon-btn",row).onclick=function(){ row.remove(); };
+    objList.appendChild(row); return row;
+  }
+  function addQuestion(q){
+    var row=document.createElement("div"); row.className="single-row";
+    row.innerHTML=
+      '<input class="input q" type="text" placeholder="e.g. What have you tried so far?" aria-label="Question to ask" autocomplete="off" />'+
+      '<button type="button" class="icon-btn" aria-label="Remove question">✕</button>';
+    $(".q",row).value=q||"";
+    $(".icon-btn",row).onclick=function(){ row.remove(); };
+    qList.appendChild(row); return row;
+  }
+
+  function readForm(){
+    var objections=[];
+    Array.prototype.forEach.call(objList.querySelectorAll(".pair-row"),function(r){
+      var o=$(".obj",r).value.trim(), resp=$(".resp",r).value.trim();
+      if(o||resp) objections.push({o:o,r:resp});
+    });
+    var questions=[];
+    Array.prototype.forEach.call(qList.querySelectorAll(".single-row"),function(r){
+      var q=$(".q",r).value.trim(); if(q) questions.push(q);
+    });
+    return {
+      prospect:$("#prospect").value.trim(),
+      problem:$("#problem").value.trim(),
+      goals:$("#goals").value.trim(),
+      offer:$("#offer").value.trim(),
+      objections:objections,
+      questions:questions,
+      pricing:$("#pricing").value.trim(),
+      outcome:$("#outcome").value.trim()
+    };
+  }
+
+  function fillForm(d){
+    $("#prospect").value=d.prospect||"";
+    $("#problem").value=d.problem||"";
+    $("#goals").value=d.goals||"";
+    $("#offer").value=d.offer||"";
+    $("#pricing").value=d.pricing||"";
+    $("#outcome").value=d.outcome||"";
+    objList.innerHTML=""; (d.objections&&d.objections.length?d.objections:[null]).forEach(function(o){ o?addObjection(o.o,o.r):addObjection(); });
+    qList.innerHTML=""; (d.questions&&d.questions.length?d.questions:[null]).forEach(function(q){ addQuestion(q||""); });
+  }
+
+  function renderSheet(d){
+    var h="";
+    h+='<h4>Prospect</h4><p>'+esc(d.prospect||"—")+'</p>';
+    if(d.problem) h+='<h4>Their problem</h4><p>'+esc(d.problem)+'</p>';
+    if(d.goals)   h+='<h4>Their goals</h4><p>'+esc(d.goals)+'</p>';
+    if(d.offer)   h+='<h4>My solution</h4><p>'+esc(d.offer)+'</p>';
+    if(d.objections&&d.objections.length){
+      h+='<h4>If they object…</h4>';
+      d.objections.forEach(function(x){
+        h+='<div class="qa"><div class="q">'+esc(x.o||"(objection)")+'</div><div>→ '+esc(x.r||"")+'</div></div>';
+      });
+    }
+    if(d.questions&&d.questions.length){
+      h+='<h4>Questions to ask</h4><ul>';
+      d.questions.forEach(function(q){ h+='<li>'+esc(q)+'</li>'; });
+      h+='</ul>';
+    }
+    if(d.pricing) h+='<h4>Price I’ll quote</h4><p>'+esc(d.pricing)+'</p>';
+    if(d.outcome) h+='<h4>My next step</h4><p>'+esc(d.outcome)+'</p>';
+    $("#sheet").innerHTML=h;
+
+    // affirmations — pick 3
+    var pool=AFFIRMS.slice(), pick=[];
+    for(var i=0;i<3&&pool.length;i++){ pick.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]); }
+    $("#affirms").innerHTML=pick.map(function(a){return '<p class="affirm">“'+esc(a)+'”</p>';}).join("");
+  }
+
+  function build(){
+    var d=readForm();
+    var p=$("#prospect"), pe=$("#prospect-err");
+    if(!d.prospect){ p.classList.add("error"); pe.classList.add("show"); p.focus(); return null; }
+    p.classList.remove("error"); pe.classList.remove("show");
+    last=d;
+    renderSheet(d);
+    result.hidden=false;
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+    return d;
+  }
+
+  function sheetText(d){
+    var t="SALES CALL PREP — "+(d.prospect||"")+"\n("+todayStr()+")\n";
+    if(d.problem) t+="\nTHEIR PROBLEM\n"+d.problem+"\n";
+    if(d.goals) t+="\nTHEIR GOALS\n"+d.goals+"\n";
+    if(d.offer) t+="\nMY SOLUTION\n"+d.offer+"\n";
+    if(d.objections&&d.objections.length){
+      t+="\nIF THEY OBJECT\n";
+      d.objections.forEach(function(x){ t+="- "+(x.o||"")+"\n  -> "+(x.r||"")+"\n"; });
+    }
+    if(d.questions&&d.questions.length){
+      t+="\nQUESTIONS TO ASK\n";
+      d.questions.forEach(function(q){ t+="- "+q+"\n"; });
+    }
+    if(d.pricing) t+="\nPRICE I'LL QUOTE\n"+d.pricing+"\n";
+    if(d.outcome) t+="\nMY NEXT STEP\n"+d.outcome+"\n";
+    return t;
+  }
+
+  /* ---------- saved sheets ---------- */
+  function getSaved(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setSaved(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+
+  function renderHistory(){
+    var items=getSaved();
+    hist.innerHTML="";
+    $("#empty").hidden=items.length>0;
+    $("#clear-row").hidden=items.length===0;
+    items.forEach(function(it){
+      var row=document.createElement("div"); row.className="item";
+      var bits=[];
+      if(it.objections&&it.objections.length) bits.push(it.objections.length+" objection"+(it.objections.length>1?"s":""));
+      if(it.questions&&it.questions.length) bits.push(it.questions.length+" question"+(it.questions.length>1?"s":""));
+      if(it.pricing) bits.push(it.pricing);
+      row.innerHTML='<div class="grow"><strong>'+esc(it.prospect)+'</strong>'+
+        '<small>'+it.date+(bits.length?' · '+esc(bits.join(" · ")):'')+'</small></div>'+
+        '<button class="icon-btn open" aria-label="Open sheet" style="color:var(--olive)">Open</button>'+
+        '<button class="icon-btn del" aria-label="Delete sheet">✕</button>';
+      $(".open",row).onclick=function(){ fillForm(it); editId=it.id; build(); toast("Sheet loaded"); window.scrollTo({top:0,behavior:"smooth"}); };
+      $(".del",row).onclick=function(){
+        var items2=getSaved().filter(function(x){return x.id!==it.id});
+        setSaved(items2); renderHistory(); toast("Sheet removed");
+      };
+      hist.appendChild(row);
+    });
+  }
+
+  /* ---------- events ---------- */
+  $("#add-obj").onclick=function(){ addObjection().querySelector(".obj").focus(); };
+  $("#add-q").onclick=function(){ addQuestion().querySelector(".q").focus(); };
+  $("#form").addEventListener("submit",function(e){ e.preventDefault(); build(); });
+
+  $("#reset").onclick=function(){
+    fillForm({objections:[null],questions:[null]});
+    $("#prospect").classList.remove("error"); $("#prospect-err").classList.remove("show");
+    result.hidden=true; editId=null; last=null;
+    toast("Cleared 🌿");
+    $("#prospect").focus();
+  };
+
+  $("#save").onclick=function(){
+    var d=last||build(); if(!d) return;
+    var items=getSaved();
+    if(editId){
+      items=items.map(function(x){ return x.id===editId ? Object.assign({},d,{id:editId,date:todayStr()}) : x; });
+      toast("Sheet updated ✓");
+    }else{
+      var id=Date.now()+"_"+Math.random().toString(36).slice(2,6);
+      items.unshift(Object.assign({},d,{id:id,date:todayStr()}));
+      editId=id; toast("Sheet saved ✓");
+    }
+    setSaved(items.slice(0,40)); renderHistory();
+  };
+
+  $("#copy").onclick=function(){
+    if(!last){ toast("Build a sheet first"); return; }
+    var txt=sheetText(last);
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Sheet copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  $("#print").onclick=function(){ if(!last){ toast("Build a sheet first"); return; } window.print(); };
+
+  $("#clear-all").onclick=function(){ setSaved([]); renderHistory(); toast("All saved sheets cleared"); };
+
+  /* ---------- init ---------- */
+  addObjection(); addQuestion();
+  renderHistory();
+})();
+</script>
+</body>
+</html>

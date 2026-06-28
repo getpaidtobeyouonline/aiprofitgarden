@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prayer &amp; Intentions Tracker — AI Profit Garden</title>
+<meta name="description" content="Keep a quiet record of your prayers and watch them unfold into praise reports." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.prayer-item{display:block;padding:15px 0;border-top:1px solid var(--line)}
+.prayer-item:first-child{border-top:none}
+.prayer-head{display:flex;align-items:flex-start;gap:10px}
+.prayer-head .grow{flex:1;min-width:0}
+.prayer-head strong{display:block;font-size:1.02rem}
+.prayer-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:5px}
+.prayer-note{font-size:.9rem;color:var(--ink);margin-top:8px;white-space:pre-wrap}
+.testimony{background:var(--gold-soft);border-radius:var(--radius);padding:12px 15px;margin-top:10px;font-size:.92rem;color:#7A5520}
+.testimony .lbl{display:block;font-weight:700;font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px}
+.answered-card{background:linear-gradient(135deg,var(--gold-soft),#fff)}
+.answer-form{background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:14px;margin-top:10px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Prayer &amp; Intentions Tracker</h1>
+      <p class="app-sub">Keep a quiet record, and watch them unfold.</p>
+    </div>
+  </header>
+
+  <!-- ADD PRAYER -->
+  <section class="card">
+    <h2 class="section-title">Bring a request before Him</h2>
+    <p class="section-note">Write down what's on your heart. Held gently here, on this device only.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="title">Prayer or request</label>
+        <input id="title" class="input" type="text" placeholder="e.g. Wisdom for my next launch" autocomplete="off" aria-describedby="title-err" />
+        <div class="err-text" id="title-err">Please write a short title for your prayer.</div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="cat">Category</label>
+          <select id="cat" class="select">
+            <option>Business</option>
+            <option>Family</option>
+            <option>Health</option>
+            <option>Provision</option>
+            <option>Guidance</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="note">A note <span class="hint">— optional</span></label>
+        <textarea id="note" class="input" placeholder="Anything you want to remember, a verse to stand on, the details on your heart…"></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Add to my prayers</button>
+        <button type="button" class="btn btn-ghost" id="reset">Clear form</button>
+      </div>
+    </form>
+
+    <div class="verse">
+      “Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.”
+      <cite>Philippians 4:6 · bring it all to Him</cite>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="card" id="stats-card" hidden>
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Prayers held</div><div class="value" id="s-active">0</div></div>
+      <div class="stat"><div class="label">Answered</div><div class="value pos" id="s-answered">0</div></div>
+    </div>
+  </section>
+
+  <!-- ACTIVE PRAYERS -->
+  <section class="card">
+    <h2 class="section-title">Prayers I'm holding</h2>
+    <p class="section-note">Carry these to Him as often as you can.</p>
+    <div id="active-list"></div>
+  </section>
+
+  <!-- ANSWERED -->
+  <section class="card answered-card" id="answered-card" hidden>
+    <h2 class="section-title">Praise reports 🙌</h2>
+    <p class="section-note">Look back and remember His faithfulness.</p>
+    <div id="answered-list"></div>
+    <div class="verse">
+      “I will remember the works of the LORD: surely I will remember thy wonders of old.”
+      <cite>Psalm 77:11 · remember His goodness</cite>
+    </div>
+  </section>
+
+  <div class="btn-row mt">
+    <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all prayers</button>
+  </div>
+
+  <footer class="app-footer">
+    <p class="tag">Cast your cares — He cares for you.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_prayer_tracker_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+  function today(){ return new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); }
+
+  function get(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function set(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+  var prayers=get();
+
+  function catBadge(cat){
+    var cls = (cat==="Provision"||cat==="Guidance") ? "badge-gold" : "badge-sage";
+    return '<span class="badge '+cls+'">'+escapeHtml(cat)+'</span>';
+  }
+
+  function render(){
+    var active=prayers.filter(function(p){return p.status!=="Answered"});
+    var answered=prayers.filter(function(p){return p.status==="Answered"});
+
+    /* stats */
+    if(prayers.length){ $("#stats-card").hidden=false; }
+    else { $("#stats-card").hidden=true; }
+    $("#s-active").textContent=active.length;
+    $("#s-answered").textContent=answered.length;
+
+    /* active */
+    var al=$("#active-list");
+    al.innerHTML="";
+    if(!active.length){
+      al.innerHTML='<div class="empty"><span class="ico">🕊️</span>No active prayers yet. Add the first request on your heart above.</div>';
+    } else {
+      active.forEach(function(p){ al.appendChild(activeRow(p)); });
+    }
+
+    /* answered */
+    var ac=$("#answered-card"), an=$("#answered-list");
+    if(!answered.length){ ac.hidden=true; }
+    else {
+      ac.hidden=false; an.innerHTML="";
+      answered.forEach(function(p){ an.appendChild(answeredRow(p)); });
+    }
+  }
+
+  function activeRow(p){
+    var row=document.createElement("div");
+    row.className="prayer-item";
+    row.innerHTML=
+      '<div class="prayer-head">'+
+        '<div class="grow"><strong>'+escapeHtml(p.title)+'</strong>'+
+          '<div class="prayer-meta">'+catBadge(p.cat)+'<small class="muted">Since '+escapeHtml(p.added)+'</small></div>'+
+          (p.note?'<div class="prayer-note">'+escapeHtml(p.note)+'</div>':'')+
+        '</div>'+
+        '<button class="icon-btn del" aria-label="Delete prayer">✕</button>'+
+      '</div>'+
+      '<div class="btn-row"><button class="btn btn-olive btn-sm mark" type="button">Mark answered ✓</button></div>'+
+      '<div class="answer-form" hidden>'+
+        '<div class="field"><label>How did God answer? <span class="hint">— your testimony</span></label>'+
+        '<textarea class="input ans-note" placeholder="Tell the story of His faithfulness…"></textarea></div>'+
+        '<div class="btn-row"><button class="btn btn-primary btn-sm save-ans" type="button">Save praise report</button>'+
+        '<button class="btn btn-ghost btn-sm cancel-ans" type="button">Cancel</button></div>'+
+      '</div>';
+
+    $(".del",row).onclick=function(){ removePrayer(p.id); toast("Prayer removed"); };
+    var af=$(".answer-form",row);
+    $(".mark",row).onclick=function(){ af.hidden=!af.hidden; if(!af.hidden) $(".ans-note",af).focus(); };
+    $(".cancel-ans",row).onclick=function(){ af.hidden=true; };
+    $(".save-ans",row).onclick=function(){
+      p.status="Answered";
+      p.testimony=$(".ans-note",af).value.trim();
+      p.answeredDate=today();
+      set(prayers); render(); toast("Praise God! 🙌");
+    };
+    return row;
+  }
+
+  function answeredRow(p){
+    var row=document.createElement("div");
+    row.className="prayer-item";
+    row.innerHTML=
+      '<div class="prayer-head">'+
+        '<div class="grow"><strong>'+escapeHtml(p.title)+'</strong>'+
+          '<div class="prayer-meta">'+catBadge(p.cat)+'<span class="badge badge-gold">Answered</span>'+
+          '<small class="muted">'+escapeHtml(p.answeredDate||"")+'</small></div>'+
+          (p.testimony?'<div class="testimony"><span class="lbl">How God answered</span>'+escapeHtml(p.testimony)+'</div>':'')+
+        '</div>'+
+        '<button class="icon-btn del" aria-label="Delete prayer">✕</button>'+
+      '</div>'+
+      '<div class="btn-row"><button class="btn btn-ghost btn-sm reopen" type="button">Move back to active</button></div>';
+    $(".del",row).onclick=function(){ removePrayer(p.id); toast("Removed"); };
+    $(".reopen",row).onclick=function(){ p.status="Praying"; set(prayers); render(); toast("Back among active prayers"); };
+    return row;
+  }
+
+  function removePrayer(id){
+    prayers=prayers.filter(function(p){return p.id!==id}); set(prayers); render();
+  }
+
+  /* ---------- events ---------- */
+  $("#form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var t=$("#title"), err=$("#title-err");
+    if(!t.value.trim()){ t.classList.add("error"); err.classList.add("show"); t.focus(); return; }
+    t.classList.remove("error"); err.classList.remove("show");
+    prayers.unshift({
+      id:Date.now()+"-"+Math.random().toString(36).slice(2,7),
+      title:t.value.trim(), cat:$("#cat").value, note:$("#note").value.trim(),
+      status:"Praying", added:today()
+    });
+    set(prayers); render();
+    t.value=""; $("#note").value=""; $("#cat").selectedIndex=0;
+    toast("Added to your prayers 🙏"); t.focus();
+  });
+
+  $("#reset").onclick=function(){
+    $("#title").value=""; $("#note").value=""; $("#cat").selectedIndex=0;
+    $("#title").classList.remove("error"); $("#title-err").classList.remove("show");
+  };
+
+  $("#clear-all").onclick=function(){
+    if(!prayers.length){ toast("Nothing to clear"); return; }
+    if(!confirm("Clear all prayers, including praise reports? This can't be undone.")) return;
+    prayers=[]; set(prayers); render(); toast("All prayers cleared");
+  };
+
+  render();
+})();
+</script>
+</body>
+</html>

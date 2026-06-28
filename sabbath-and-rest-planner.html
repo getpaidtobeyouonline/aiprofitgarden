@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sabbath &amp; Rest Planner — AI Profit Garden</title>
+<meta name="description" content="Plan true rest into your week so you lead from a full cup." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+[hidden]{display:none!important}
+.list-add{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.list-add .input{flex:1}
+.tag-list{margin-top:10px}
+.tag-row{display:flex;align-items:center;gap:10px;background:var(--cream);border:1px solid var(--line);border-radius:var(--radius);padding:9px 12px;margin-bottom:7px}
+.tag-row .t{flex:1;min-width:0}
+.plan-summary{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-top:4px;white-space:pre-wrap;font-family:var(--serif);color:#324B37;line-height:1.7}
+.plan-summary h4{font-family:var(--serif);color:var(--olive);font-size:1.05rem;margin:14px 0 4px}
+.plan-summary h4:first-child{margin-top:0}
+.plan-summary ul{margin:2px 0 0 18px}
+.week-check{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+@media print{body::before{display:none}.app-header,.btn-row,#verse-card,#plan-form,#check-card,.app-footer{display:none!important}.card{box-shadow:none;border:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Sabbath &amp; Rest Planner</h1>
+      <p class="app-sub">Plan true rest into your week — lead from a full cup.</p>
+    </div>
+  </header>
+
+  <!-- INTRO + VERSE -->
+  <section class="card" id="verse-card">
+    <h2 class="section-title">Rest is not a reward — it's a rhythm</h2>
+    <p class="section-note">God rested, and called His people to do the same. Sabbath isn't laziness; it's trust — declaring that the world (and your business) is held by Him, not by you. Plan it on purpose, and your soul will thank you.</p>
+    <div class="verse">
+      “Come unto me, all ye that labour and are heavy laden, and I will give you rest.”
+      <cite>Matthew 11:28 (KJV)</cite>
+    </div>
+    <div class="verse">
+      “Remember the sabbath day, to keep it holy. Six days shalt thou labour… but the seventh day is the sabbath of the Lord thy God.”
+      <cite>Exodus 20:8–10 (KJV)</cite>
+    </div>
+  </section>
+
+  <!-- PLAN FORM -->
+  <section class="card" id="plan-form">
+    <h2 class="section-title">Plan your Sabbath</h2>
+    <p class="section-note">Choose your rest day and what it will hold. Be gentle and realistic — even a half-day of true rest is a gift.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="day">My Sabbath / rest day</label>
+        <select id="day" class="select">
+          <option>Sunday</option><option>Monday</option><option>Tuesday</option>
+          <option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="time">Time block <span class="hint">— from / to</span></label>
+        <input id="time" class="input" type="text" placeholder="e.g. Sat sundown to Sun evening" autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label>What I'll set down <span class="hint">— work tasks to STOP</span></label>
+      <div class="list-add">
+        <input id="stop-in" class="input" type="text" placeholder="e.g. Checking sales dashboards" autocomplete="off" />
+        <button type="button" class="btn btn-ghost btn-sm" id="stop-add">Add</button>
+      </div>
+      <div class="tag-list" id="stop-list"></div>
+    </div>
+
+    <div class="field">
+      <label>What restores me <span class="hint">— add restful things</span></label>
+      <div class="list-add">
+        <input id="rest-in" class="input" type="text" placeholder="e.g. A long walk, slow coffee, church" autocomplete="off" />
+        <button type="button" class="btn btn-ghost btn-sm" id="rest-add">Add</button>
+      </div>
+      <div class="tag-list" id="rest-list"></div>
+    </div>
+
+    <div class="field">
+      <label for="boundary">My boundary <span class="hint">— one line to protect the rest</span></label>
+      <input id="boundary" class="input" type="text" placeholder="e.g. No email, no phone notifications until Monday" autocomplete="off" />
+    </div>
+
+    <div class="btn-row">
+      <button type="button" class="btn btn-primary" id="generate">Create my Sabbath plan</button>
+      <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+    </div>
+  </section>
+
+  <!-- PLAN SUMMARY -->
+  <section class="card" id="plan-card" hidden aria-live="polite">
+    <h2 class="section-title">Your Sabbath plan</h2>
+    <p class="section-note">Saved on this device. Keep it where you'll see it this week.</p>
+    <div class="plan-summary" id="plan-out"></div>
+    <div class="verse" id="plan-verse"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="copy">Copy plan</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="print">Print</button>
+    </div>
+  </section>
+
+  <!-- WEEKLY CHECK -->
+  <section class="card" id="check-card">
+    <h2 class="section-title">Did I rest this week?</h2>
+    <p class="section-note">A gentle weekly check-in. No guilt — just honesty. Each "yes" builds a streak of true rest.</p>
+    <div class="stat-grid">
+      <div class="stat center"><div style="font-size:1.8rem" aria-hidden="true">🕊️</div><div class="value" id="rest-streak" style="font-size:1.5rem">0</div><div class="label">Week streak</div></div>
+      <div class="stat"><div class="label">Weeks rested</div><div class="value" id="rest-yes">0</div></div>
+    </div>
+    <div class="week-check">
+      <button type="button" class="btn btn-olive btn-sm" id="check-yes">Yes, I rested 🕊️</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="check-no">Not this week</button>
+    </div>
+    <div class="callout callout-info" id="check-msg" hidden></div>
+    <div id="check-log" class="mt"></div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_sabbath_planner_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+
+  var REST_VERSES=[
+    {t:"And on the seventh day God ended his work which he had made; and he rested on the seventh day from all his work.",r:"Genesis 2:2 (KJV)"},
+    {t:"He maketh me to lie down in green pastures: he leadeth me beside the still waters. He restoreth my soul.",r:"Psalm 23:2–3 (KJV)"},
+    {t:"Return unto thy rest, O my soul; for the Lord hath dealt bountifully with thee.",r:"Psalm 116:7 (KJV)"},
+    {t:"In returning and rest shall ye be saved; in quietness and in confidence shall be your strength.",r:"Isaiah 30:15 (KJV)"},
+    {t:"It is vain for you to rise up early, to sit up late… for so he giveth his beloved sleep.",r:"Psalm 127:2 (KJV)"},
+    {t:"Take my yoke upon you, and learn of me… and ye shall find rest unto your souls.",r:"Matthew 11:29 (KJV)"}
+  ];
+
+  /* ---------- helpers ---------- */
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+  function weekKey(d){
+    d=d||new Date(); d=new Date(d.getTime());
+    var day=(d.getDay()+6)%7; d.setDate(d.getDate()-day); // Monday start
+    return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  }
+
+  /* ---------- state ---------- */
+  var stops=[], rests=[];
+  function load(){ try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return {}} }
+  function save(o){ try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){} }
+  function state(){ var o=load(); o.checks=o.checks||{}; return o; }
+
+  /* ---------- tag lists ---------- */
+  function renderTags(arr,el,emptyTxt){
+    el.innerHTML="";
+    if(!arr.length){ el.innerHTML='<div class="muted" style="font-size:.85rem;padding:2px 2px">'+emptyTxt+'</div>'; return; }
+    arr.forEach(function(t,i){
+      var row=document.createElement("div");
+      row.className="tag-row";
+      row.innerHTML='<span class="t">'+esc(t)+'</span><button class="icon-btn" aria-label="Remove">✕</button>';
+      $(".icon-btn",row).onclick=function(){ arr.splice(i,1); renderTags(arr,el,emptyTxt); persistDraft(); };
+      el.appendChild(row);
+    });
+  }
+  function bindAdd(inputId,btnId,arr,listEl,emptyTxt){
+    function add(){
+      var v=$("#"+inputId).value.trim();
+      if(!v) return;
+      arr.push(v); $("#"+inputId).value="";
+      renderTags(arr,listEl,emptyTxt); persistDraft(); $("#"+inputId).focus();
+    }
+    $("#"+btnId).onclick=add;
+    $("#"+inputId).addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); add(); } });
+  }
+
+  function persistDraft(){
+    var o=state();
+    o.draft={day:$("#day").value,time:$("#time").value.trim(),stops:stops,rests:rests,boundary:$("#boundary").value.trim()};
+    save(o);
+  }
+
+  /* ---------- plan ---------- */
+  function dailyVerse(){
+    var d=new Date(),n=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
+    return REST_VERSES[n%REST_VERSES.length];
+  }
+
+  function generate(){
+    var day=$("#day").value, time=$("#time").value.trim(), boundary=$("#boundary").value.trim();
+    var html="<h4>My rest day</h4>"+esc(day)+(time?" · "+esc(time):"");
+    html+="<h4>What I'm setting down</h4>";
+    html+= stops.length ? "<ul>"+stops.map(function(s){return "<li>"+esc(s)+"</li>";}).join("")+"</ul>" : "<div class='muted'>Nothing added yet — choose one work task to truly put down.</div>";
+    html+="<h4>What restores me</h4>";
+    html+= rests.length ? "<ul>"+rests.map(function(s){return "<li>"+esc(s)+"</li>";}).join("")+"</ul>" : "<div class='muted'>Add one or two things that fill your cup.</div>";
+    html+="<h4>My boundary</h4>"+(boundary?esc(boundary):"<span class='muted'>Set one clear line to protect this rest.</span>");
+    $("#plan-out").innerHTML=html;
+    var v=dailyVerse();
+    $("#plan-verse").innerHTML="“"+esc(v.t)+"”<cite>"+esc(v.r)+"</cite>";
+    var o=state(); o.plan={day:day,time:time,stops:stops.slice(),rests:rests.slice(),boundary:boundary}; save(o);
+    $("#plan-card").hidden=false;
+    $("#plan-card").scrollIntoView({behavior:"smooth",block:"start"});
+    toast("Sabbath plan saved ✓ 🕊️");
+  }
+
+  function planText(){
+    var day=$("#day").value, time=$("#time").value.trim(), boundary=$("#boundary").value.trim();
+    var t="My Sabbath Plan\n\nRest day: "+day+(time?" ("+time+")":"")+"\n\nSetting down:\n"+
+      (stops.length?stops.map(function(s){return "  - "+s;}).join("\n"):"  (none yet)")+
+      "\n\nWhat restores me:\n"+
+      (rests.length?rests.map(function(s){return "  - "+s;}).join("\n"):"  (none yet)")+
+      "\n\nBoundary: "+(boundary||"(set one)")+
+      "\n\n\"Come unto me, all ye that labour and are heavy laden, and I will give you rest.\" — Matthew 11:28";
+    return t;
+  }
+
+  /* ---------- weekly check ---------- */
+  function computeStreak(checks){
+    var streak=0, cur=new Date();
+    var k=weekKey(cur);
+    if(checks[k]!=="yes"){ // try previous week if this week not logged yes
+      cur.setDate(cur.getDate()-7);
+      if(checks[weekKey(cur)]!=="yes") return 0;
+    }
+    while(checks[weekKey(cur)]==="yes"){ streak++; cur.setDate(cur.getDate()-7); }
+    return streak;
+  }
+  function prettyWeek(key){
+    var p=key.split("-"),d=new Date(+p[0],+p[1]-1,+p[2]);
+    return "Week of "+d.toLocaleDateString("en-US",{month:"short",day:"numeric"});
+  }
+  function renderChecks(){
+    var o=state(), checks=o.checks;
+    var keys=Object.keys(checks).sort().reverse();
+    var yes=keys.filter(function(k){return checks[k]==="yes";}).length;
+    $("#rest-streak").textContent=computeStreak(checks);
+    $("#rest-yes").textContent=yes;
+    var log=$("#check-log"); log.innerHTML="";
+    keys.slice(0,8).forEach(function(k){
+      var row=document.createElement("div");
+      row.className="item";
+      var rested=checks[k]==="yes";
+      row.innerHTML='<div class="grow"><strong>'+prettyWeek(k)+'</strong><small>'+(rested?"Rested 🕊️":"Didn't rest — that's okay")+'</small></div>';
+      log.appendChild(row);
+    });
+  }
+  function setCheck(val){
+    var o=state(); o.checks[weekKey()]=val; save(o);
+    renderChecks();
+    var msg=$("#check-msg"); msg.hidden=false;
+    msg.textContent= val==="yes"
+      ? "Well done. You honoured the rhythm God designed for you — and your work this week will be better for it."
+      : "No condemnation. Notice what crowded out your rest, and plan one small pocket of it for next week. Grace covers you.";
+    toast(val==="yes"?"Marked: rested 🕊️":"Marked for this week");
+  }
+
+  /* ---------- events ---------- */
+  bindAdd("stop-in","stop-add",stops,$("#stop-list"),"Nothing added yet.");
+  bindAdd("rest-in","rest-add",rests,$("#rest-list"),"Nothing added yet.");
+  $("#day").onchange=persistDraft; $("#time").onblur=persistDraft; $("#boundary").onblur=persistDraft;
+  $("#generate").onclick=generate;
+  $("#reset").onclick=function(){
+    $("#day").value="Sunday"; $("#time").value=""; $("#boundary").value="";
+    stops.length=0; rests.length=0;
+    renderTags(stops,$("#stop-list"),"Nothing added yet."); renderTags(rests,$("#rest-list"),"Nothing added yet.");
+    $("#plan-card").hidden=true;
+    var o=state(); delete o.draft; delete o.plan; save(o);
+    toast("Cleared 🌿");
+  };
+  $("#copy").onclick=function(){
+    var txt=planText();
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Plan copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+  $("#print").onclick=function(){ window.print(); };
+  $("#check-yes").onclick=function(){ setCheck("yes"); };
+  $("#check-no").onclick=function(){ setCheck("no"); };
+
+  /* ---------- init ---------- */
+  (function init(){
+    var o=state();
+    var d=o.draft;
+    if(d){
+      if(d.day) $("#day").value=d.day;
+      $("#time").value=d.time||""; $("#boundary").value=d.boundary||"";
+      stops=Array.isArray(d.stops)?d.stops:[]; rests=Array.isArray(d.rests)?d.rests:[];
+    }
+    renderTags(stops,$("#stop-list"),"Nothing added yet.");
+    renderTags(rests,$("#rest-list"),"Nothing added yet.");
+    if(o.plan){ generate(); } // re-render saved plan
+    renderChecks();
+  })();
+})();
+</script>
+</body>
+</html>

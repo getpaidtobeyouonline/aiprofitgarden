@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Standard Operating Calendar — AI Profit Garden</title>
+<meta name="description" content="Map what happens daily, weekly, monthly and quarterly so nothing slips." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.cadence-group{margin-top:18px}
+.cadence-group:first-child{margin-top:0}
+.cadence-group h3{font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--olive);display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.cadence-group .ico{font-size:1.1rem}
+.task-item .meta{font-size:.82rem;color:var(--muted);margin-top:2px}
+@media print{
+  body::before{display:none}
+  .app-header{background:#2F4A33 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .no-print{display:none !important}
+  .card{box-shadow:none;border-color:#ccc;break-inside:avoid}
+  form{display:none}
+}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Standard Operating Calendar</h1>
+      <p class="app-sub">Your daily, weekly and monthly rhythm — so nothing slips.</p>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card no-print">
+    <h2 class="section-title">Add a recurring task</h2>
+    <p class="section-note">Every business runs on a quiet rhythm. Capture the things you do again and again, and they stop living in your head.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="task">Task <span class="hint">— e.g. "Review the numbers"</span></label>
+        <input id="task" class="input" type="text" placeholder="What needs doing regularly?" autocomplete="off" aria-describedby="task-err" />
+        <div class="err-text" id="task-err">Please describe the task.</div>
+      </div>
+
+      <div class="field">
+        <label for="cadence">How often?</label>
+        <select id="cadence" class="input select">
+          <option value="Daily">Daily</option>
+          <option value="Weekly">Weekly</option>
+          <option value="Monthly">Monthly</option>
+          <option value="Quarterly">Quarterly</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="field" style="flex:1">
+          <label for="day">Day / timing <span class="hint">— optional</span></label>
+          <input id="day" class="input" type="text" placeholder="e.g. Mondays, 1st of month" autocomplete="off" />
+        </div>
+        <div class="field" style="flex:1">
+          <label for="owner">Who does it? <span class="hint">— optional</span></label>
+          <input id="owner" class="input" type="text" placeholder="e.g. me, my VA" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Add to calendar</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset form</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- CALENDAR -->
+  <section class="card" id="cal-card">
+    <h2 class="section-title">Your operating rhythm</h2>
+    <p class="section-note">Grouped by cadence. This is the heartbeat of your business — kept on this device only.</p>
+    <div id="calendar"></div>
+    <div class="btn-row mt no-print" id="cal-actions" hidden>
+      <button type="button" class="btn btn-olive btn-sm" id="print">Print calendar</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy calendar</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">A steady rhythm bears steady fruit.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_operating_calendar_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var calEl=$("#calendar"), calActions=$("#cal-actions");
+  var ORDER=["Daily","Weekly","Monthly","Quarterly"];
+  var ICONS={Daily:"☀️",Weekly:"📅",Monthly:"🌙",Quarterly:"🍂"};
+
+  var SEED=[
+    {task:"Check and clear email",cadence:"Daily",day:"Morning",owner:""},
+    {task:"Review the numbers",cadence:"Weekly",day:"Fridays",owner:""},
+    {task:"Money check-in (invoices, bills, savings)",cadence:"Monthly",day:"1st of month",owner:""},
+    {task:"Review goals and plan ahead",cadence:"Quarterly",day:"Start of quarter",owner:""}
+  ];
+
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+  function getTasks(){ try{return JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){return null} }
+  function setTasks(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+
+  function load(){
+    var t=getTasks();
+    if(t===null){ t=SEED.slice(); setTasks(t); }
+    return t;
+  }
+
+  function render(){
+    var tasks=load();
+    if(!tasks.length){
+      calActions.hidden=true;
+      calEl.innerHTML='<div class="empty"><span class="ico">🗓️</span>No tasks yet. Add what you do daily, weekly, monthly and quarterly — and build your business rhythm.</div>';
+      return;
+    }
+    calActions.hidden=false;
+    calEl.innerHTML="";
+    ORDER.forEach(function(cad){
+      var arr=tasks.filter(function(t){return t.cadence===cad});
+      if(!arr.length) return;
+      var group=document.createElement("div");
+      group.className="cadence-group";
+      group.innerHTML='<h3><span class="ico">'+ICONS[cad]+'</span>'+cad+' <span class="badge badge-sage">'+arr.length+'</span></h3>';
+      arr.forEach(function(t){
+        var idx=tasks.indexOf(t);
+        var meta=[];
+        if(t.day) meta.push(esc(t.day));
+        if(t.owner) meta.push(esc(t.owner));
+        var row=document.createElement("div");
+        row.className="item task-item";
+        row.innerHTML='<div class="grow"><strong>'+esc(t.task)+'</strong>'+
+          (meta.length?'<div class="meta">'+meta.join(" · ")+'</div>':'')+'</div>'+
+          '<button class="icon-btn no-print" aria-label="Delete task">✕</button>';
+        $(".icon-btn",row).onclick=function(){ var all=load(); all.splice(idx,1); setTasks(all); render(); toast("Task removed"); };
+        group.appendChild(row);
+      });
+      calEl.appendChild(group);
+    });
+  }
+
+  $("#form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var tEl=$("#task"), task=tEl.value.trim();
+    if(!task){ tEl.classList.add("error"); $("#task-err").classList.add("show"); tEl.focus(); return; }
+    tEl.classList.remove("error"); $("#task-err").classList.remove("show");
+    var tasks=load();
+    tasks.push({task:task,cadence:$("#cadence").value,day:$("#day").value.trim(),owner:$("#owner").value.trim()});
+    setTasks(tasks);
+    tEl.value=""; $("#day").value=""; $("#owner").value="";
+    render();
+    toast("Added to your calendar 🌿");
+    tEl.focus();
+  });
+
+  $("#reset").onclick=function(){
+    $("#task").value=""; $("#day").value=""; $("#owner").value=""; $("#cadence").selectedIndex=0;
+    $("#task").classList.remove("error"); $("#task-err").classList.remove("show");
+    $("#task").focus();
+  };
+
+  $("#print").onclick=function(){ window.print(); };
+
+  $("#copy").onclick=function(){
+    var tasks=load(); if(!tasks.length){ toast("Nothing to copy yet"); return; }
+    var txt="My Standard Operating Calendar\n";
+    ORDER.forEach(function(cad){
+      var arr=tasks.filter(function(t){return t.cadence===cad});
+      if(!arr.length) return;
+      txt+="\n"+cad.toUpperCase()+"\n";
+      arr.forEach(function(t){
+        var extra=[];
+        if(t.day) extra.push(t.day);
+        if(t.owner) extra.push(t.owner);
+        txt+="- "+t.task+(extra.length?" ("+extra.join(", ")+")":"")+"\n";
+      });
+    });
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Calendar copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  $("#clear-all").onclick=function(){
+    setTasks([]); render(); toast("Calendar cleared 🌿");
+  };
+
+  render();
+})();
+</script>
+</body>
+</html>

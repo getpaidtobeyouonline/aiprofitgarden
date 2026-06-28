@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Personality &amp; Communication Helper — AI Profit Garden</title>
+<meta name="description" content="Understand the person across from you and respond with grace — a warm, plain-English communication-style guide." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+[hidden]{display:none!important}
+.qfield{margin-bottom:18px}
+.qfield > .q{font-weight:700;font-size:.95rem;margin-bottom:8px}
+.choice{display:flex;gap:10px;flex-wrap:wrap}
+.choice button{flex:1;min-width:140px;text-align:left;background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:13px 15px;font-family:inherit;font-size:.92rem;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s}
+.choice button:hover{border-color:var(--sage)}
+.choice button.sel{border-color:var(--sage);background:var(--sage-soft);box-shadow:0 0 0 3px var(--ring)}
+.choice button strong{display:block;color:var(--olive);font-size:.88rem}
+.choice button small{color:var(--muted);font-size:.8rem}
+.style-hero{text-align:center;padding:6px 0 4px}
+.style-hero .emoji{font-size:2.2rem}
+.style-hero .label{font-family:var(--serif);font-weight:700;font-size:1.8rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.style-hero .tagline{font-size:.95rem;color:var(--muted);margin-top:4px}
+.tip-group{margin-top:18px}
+.tip-group h3{font-family:var(--serif);color:var(--olive);font-size:1rem;margin-bottom:6px}
+.tip-list{list-style:none;padding:0;margin:0}
+.tip-list li{padding:6px 0 6px 24px;position:relative;font-size:.94rem}
+.tip-list li::before{content:"✓";position:absolute;left:0;color:var(--sage);font-weight:800}
+.tip-list.avoid li::before{content:"✕";color:var(--danger)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Personality &amp; Communication Helper</h1>
+      <p class="app-sub">Understand the person across from you and respond with grace.</p>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card" id="input-card">
+    <h2 class="section-title">Tell me about the person you're working with</h2>
+    <p class="section-note">This isn't a test or a box to put anyone in — every person bears God's image and is more than a label. It's just a gentle nudge toward meeting them where they are, with kindness.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="who">Who is this? <span class="hint">— a name or note, so you can save it</span></label>
+        <input id="who" class="input" type="text" placeholder="e.g. Sarah (new client) or My VA" autocomplete="off" />
+      </div>
+
+      <div class="qfield">
+        <div class="q">1. What's their pace?</div>
+        <div class="choice" data-q="pace" role="group" aria-label="Their pace">
+          <button type="button" data-v="fast"><strong>Fast &amp; decisive</strong><small>Quick to act, gets to the point</small></button>
+          <button type="button" data-v="slow"><strong>Thoughtful &amp; steady</strong><small>Takes time, weighs things</small></button>
+        </div>
+      </div>
+
+      <div class="qfield">
+        <div class="q">2. What do they focus on?</div>
+        <div class="choice" data-q="focus" role="group" aria-label="Their focus">
+          <button type="button" data-v="people"><strong>People &amp; relationships</strong><small>Warmth, connection, how it feels</small></button>
+          <button type="button" data-v="task"><strong>Tasks &amp; results</strong><small>Goals, facts, getting it done</small></button>
+        </div>
+      </div>
+
+      <div class="qfield">
+        <div class="q">3. How do they think?</div>
+        <div class="choice" data-q="view" role="group" aria-label="Their thinking">
+          <button type="button" data-v="big"><strong>Big-picture</strong><small>Vision, ideas, the why</small></button>
+          <button type="button" data-v="detail"><strong>Detail-focused</strong><small>Specifics, accuracy, the how</small></button>
+        </div>
+      </div>
+
+      <div class="verse">
+        “Let your speech be alway with grace, seasoned with salt, that ye may know how ye ought to answer every man.”
+        <cite>Colossians 4:6 (KJV) · grace, tailored to each person</cite>
+      </div>
+
+      <div class="btn-row mt">
+        <button type="submit" class="btn btn-primary">Show me how to connect</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <div class="style-hero">
+      <div class="emoji" id="r-emoji" aria-hidden="true">🌿</div>
+      <div class="label" id="r-label">Style</div>
+      <div class="tagline" id="r-tag"></div>
+      <div style="margin-top:10px" id="r-badge"></div>
+    </div>
+
+    <p class="mt" id="r-desc"></p>
+
+    <div class="tip-group">
+      <h3>What they value</h3>
+      <ul class="tip-list" id="r-values"></ul>
+    </div>
+
+    <div class="tip-group">
+      <h3>How to communicate with them</h3>
+      <ul class="tip-list" id="r-tips"></ul>
+    </div>
+
+    <div class="tip-group">
+      <h3>Gently avoid</h3>
+      <ul class="tip-list avoid" id="r-avoid"></ul>
+    </div>
+
+    <div class="verse" id="r-verse"></div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="save">Save this profile</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="copy">Copy the tips</button>
+    </div>
+  </section>
+
+  <!-- SAVED -->
+  <section class="card" id="saved-card" hidden>
+    <h2 class="section-title">People I work with</h2>
+    <p class="section-note">Saved on this device only. A quick reminder before your next conversation.</p>
+    <div id="saved-list"></div>
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-ghost btn-sm" id="clear-all">Clear all saved</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_personality_helper_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var answers={pace:null,focus:null,view:null};
+
+  /* Four warm, generic style profiles (Driver / Expressive / Amiable / Analytical),
+     chosen primarily by pace + focus, with view as a gentle tie-breaker/colour. */
+  var STYLES={
+    driver:{ key:"driver", emoji:"🔥", label:"The Driver", tag:"Direct, decisive, results-first",
+      badge:'<span class="badge badge-gold">Fast · Task-focused</span>',
+      desc:"This is someone who moves quickly and likes to see progress. They're warm in their own way — through action and follow-through. They appreciate when you respect their time and get to the point. Behind the brisk pace is a person who carries a lot and wants to do it well.",
+      values:["Clear outcomes and quick decisions","Respect for their time","Confidence and competence","Being given options, not lectures"],
+      tips:["Lead with the bottom line, then add detail if asked","Be brief, organised and confident","Offer 2–3 clear choices and let them decide","Follow through exactly on what you promised","Summarise next steps at the end"],
+      avoid:["Long preambles or over-explaining","Too much small talk before the point","Seeming unsure or wishy-washy","Surprising them with delays"],
+      verse:{t:"Whatsoever thy hand findeth to do, do it with thy might.",c:"Ecclesiastes 9:10 (KJV)"}
+    },
+    expressive:{ key:"expressive", emoji:"✨", label:"The Encourager", tag:"Warm, big-picture, full of ideas",
+      badge:'<span class="badge badge-gold">Fast · People-focused</span>',
+      desc:"This is a people-person with energy and vision. They love possibility, connection and being seen. Conversations with them are often fun and a little tangential — and that's part of how they think. Meet their enthusiasm with genuine warmth and they'll bring their best to your work together.",
+      values:["Enthusiasm and a sense of possibility","Recognition and genuine appreciation","Personal connection, not just business","Fresh ideas and the big vision"],
+      tips:["Open warmly and show real interest in them","Paint the vision before the fine print","Be expressive and affirm their ideas","Keep details light and easy to scan","Confirm specifics in writing afterward, kindly"],
+      avoid:["Being cold, clinical or all-business","Drowning them in tiny details up front","Dismissing their ideas too fast","Forgetting the personal touch"],
+      verse:{t:"A word fitly spoken is like apples of gold in pictures of silver.",c:"Proverbs 25:11 (KJV)"}
+    },
+    amiable:{ key:"amiable", emoji:"🤝", label:"The Peacemaker", tag:"Kind, steady, relationship-first",
+      badge:'<span class="badge badge-sage">Steady · People-focused</span>',
+      desc:"This is a gentle, loyal soul who values harmony and trust. They don't like to be rushed or put on the spot, and they care deeply about how decisions affect people. Give them safety, patience and a warm relationship, and they become some of the most faithful people you'll ever work with.",
+      values:["Trust and a sense of safety","Patience — no pressure","Harmony and being cared for","Steady, dependable relationships"],
+      tips:["Be warm, patient and reassuring","Give them time and space to decide","Explain how things will affect people","Make small commitments and keep every one","Check in gently rather than pushing"],
+      avoid:["Rushing or pressuring them for a fast yes","Being blunt or confrontational","Sudden changes without warning","Making it feel transactional"],
+      verse:{t:"Blessed are the peacemakers: for they shall be called the children of God.",c:"Matthew 5:9 (KJV)"}
+    },
+    analytical:{ key:"analytical", emoji:"📋", label:"The Thinker", tag:"Careful, precise, detail-loving",
+      badge:'<span class="badge badge-sage">Steady · Task-focused</span>',
+      desc:"This is a careful, conscientious person who wants to get it right. They ask questions, read the fine print, and trust facts over hype. It can feel slow, but it's how they avoid mistakes and protect quality. Honour their thoroughness with clear information and accuracy, and you'll earn deep, lasting trust.",
+      values:["Accuracy and well-organised information","Time to think it through","Logic, evidence and clear reasoning","Reliability and consistency"],
+      tips:["Be precise, organised and prepared","Provide the details and the 'why' behind them","Give them time — don't push for an instant answer","Put things in writing they can review","Be honest about what you don't yet know"],
+      avoid:["Vague answers or exaggeration","Rushing them into a decision","Being disorganised or sloppy","Over-the-top hype without substance"],
+      verse:{t:"The simple believeth every word: but the prudent man looketh well to his going.",c:"Proverbs 14:15 (KJV)"}
+    }
+  };
+
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]});}
+
+  function pickStyle(a){
+    /* primary: pace x focus */
+    if(a.pace==="fast" && a.focus==="task") return "driver";
+    if(a.pace==="fast" && a.focus==="people") return "expressive";
+    if(a.pace==="slow" && a.focus==="people") return "amiable";
+    if(a.pace==="slow" && a.focus==="task") return "analytical";
+    /* fallback using view if a question was skipped */
+    if(a.focus==="task") return a.view==="detail" ? "analytical" : "driver";
+    if(a.focus==="people") return a.view==="detail" ? "amiable" : "expressive";
+    if(a.pace==="fast") return a.view==="big" ? "expressive" : "driver";
+    if(a.pace==="slow") return a.view==="big" ? "amiable" : "analytical";
+    return "amiable";
+  }
+
+  function renderList(ul,arr,extra){
+    ul.innerHTML="";
+    arr.forEach(function(x){ var li=document.createElement("li"); li.textContent=x; ul.appendChild(li); });
+    if(extra) arr=extra;
+  }
+
+  function build(){
+    if(!answers.pace || !answers.focus){
+      toast("Please answer the pace & focus questions 🌿");
+      return null;
+    }
+    var key=pickStyle(answers), s=STYLES[key];
+    $("#r-emoji").textContent=s.emoji;
+    $("#r-label").textContent=s.label;
+    $("#r-tag").textContent=s.tag;
+    $("#r-badge").innerHTML=s.badge;
+    $("#r-desc").textContent=s.desc;
+    renderList($("#r-values"),s.values);
+    renderList($("#r-tips"),s.tips);
+    renderList($("#r-avoid"),s.avoid);
+    $("#r-verse").innerHTML='“'+esc(s.verse.t)+'”<cite>'+esc(s.verse.c)+' · every person bears His image</cite>';
+    $("#result").hidden=false;
+    $("#result").scrollIntoView({behavior:"smooth",block:"start"});
+    return {key:key,style:s};
+  }
+
+  function copyTips(){
+    var r=build(); if(!r) return;
+    var s=r.style, who=$("#who").value.trim();
+    var txt=(who?who+" — ":"")+s.label+" ("+s.tag+")\n\n"+
+      s.desc+"\n\n"+
+      "WHAT THEY VALUE:\n- "+s.values.join("\n- ")+"\n\n"+
+      "HOW TO COMMUNICATE:\n- "+s.tips.join("\n- ")+"\n\n"+
+      "GENTLY AVOID:\n- "+s.avoid.join("\n- ")+"\n\n"+
+      "\""+s.verse.t+"\" — "+s.verse.c;
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Tips copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  }
+
+  /* ---------- choices ---------- */
+  document.querySelectorAll(".choice").forEach(function(group){
+    var q=group.getAttribute("data-q");
+    group.querySelectorAll("button").forEach(function(b){
+      b.onclick=function(){
+        group.querySelectorAll("button").forEach(function(x){x.classList.remove("sel")});
+        b.classList.add("sel");
+        answers[q]=b.getAttribute("data-v");
+      };
+    });
+  });
+
+  /* ---------- saved profiles ---------- */
+  function getSaved(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []} }
+  function setSaved(a){ try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){} }
+  function renderSaved(){
+    var items=getSaved(), card=$("#saved-card"), list=$("#saved-list");
+    if(!items.length){ card.hidden=true; return; }
+    card.hidden=false; list.innerHTML="";
+    items.forEach(function(it,i){
+      var s=STYLES[it.key]||{};
+      var row=document.createElement("div");
+      row.className="item";
+      row.innerHTML='<div class="grow"><strong>'+(s.emoji||"🌿")+" "+esc(it.who||"(unnamed)")+'</strong>'+
+        '<small>'+esc(s.label||"")+' · '+esc(s.tag||"")+'</small></div>'+
+        '<button class="icon-btn" aria-label="Load profile" title="Load">↺</button>'+
+        '<button class="icon-btn" aria-label="Delete profile">✕</button>';
+      var btns=row.querySelectorAll(".icon-btn");
+      btns[0].onclick=function(){ loadProfile(it); };
+      btns[1].onclick=function(){ items.splice(i,1); setSaved(items); renderSaved(); toast("Profile removed"); };
+      list.appendChild(row);
+    });
+  }
+  function loadProfile(it){
+    $("#who").value=it.who||"";
+    answers={pace:it.pace,focus:it.focus,view:it.view};
+    document.querySelectorAll(".choice").forEach(function(group){
+      var q=group.getAttribute("data-q");
+      group.querySelectorAll("button").forEach(function(b){
+        b.classList.toggle("sel", b.getAttribute("data-v")===answers[q]);
+      });
+    });
+    build();
+  }
+
+  /* ---------- events ---------- */
+  $("#form").addEventListener("submit",function(e){ e.preventDefault(); build(); });
+  $("#copy").onclick=copyTips;
+  $("#save").onclick=function(){
+    var r=build(); if(!r) return;
+    var items=getSaved();
+    items.unshift({who:$("#who").value.trim(),key:r.key,pace:answers.pace,focus:answers.focus,view:answers.view});
+    setSaved(items.slice(0,30));
+    renderSaved();
+    toast("Profile saved 🌿");
+  };
+  $("#clear-all").onclick=function(){ setSaved([]); renderSaved(); toast("All saved profiles cleared"); };
+  $("#reset").onclick=function(){
+    $("#who").value="";
+    answers={pace:null,focus:null,view:null};
+    document.querySelectorAll(".choice button").forEach(function(b){b.classList.remove("sel")});
+    $("#result").hidden=true;
+    toast("Cleared 🌿");
+    $("#input-card").scrollIntoView({behavior:"smooth",block:"start"});
+  };
+
+  /* ---------- init ---------- */
+  renderSaved();
+})();
+</script>
+</body>
+</html>

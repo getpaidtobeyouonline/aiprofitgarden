@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Industry KPI Dashboard — AI Profit Garden</title>
+<meta name="description" content="Track the handful of numbers that matter most in your industry, with targets and progress at a glance." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+.kpi{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin-top:12px}
+.kpi-head{display:flex;align-items:flex-start;gap:10px}
+.kpi-head .grow{flex:1;min-width:0}
+.kpi .name{font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--olive)}
+.kpi .note{font-size:.82rem;color:var(--muted);margin-top:2px}
+.kpi-fields{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.kpi-fields .fld{flex:1;min-width:120px}
+.kpi-fields .fld label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.kpi-fields .input{padding:9px 11px;font-size:.95rem}
+.kpi-prog{margin-top:12px}
+.kpi-prog .meta{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--muted);margin-bottom:6px}
+.kpi-prog .meta b{color:var(--olive)}
+.unit-tag{display:inline-block;font-size:.7rem;font-weight:700;color:var(--muted);background:var(--cream);border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin-left:6px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Industry KPI Dashboard</h1>
+      <p class="app-sub">Track the handful of numbers that matter most in your business.</p>
+    </div>
+  </header>
+
+  <!-- SETUP -->
+  <section class="card">
+    <h2 class="section-title">Pick your business type</h2>
+    <p class="section-note">We'll suggest the key numbers worth watching in your line of work. You can edit, remove, or add your own anytime.</p>
+
+    <div class="field">
+      <label for="biztype">What kind of business are you growing?</label>
+      <select id="biztype" class="select">
+        <option value="service">Service / coaching</option>
+        <option value="ecommerce">Product / e-commerce</option>
+        <option value="creative">Creative / freelance</option>
+        <option value="membership">Membership / subscription</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div class="callout callout-info">Choosing a new type loads a fresh set of suggested KPIs. Any custom KPIs you've added are kept.</div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section class="card" aria-live="polite">
+    <h2 class="section-title">Your dashboard</h2>
+    <p class="section-note">Enter your current value for each. Add a target to see how close you are. Everything saves automatically on this device.</p>
+    <div id="kpi-list"></div>
+    <div id="empty-state" class="empty" hidden>
+      <span class="ico" aria-hidden="true">🌱</span>
+      No KPIs yet. Pick a business type above, or add your own below.
+    </div>
+
+    <div class="verse" id="dash-verse">
+      “She watches over the affairs of her household and does not eat the bread of idleness.”
+      <cite>Proverbs 31:27 · tend what you can see</cite>
+    </div>
+  </section>
+
+  <!-- ADD CUSTOM -->
+  <section class="card">
+    <h2 class="section-title">Add a custom KPI</h2>
+    <p class="section-note">Track anything that matters to you — email subscribers, refunds, hours worked, you name it.</p>
+    <form id="add-form" novalidate>
+      <div class="field">
+        <label for="c-name">KPI name</label>
+        <input id="c-name" class="input" type="text" placeholder="e.g. Email subscribers" autocomplete="off" aria-describedby="c-name-err" />
+        <div class="err-text" id="c-name-err">Please give your KPI a name.</div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="c-unit">Unit</label>
+          <select id="c-unit" class="select">
+            <option value="number">Count (number)</option>
+            <option value="money">Money ($)</option>
+            <option value="percent">Percent (%)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="c-note">Plain-English note <span class="hint">(optional)</span></label>
+          <input id="c-note" class="input" type="text" placeholder="What does this tell you?" autocomplete="off" />
+        </div>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary btn-sm">+ Add KPI</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="reset">Reset dashboard</button>
+      </div>
+    </form>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_kpi_dashboard_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var list=$("#kpi-list"), emptyState=$("#empty-state");
+
+  /* ---------- helpers ---------- */
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function fmt(unit,val){
+    if(val===""||val===null||typeof val==="undefined") return "—";
+    var n=num(val);
+    if(unit==="money") return money(n);
+    if(unit==="percent") return (n%1?n.toFixed(1):n)+"%";
+    return n.toLocaleString("en-US");
+  }
+  function uid(){ return "k"+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36); }
+
+  /* ---------- KPI templates per business type ---------- */
+  var TEMPLATES={
+    service:[
+      {name:"Monthly revenue",unit:"money",note:"Money that came in this month."},
+      {name:"New clients",unit:"number",note:"Fresh clients you signed this month."},
+      {name:"Utilization %",unit:"percent",note:"Billable hours as a share of your available hours."},
+      {name:"Average project value",unit:"money",note:"Typical $ per client or project."},
+      {name:"Active clients",unit:"number",note:"Clients you're currently serving."}
+    ],
+    ecommerce:[
+      {name:"Monthly revenue",unit:"money",note:"Total sales this month."},
+      {name:"Orders",unit:"number",note:"Number of orders placed."},
+      {name:"Average order value",unit:"money",note:"Revenue divided by orders."},
+      {name:"Conversion %",unit:"percent",note:"Share of visitors who buy."},
+      {name:"Return rate %",unit:"percent",note:"Share of orders returned — lower is better."}
+    ],
+    creative:[
+      {name:"Monthly revenue",unit:"money",note:"Money invoiced or earned this month."},
+      {name:"Active projects",unit:"number",note:"Jobs in progress right now."},
+      {name:"Average day rate",unit:"money",note:"Your typical rate per day of work."},
+      {name:"New enquiries",unit:"number",note:"Leads that reached out this month."},
+      {name:"Booked weeks ahead",unit:"number",note:"How many weeks of work you have lined up."}
+    ],
+    membership:[
+      {name:"Monthly recurring revenue",unit:"money",note:"Predictable income from members each month."},
+      {name:"Active members",unit:"number",note:"People currently subscribed."},
+      {name:"New members",unit:"number",note:"Joiners this month."},
+      {name:"Churn %",unit:"percent",note:"Share of members who left — lower is better."},
+      {name:"Average revenue per member",unit:"money",note:"MRR divided by active members."}
+    ],
+    other:[
+      {name:"Monthly revenue",unit:"money",note:"Money that came in this month."},
+      {name:"New customers",unit:"number",note:"Fresh customers this month."},
+      {name:"Average sale value",unit:"money",note:"Typical $ per sale."},
+      {name:"Profit margin %",unit:"percent",note:"Profit as a share of revenue."}
+    ]
+  };
+
+  /* ---------- state ---------- */
+  var state={ type:"service", kpis:[] };
+
+  function load(){
+    try{
+      var s=JSON.parse(localStorage.getItem(KEY)||"null");
+      if(s&&s.kpis){ state=s; return true; }
+    }catch(e){}
+    return false;
+  }
+  function save(){
+    try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){}
+  }
+
+  function seedFromTemplate(type){
+    var tpl=TEMPLATES[type]||TEMPLATES.other;
+    // keep any custom KPIs, replace the template ones
+    var customs=state.kpis.filter(function(k){return k.custom;});
+    state.kpis=tpl.map(function(t){
+      return {id:uid(),name:t.name,unit:t.unit,note:t.note,value:"",target:"",custom:false};
+    }).concat(customs);
+    state.type=type;
+    save();
+  }
+
+  /* ---------- render ---------- */
+  function progressInfo(k){
+    var hasTarget = k.target!=="" && k.target!==null && typeof k.target!=="undefined";
+    var hasVal = k.value!=="" && k.value!==null && typeof k.value!=="undefined";
+    if(!hasTarget || !hasVal) return null;
+    var v=num(k.value), t=num(k.target);
+    if(t===0) return null;
+    // "lower is better" metrics: churn, return rate
+    var lowerBetter=/churn|return rate|refund/i.test(k.name) && k.unit==="percent";
+    var pct, onTrack;
+    if(lowerBetter){
+      onTrack = v<=t;
+      // show how far under/over: full bar when at or below target
+      pct = v<=t ? 100 : Math.max(0, 100 - ((v-t)/t*100));
+    }else{
+      pct = (v/t*100);
+      onTrack = v>=t;
+    }
+    return {pct:Math.max(0,Math.min(100,pct)), onTrack:onTrack, lowerBetter:lowerBetter, rawPct:Math.round(v/t*100)};
+  }
+
+  function render(){
+    $("#biztype").value=state.type;
+    list.innerHTML="";
+    if(!state.kpis.length){ emptyState.hidden=false; return; }
+    emptyState.hidden=true;
+
+    state.kpis.forEach(function(k){
+      var card=document.createElement("div");
+      card.className="kpi";
+      var unitLabel = k.unit==="money"?"$":k.unit==="percent"?"%":"#";
+      card.innerHTML=
+        '<div class="kpi-head">'+
+          '<div class="grow">'+
+            '<div class="name">'+escapeHtml(k.name)+'<span class="unit-tag">'+unitLabel+'</span></div>'+
+            (k.note?'<div class="note">'+escapeHtml(k.note)+'</div>':'')+
+          '</div>'+
+          (k.custom?'<button class="icon-btn" type="button" aria-label="Remove KPI">✕</button>':'')+
+        '</div>'+
+        '<div class="kpi-fields">'+
+          '<div class="fld"><label>Current value</label>'+
+            inputHtml("val",k.unit,k.value)+'</div>'+
+          '<div class="fld"><label>Target <span class="hint" style="text-transform:none;letter-spacing:0">(optional)</span></label>'+
+            inputHtml("tgt",k.unit,k.target)+'</div>'+
+        '</div>'+
+        '<div class="kpi-prog" data-prog hidden>'+
+          '<div class="meta"><span data-progtext></span><span data-progbadge></span></div>'+
+          '<div class="bar" aria-hidden="true"><i></i></div>'+
+        '</div>';
+
+      var valIn=card.querySelector('[data-fld="val"]');
+      var tgtIn=card.querySelector('[data-fld="tgt"]');
+      valIn.addEventListener("input",function(){ k.value=valIn.value; save(); updateProg(card,k); });
+      tgtIn.addEventListener("input",function(){ k.target=tgtIn.value; save(); updateProg(card,k); });
+      var rm=card.querySelector(".icon-btn");
+      if(rm) rm.onclick=function(){
+        state.kpis=state.kpis.filter(function(x){return x.id!==k.id;});
+        save(); render(); toast("KPI removed");
+      };
+
+      list.appendChild(card);
+      updateProg(card,k);
+    });
+  }
+
+  function inputHtml(fld,unit,val){
+    var v = (val||val===0)?val:"";
+    if(unit==="money"){
+      return '<div class="input-money"><span>$</span><input class="input" data-fld="'+fld+'" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" value="'+escapeAttr(v)+'" /></div>';
+    }
+    var ph = unit==="percent"?"0":"0";
+    var suffix = unit==="percent"?'%':'';
+    return '<input class="input" data-fld="'+fld+'" type="text" inputmode="decimal" placeholder="'+ph+(suffix?' (%)':'')+'" autocomplete="off" value="'+escapeAttr(v)+'" />';
+  }
+
+  function updateProg(card,k){
+    var prog=card.querySelector("[data-prog]");
+    var info=progressInfo(k);
+    if(!info){ prog.hidden=true; return; }
+    prog.hidden=false;
+    var bar=card.querySelector(".bar > i");
+    bar.style.width=info.pct+"%";
+    var txt=card.querySelector("[data-progtext]");
+    var badge=card.querySelector("[data-progbadge]");
+    var pctOfTarget=info.rawPct;
+    txt.innerHTML="<b>"+fmt(k.unit,k.value)+"</b> of "+fmt(k.unit,k.target)+" target ("+pctOfTarget+"%)";
+    if(info.onTrack){
+      badge.innerHTML='<span class="badge badge-sage">On track</span>';
+      bar.style.background="linear-gradient(90deg,var(--sage),var(--olive))";
+    }else{
+      badge.innerHTML='<span class="badge badge-gold">Off track</span>';
+      bar.style.background="linear-gradient(90deg,#E0C081,var(--gold))";
+    }
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+  function escapeAttr(s){ return escapeHtml(s); }
+
+  /* ---------- events ---------- */
+  $("#biztype").addEventListener("change",function(){
+    seedFromTemplate(this.value);
+    render();
+    toast("Loaded "+this.options[this.selectedIndex].text+" KPIs 🌿");
+  });
+
+  $("#add-form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var nameEl=$("#c-name"), nameErr=$("#c-name-err");
+    var name=nameEl.value.trim();
+    if(!name){ nameEl.classList.add("error"); nameErr.classList.add("show"); nameEl.focus(); return; }
+    nameEl.classList.remove("error"); nameErr.classList.remove("show");
+    state.kpis.push({
+      id:uid(), name:name, unit:$("#c-unit").value,
+      note:$("#c-note").value.trim(), value:"", target:"", custom:true
+    });
+    save(); render();
+    nameEl.value=""; $("#c-note").value="";
+    toast("KPI added ✓");
+    list.lastElementChild && list.lastElementChild.scrollIntoView({behavior:"smooth",block:"center"});
+  });
+
+  $("#reset").onclick=function(){
+    if(!confirm("Reset the whole dashboard? This clears all KPIs, values and custom additions.")) return;
+    state={ type:$("#biztype").value, kpis:[] };
+    seedFromTemplate(state.type);
+    render();
+    toast("Dashboard reset 🌿");
+  };
+
+  /* ---------- init ---------- */
+  if(!load()){ seedFromTemplate("service"); }
+  render();
+})();
+</script>
+</body>
+</html>

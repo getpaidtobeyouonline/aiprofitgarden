@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Revenue Forecaster — AI Profit Garden</title>
+<meta name="description" content="Project the next 12 months of income based on your current trend and growth rate." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+[hidden]{display:none!important}
+.toggle{display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600;font-size:.9rem;color:var(--ink);user-select:none}
+.toggle input{position:absolute;opacity:0;width:1px;height:1px}
+.toggle .track{width:42px;height:24px;background:var(--line);border-radius:999px;position:relative;transition:background .2s;flex:0 0 auto}
+.toggle .track::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+.toggle input:checked + .track{background:var(--sage)}
+.toggle input:checked + .track::after{transform:translateX(18px)}
+.toggle input:focus-visible + .track{outline:3px solid var(--ring);outline-offset:2px}
+.mtable{margin-top:6px}
+.mrow{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.mrow:first-child{border-top:none}
+.mrow .mname{font-weight:700;font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.mrow .mbar{height:14px;background:var(--sage-soft);border-radius:999px;overflow:hidden;position:relative;min-width:30px}
+.mrow .mbar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .6s ease}
+.mrow .mbar.cons > i{background:linear-gradient(90deg,#C9D9CE,#8AA593)}
+.mrow .mval{font-family:var(--serif);font-weight:700;color:var(--olive);white-space:nowrap;font-size:.95rem}
+.mrow .mval small{display:block;font-family:var(--sans);font-weight:400;font-size:.72rem;color:var(--muted);text-align:right}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:4px;display:inline-block}
+.swatch-main{background:linear-gradient(90deg,var(--sage),var(--olive))}
+.swatch-cons{background:linear-gradient(90deg,#C9D9CE,#8AA593)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Revenue Forecaster</h1>
+      <p class="app-sub">See where steady growth could take you over the next year.</p>
+    </div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card">
+    <h2 class="section-title">Plant today, harvest all year</h2>
+    <p class="section-note">Enter where you are now and how much you expect to grow each month. Small, steady growth compounds — like a tree that quietly doubles its fruit season after season.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="rev">Current monthly revenue <span class="hint">— this month's income</span></label>
+        <div class="input-money"><span>$</span>
+          <input id="rev" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="rev-err" />
+        </div>
+        <div class="err-text" id="rev-err">Please enter your current monthly revenue (0 or more).</div>
+      </div>
+
+      <div class="field">
+        <label for="growth">Expected monthly growth <span class="hint">— % per month</span></label>
+        <input id="growth" class="input" type="text" inputmode="decimal" placeholder="5" autocomplete="off" aria-describedby="growth-err" />
+        <div class="err-text" id="growth-err">Use a number between -50 and 100 (e.g. 5 for steady 5% growth).</div>
+      </div>
+
+      <div class="field">
+        <label class="toggle">
+          <input type="checkbox" id="conservative" />
+          <span class="track" aria-hidden="true"></span>
+          <span>Also show a conservative scenario <span class="hint">— half the growth rate</span></span>
+        </label>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Forecast my year</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card" id="result" hidden aria-live="polite">
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Projected 12-month total</div><div class="value" id="s-total">$0</div></div>
+      <div class="stat"><div class="label">Month 12 revenue</div><div class="value" id="s-m12">$0</div></div>
+    </div>
+
+    <div id="r-message" class="callout callout-info mt"></div>
+
+    <h3 class="section-title mt" style="font-size:1rem">Month by month</h3>
+    <div class="mtable" id="mtable"></div>
+    <div class="legend" id="legend" hidden>
+      <span><i class="swatch-main"></i> Expected</span>
+      <span><i class="swatch-cons"></i> Conservative</span>
+    </div>
+
+    <div class="verse">
+      “The path of the righteous is like the morning sun, shining ever brighter.”
+      <cite>Proverbs 4:18 · steady growth, compounding</cite>
+    </div>
+
+    <div class="btn-row mt">
+      <button type="button" class="btn btn-olive btn-sm" id="copy">Copy forecast</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_revenue_forecaster_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var result=$("#result");
+  var MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function money0(n){ return "$"+Math.round(n).toLocaleString("en-US"); }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function clearErr(id){ $("#"+id).classList.remove("error"); $("#"+id+"-err").classList.remove("show"); }
+  function showErr(id){ $("#"+id).classList.add("error"); $("#"+id+"-err").classList.add("show"); }
+
+  /* project 12 months; month 1 = current revenue, then grows */
+  function project(start,ratePct){
+    var arr=[], r=ratePct/100, v=start;
+    for(var i=0;i<12;i++){ arr.push(v); v=v*(1+r); }
+    return arr;
+  }
+  function sum(a){ return a.reduce(function(x,y){return x+y},0); }
+
+  function calculate(){
+    clearErr("rev"); clearErr("growth");
+    var ok=true, firstBad=null;
+
+    var revRaw=$("#rev").value.trim();
+    if(revRaw==="" || num(revRaw)<0){ showErr("rev"); ok=false; firstBad=firstBad||"rev"; }
+
+    var gRaw=$("#growth").value.trim();
+    if(gRaw===""){ showErr("growth"); ok=false; firstBad=firstBad||"growth"; }
+    var g=num(gRaw);
+    if(gRaw!=="" && (g<-50 || g>100)){ showErr("growth"); ok=false; firstBad=firstBad||"growth"; }
+
+    if(!ok){ $("#"+firstBad).focus(); return; }
+
+    var start=num(revRaw);
+    var showCons=$("#conservative").checked;
+
+    var main=project(start,g);
+    var cons=showCons?project(start,g/2):null;
+
+    var mTotal=sum(main);
+    $("#s-total").textContent=money0(mTotal);
+    $("#s-m12").textContent=money0(main[11]);
+
+    /* scale bars to the largest value shown */
+    var maxV=Math.max.apply(null, main.concat(cons||[]));
+    if(maxV<=0) maxV=1;
+
+    var html="";
+    for(var i=0;i<12;i++){
+      var w=Math.max(2,(main[i]/maxV)*100);
+      html+='<div class="mrow"><div class="mname">'+MONTHS[i]+'</div>'+
+        '<div class="mbar"><i style="width:'+w+'%"></i></div>'+
+        '<div class="mval">'+money0(main[i])+
+        (cons?'<small>'+money0(cons[i])+' cons.</small>':'')+'</div></div>';
+      if(cons){
+        var wc=Math.max(2,(cons[i]/maxV)*100);
+        html+='<div class="mrow"><div class="mname"></div>'+
+          '<div class="mbar cons"><i style="width:'+wc+'%"></i></div>'+
+          '<div class="mval"></div></div>';
+      }
+    }
+    $("#mtable").innerHTML=html;
+    $("#legend").hidden=!cons;
+
+    /* friendly message */
+    var msg=$("#r-message");
+    var growthX = start>0 ? (main[11]/start) : 1;
+    var m;
+    if(g<0){
+      m="You've entered a declining trend. That's useful to see honestly — and it's a prompt, not a verdict. One new offer or a gentle re-engagement of past clients could turn this curve upward.";
+      msg.className="callout callout-warn mt";
+    }else if(g===0){
+      m="Flat and steady. There's real peace in stability — and when you're ready, even 2–3% monthly growth would compound into noticeably more by December.";
+      msg.className="callout callout-info mt";
+    }else{
+      m="Lovely — at "+g+"% a month, your monthly revenue would grow about "+growthX.toFixed(1)+"× by month 12. That's the quiet power of compounding: small, faithful steps adding up to a real harvest.";
+      msg.className="callout callout-info mt";
+    }
+    msg.textContent=m;
+
+    result.hidden=false;
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+    persist();
+    return {start:start,g:g,total:mTotal,m12:main[11]};
+  }
+
+  function persist(){
+    try{ localStorage.setItem(KEY,JSON.stringify({
+      rev:$("#rev").value,growth:$("#growth").value,cons:$("#conservative").checked
+    })); }catch(e){}
+  }
+  function load(){
+    try{
+      var d=JSON.parse(localStorage.getItem(KEY)||"null");
+      if(!d) return false;
+      $("#rev").value=d.rev||""; $("#growth").value=d.growth||"";
+      $("#conservative").checked=!!d.cons;
+      return true;
+    }catch(e){ return false; }
+  }
+
+  $("#form").addEventListener("submit",function(e){ e.preventDefault(); calculate(); });
+  $("#conservative").addEventListener("change",function(){ if(!result.hidden) calculate(); else persist(); });
+
+  $("#reset").onclick=function(){
+    $("#rev").value=""; $("#growth").value=""; $("#conservative").checked=false;
+    clearErr("rev"); clearErr("growth");
+    result.hidden=true;
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    toast("Cleared 🌿");
+    $("#rev").focus();
+  };
+
+  $("#copy").onclick=function(){
+    var txt="Revenue Forecast (12 months)\n"+
+      "Starting monthly revenue: "+$("#rev").value+"\n"+
+      "Growth rate: "+$("#growth").value+"% / month\n"+
+      "Projected 12-month total: "+$("#s-total").textContent+"\n"+
+      "Month 12 revenue: "+$("#s-m12").textContent;
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){toast("Forecast copied ✓")},function(){toast("Couldn't copy")});
+    }else{ toast("Copy not supported here"); }
+  };
+
+  if(load() && $("#rev").value.trim()!=="" && $("#growth").value.trim()!==""){ calculate(); }
+})();
+</script>
+</body>
+</html>

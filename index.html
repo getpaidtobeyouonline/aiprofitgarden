@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Profit Garden — Tool Library</title>
+<meta name="description" content="The AI Profit Garden tool library — 102 simple, faith-led business tools to help you grow a flourishing business." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:1040px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 80px}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+
+/* Header */
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:34px 28px;box-shadow:var(--shadow);display:flex;align-items:center;gap:18px}
+.app-header::after{content:"";position:absolute;top:-70px;right:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:58px;height:58px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:38px;height:38px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.7rem;color:var(--gold-soft);margin-bottom:4px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:2rem;line-height:1.12;color:#fff}
+.app-sub{font-size:.98rem;color:rgba(243,241,231,.85);margin-top:6px;max-width:60ch}
+
+/* Search + controls */
+.controls{margin-top:18px;display:flex;flex-direction:column;gap:12px}
+.search{position:relative}
+.search input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:14px 18px 14px 46px;box-shadow:var(--shadow)}
+.search input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.search svg{position:absolute;left:17px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);padding:8px 14px;border-radius:999px;transition:.15s;-webkit-tap-highlight-color:transparent}
+.chip:hover{border-color:var(--sage);background:var(--sage-soft)}
+.chip.active{background:var(--olive);border-color:var(--olive);color:#fff}
+.count{color:var(--muted);font-size:.85rem;padding-left:4px}
+
+/* Category sections */
+.cat{margin-top:34px}
+.cat-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+.cat-letter{font-family:var(--serif);font-weight:700;font-size:1rem;color:#fff;background:var(--gold);width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;flex:0 0 auto}
+.cat-title{font-family:var(--serif);font-weight:600;font-size:1.35rem;color:var(--olive)}
+.cat-note{color:var(--muted);font-size:.9rem;margin:2px 0 14px 40px}
+
+/* App grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:14px}
+.tile{display:flex;flex-direction:column;gap:6px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 17px;transition:transform .1s,box-shadow .15s,border-color .15s;position:relative}
+.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--sage)}
+.tile .num{font-size:.7rem;font-weight:700;letter-spacing:.06em;color:var(--gold);text-transform:uppercase}
+.tile h3{font-family:var(--serif);font-weight:600;font-size:1.06rem;color:var(--ink);line-height:1.2}
+.tile p{font-size:.86rem;color:var(--muted);line-height:1.45}
+.tile .go{margin-top:auto;font-size:.8rem;font-weight:700;color:var(--olive);display:inline-flex;align-items:center;gap:5px;padding-top:6px}
+.tile::after{content:"";position:absolute;inset:0;border-radius:var(--radius)}
+
+/* No results */
+.empty{text-align:center;color:var(--muted);padding:50px 14px;display:none}
+.empty .ico{font-size:2rem;display:block;margin-bottom:10px;opacity:.6}
+
+/* Footer */
+.app-footer{text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic;font-size:1.05rem}
+
+@media (max-width:560px){
+  .app-header{flex-direction:column;text-align:center;padding:28px 22px}
+  .app-title{font-size:1.6rem}
+  .cat-note{margin-left:0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Your Tool Library</h1>
+      <p class="app-sub">102 simple, faith-led tools to bring clarity to your numbers, peace to your days, and fruit to your business. Pick one and begin.</p>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="q" type="search" placeholder="Search tools… (e.g. tax, pricing, prayer, cash)" aria-label="Search tools" autocomplete="off" />
+    </div>
+    <div class="chips" id="chips" role="tablist" aria-label="Filter by category"></div>
+    <div class="count" id="count" aria-live="polite"></div>
+  </div>
+
+  <main id="cats"></main>
+
+  <div class="empty" id="empty"><span class="ico">🌱</span>No tools match that search yet — try another word.</div>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var CATS=[
+    {k:"A",t:"Financial Visibility & Dashboards",n:"See your real numbers clearly — no spreadsheet required.",apps:[
+      [1,"Profit Snapshot","See your real profit and margin in seconds.","profit-snapshot.html"],
+      [2,"Business Health Scorecard","Answer 10 questions for a 0–100 financial health score.","business-health-scorecard.html"],
+      [3,"Numbers At A Glance Dashboard","A one-screen view of your key money metrics.","numbers-at-a-glance-dashboard.html"],
+      [4,"Break-Even Calculator","How much to sell each month to stop losing money.","break-even-calculator.html"],
+      [5,"Owner's Pay Planner","A sustainable salary that won't starve the business.","owners-pay-planner.html"],
+      [6,"Revenue Forecaster","Project the next 12 months of income.","revenue-forecaster.html"],
+      [7,"Expense Leak Finder","Spot the silent costs draining your profit.","expense-leak-finder.html"],
+      [8,"Monthly Money Check-In","A guided 5-minute review to stay on track.","monthly-money-check-in.html"],
+      [9,"Financial Statement Translator","Your P&L explained in plain English.","financial-statement-translator.html"],
+      [10,"Business Net Worth Tracker","See what your business is worth and watch it grow.","business-net-worth-tracker.html"]
+    ]},
+    {k:"B",t:"Profitability Tools",n:"Find the money already hiding in your business.",apps:[
+      [11,"Profit Margin Optimizer","Test price and cost changes on your bottom line.","profit-margin-optimizer.html"],
+      [12,"Offer Profit Ranker","See which offers make money and which lose it.","offer-profit-ranker.html"],
+      [13,"60-Day Profit Plan Builder","A focused plan to add profit in two months.","sixty-day-profit-plan-builder.html"],
+      [14,"Client Profitability Calculator","Which clients are worth keeping — and which cost you.","client-profitability-calculator.html"],
+      [15,"Profit-First Allocator","Split every deposit into profit, tax, pay & expenses.","profit-first-allocator.html"],
+      [16,"Hidden Profit Finder","Uncover 3 quick wins hiding in your business.","hidden-profit-finder.html"],
+      [17,"Margin Leak Audit","Expose where your margins are quietly slipping.","margin-leak-audit.html"],
+      [18,"Upsell Revenue Estimator","How much one simple upsell could add this year.","upsell-revenue-estimator.html"],
+      [19,"Profit Goal Reverse-Planner","Set a profit goal, get the exact monthly numbers.","profit-goal-reverse-planner.html"],
+      [20,"Discount Impact Calculator","The true cost of that 'small' discount.","discount-impact-calculator.html"]
+    ]},
+    {k:"C",t:"Cash Flow Tools",n:"Never get caught short again.",apps:[
+      [21,"Daily Cash Flow Generator","Today's money in, out, and what's safe to spend.","daily-cash-flow-generator.html"],
+      [22,"13-Week Cash Flow Forecaster","Map the next quarter of cash.","thirteen-week-cash-flow-forecaster.html"],
+      [23,"Cash Runway Calculator","How many months you can survive at today's pace.","cash-runway-calculator.html"],
+      [24,"Invoice Chaser Helper","Polite, firm follow-ups to get paid faster.","invoice-chaser-helper.html"],
+      [25,"Cash Gap Predictor","Early warning before a tight cash week.","cash-gap-predictor.html"],
+      [26,"Payment Terms Optimizer","See how faster payments change your cash.","payment-terms-optimizer.html"],
+      [27,"Emergency Fund Builder","Build a cushion that lets you sleep at night.","emergency-fund-builder.html"],
+      [28,"Seasonal Cash Planner","Smooth out the feast-and-famine months.","seasonal-cash-planner.html"],
+      [29,"Bill Pay Prioritizer","When cash is tight, see which bills to pay first.","bill-pay-prioritizer.html"],
+      [30,"Cash Confidence Tracker","A weekly pulse-check on your cash position.","cash-confidence-tracker.html"]
+    ]},
+    {k:"D",t:"Tax & Compliance",n:"So April never surprises you.",apps:[
+      [31,"Quarterly Tax Estimator","Estimate your quarterly payments.","quarterly-tax-estimator.html"],
+      [32,"Tax Set-Aside Calculator","What % of every sale to save for tax.","tax-set-aside-calculator.html"],
+      [33,"Deduction Finder","A checklist of write-offs owners often miss.","deduction-finder.html"],
+      [34,"Mileage & Travel Log","Log business trips and tally the deduction.","mileage-and-travel-log.html"],
+      [35,"Receipt Organizer Helper","Sort and label expenses for easy tax time.","receipt-organizer-helper.html"],
+      [36,"Tax Deadline Reminder Builder","Your personal calendar of key filing dates.","tax-deadline-reminder-builder.html"],
+      [37,"Home Office Deduction Calculator","Work out what you can claim for your workspace.","home-office-deduction-calculator.html"],
+      [38,"Contractor vs Employee Checker","A simple guide to classify your team.","contractor-vs-employee-checker.html"],
+      [39,"Year-End Tax Prep Checklist","Walk into your accountant's office organized.","year-end-tax-prep-checklist.html"],
+      [40,"Sales Tax Helper","Track what you owe and where, without panic.","sales-tax-helper.html"]
+    ]},
+    {k:"E",t:"Pricing & Sales",n:"Charge your worth, with confidence.",apps:[
+      [41,"Price My Offer Calculator","Set prices based on real costs and real profit.","price-my-offer-calculator.html"],
+      [42,"Rate Increase Script Builder","Raise prices without losing clients.","rate-increase-script-builder.html"],
+      [43,"Proposal Generator","Turn details into a clean client proposal.","proposal-generator.html"],
+      [44,"Quote Builder","Accurate quotes in minutes, with built-in margins.","quote-builder.html"],
+      [45,"Simple Sales Pipeline","A clear view of every deal in progress.","simple-sales-pipeline.html"],
+      [46,"Lead Magnet Generator","Create a freebie that attracts ideal clients.","lead-magnet-generator.html"],
+      [47,"Discount Decision Helper","Decide if a deal is worth it before you say yes.","discount-decision-helper.html"],
+      [48,"Sales Call Prep Sheet","Walk into every call prepared and confident.","sales-call-prep-sheet.html"],
+      [49,"Win-Back Message Writer","Re-engage past clients with ready outreach.","win-back-message-writer.html"],
+      [50,"Service Package Builder","Bundle services into easy-to-buy packages.","service-package-builder.html"]
+    ]},
+    {k:"F",t:"AI Implementation & Productivity",n:"Let AI do the busywork, gently.",apps:[
+      [51,"AI Starter Roadmap","Your personal step-by-step AI plan.","ai-starter-roadmap.html"],
+      [52,"AI Tool Matchmaker","Get the right kind of AI tool for your problem.","ai-tool-matchmaker.html"],
+      [53,"Prompt Builder For Business Owners","Turn a plain request into a powerful prompt.","prompt-builder-for-business-owners.html"],
+      [54,"AI Use-Case Finder","The 5 tasks AI should do for you this week.","ai-use-case-finder.html"],
+      [55,"AI ROI Calculator","See the time and money an AI workflow saves.","ai-roi-calculator.html"],
+      [56,"Email Draft Assistant","Professional client emails in your warm voice.","email-draft-assistant.html"],
+      [57,"Meeting Notes Summarizer","Turn messy notes into clear action items.","meeting-notes-summarizer.html"],
+      [58,"Content Repurposer","One idea into a post, an email, and a caption.","content-repurposer.html"],
+      [59,"AI Overwhelm Filter","Decide what's actually worth your time.","ai-overwhelm-filter.html"],
+      [60,"Weekly AI Win Tracker","Log the time AI saved and watch it add up.","weekly-ai-win-tracker.html"]
+    ]},
+    {k:"G",t:"Systems, SOPs & Operations",n:"Get it out of your head and into a system.",apps:[
+      [61,"SOP Creator","Turn any task into a repeatable procedure.","sop-creator.html"],
+      [62,"Process Map Builder","Lay out a workflow you can hand off.","process-map-builder.html"],
+      [63,"Delegation Decision Helper","Decide what to keep, automate, or hand off.","delegation-decision-helper.html"],
+      [64,"Onboarding Checklist Builder","A smooth first week for every new client.","onboarding-checklist-builder.html"],
+      [65,"Standard Reply Library","A bank of ready-to-send answers.","standard-reply-library.html"],
+      [66,"Task Batching Planner","Group similar work to do more in less time.","task-batching-planner.html"],
+      [67,"Tech Stack Auditor","Find tools you're paying for twice.","tech-stack-auditor.html"],
+      [68,"Workflow Bottleneck Finder","Pinpoint the step slowing you down.","workflow-bottleneck-finder.html"],
+      [69,"Standard Operating Calendar","Map daily, weekly & monthly rhythms.","standard-operating-calendar.html"],
+      [70,"Handover Document Builder","A clean brief so anyone can pick up a task.","handover-document-builder.html"]
+    ]},
+    {k:"H",t:"Lead Generation & Client Growth",n:"Fill your garden with the right people.",apps:[
+      [71,"Ideal Client Clarifier","Define exactly who you serve.","ideal-client-clarifier.html"],
+      [72,"Referral Request Generator","Warm messages that bring word-of-mouth.","referral-request-generator.html"],
+      [73,"Follow-Up Sequence Builder","Never lose a lead to silence again.","follow-up-sequence-builder.html"],
+      [74,"Testimonial Collector","The perfect ask for glowing reviews.","testimonial-collector.html"],
+      [75,"Offer Clarity Builder","Turn a fuzzy service into a clear offer.","offer-clarity-builder.html"],
+      [76,"Discovery Call Booker","A simple system to fill your calendar.","discovery-call-booker.html"],
+      [77,"Client Value Tracker","See the lifetime value of each client.","client-value-tracker.html"],
+      [78,"Networking Follow-Up Helper","Turn cards and DMs into real conversations.","networking-follow-up-helper.html"],
+      [79,"Ideal Prospect Finder","Find businesses that fit your ideal client.","ideal-prospect-finder.html"],
+      [80,"Re-Engagement Campaign Builder","Wake up your quiet email list.","re-engagement-campaign-builder.html"]
+    ]},
+    {k:"I",t:"KPIs & Decision-Making",n:"Make the next right decision with clarity.",apps:[
+      [81,"Industry KPI Dashboard","Track the numbers that matter in your industry.","industry-kpi-dashboard.html"],
+      [82,"Decision Confidence Helper","Weigh any big choice with a guided framework.","decision-confidence-helper.html"],
+      [83,"Goal-To-Numbers Translator","Turn a yearly goal into weekly targets.","goal-to-numbers-translator.html"],
+      [84,"Weekly Scoreboard","Track your 5 most important metrics.","weekly-scoreboard.html"],
+      [85,"Hire-Or-Not Calculator","See if you can truly afford your next hire.","hire-or-not-calculator.html"],
+      [86,"Should I Buy It? Checker","Run any purchase through a profit test.","should-i-buy-it-checker.html"],
+      [87,"Capacity Calculator","How much you can take on before burnout.","capacity-calculator.html"],
+      [88,"Growth Readiness Quiz","Find out if you're ready to scale.","growth-readiness-quiz.html"],
+      [89,"Quarterly Review Builder","Run a focused 90-day review in under an hour.","quarterly-review-builder.html"],
+      [90,"Opportunity Ranker","Score your ideas and know which to pursue.","opportunity-ranker.html"]
+    ]},
+    {k:"J",t:"Kingdom Wealth — Faith, Mindset & Family",n:"Grow from a place of peace, rooted and well-watered.",apps:[
+      [91,"Faith & Business Devotional","A short daily Scripture and reflection.","faith-and-business-devotional.html"],
+      [92,"Prayer & Intentions Tracker","Record your prayers and watch them unfold.","prayer-and-intentions-tracker.html"],
+      [93,"Giving & Tithe Tracker","Track tithes and giving with clarity.","giving-and-tithe-tracker.html"],
+      [94,"Kingdom Generosity Tracker","Plan the generosity your business pours out.","kingdom-generosity-tracker.html"],
+      [95,"Gratitude & Praise Journal","Capture three praises a day.","gratitude-and-praise-journal.html"],
+      [96,"Sabbath & Rest Planner","Plan true rest into your week.","sabbath-and-rest-planner.html"],
+      [97,"Faith & Focus Tracker","Do deep work from a place of peace.","faith-and-focus-tracker.html"],
+      [98,"Daily Mindset Boost","A grounded, encouraging word to start your day.","daily-mindset-boost.html"],
+      [99,"Vision & Values Compass","Reconnect with why God called you.","vision-and-values-compass.html"],
+      [100,"Stress Reset Tool","A 2-minute guided pause when it's all too much.","stress-reset-tool.html"],
+      [101,"Work-Life Boundary Builder","Protect the hours that belong to family and rest.","work-life-boundary-builder.html"],
+      [102,"Personality & Communication Helper","Understand others and respond with grace.","personality-and-communication-helper.html"]
+    ]}
+  ];
+
+  var catsEl=document.getElementById("cats"),
+      chipsEl=document.getElementById("chips"),
+      qEl=document.getElementById("q"),
+      countEl=document.getElementById("count"),
+      emptyEl=document.getElementById("empty");
+  var activeCat="all", query="";
+
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+  // build chips
+  var chipData=[["all","All 102"]].concat(CATS.map(function(c){return [c.k,c.k+" · "+c.t.split(" — ")[0]]}));
+  chipsEl.innerHTML=chipData.map(function(c,i){
+    return '<button class="chip'+(i===0?' active':'')+'" data-cat="'+c[0]+'" role="tab">'+esc(c[1])+'</button>';
+  }).join("");
+
+  // build sections
+  catsEl.innerHTML=CATS.map(function(c){
+    var tiles=c.apps.map(function(a){
+      return '<a class="tile" href="'+a[3]+'" data-name="'+esc((a[1]+" "+a[2]).toLowerCase())+'">'+
+        '<span class="num">#'+a[0]+'</span>'+
+        '<h3>'+esc(a[1])+'</h3>'+
+        '<p>'+esc(a[2])+'</p>'+
+        '<span class="go">Open tool →</span>'+
+      '</a>';
+    }).join("");
+    return '<section class="cat" data-cat="'+c.k+'">'+
+      '<div class="cat-head"><span class="cat-letter">'+c.k+'</span><h2 class="cat-title">'+esc(c.t)+'</h2></div>'+
+      '<p class="cat-note">'+esc(c.n)+'</p>'+
+      '<div class="grid">'+tiles+'</div>'+
+    '</section>';
+  }).join("");
+
+  function apply(){
+    var q=query.trim().toLowerCase();
+    var shown=0;
+    CATS.forEach(function(c){
+      var sec=catsEl.querySelector('.cat[data-cat="'+c.k+'"]');
+      var catOk=(activeCat==="all"||activeCat===c.k);
+      var anyVisible=false;
+      sec.querySelectorAll(".tile").forEach(function(t){
+        var match=catOk && (q===""||t.getAttribute("data-name").indexOf(q)>-1);
+        t.style.display=match?"":"none";
+        if(match){anyVisible=true;shown++}
+      });
+      sec.style.display=anyVisible?"":"none";
+    });
+    countEl.textContent=shown+(shown===1?" tool":" tools")+(q||activeCat!=="all"?" found":" in your garden");
+    emptyEl.style.display=shown?"none":"block";
+  }
+
+  chipsEl.addEventListener("click",function(e){
+    var b=e.target.closest(".chip"); if(!b)return;
+    activeCat=b.getAttribute("data-cat");
+    chipsEl.querySelectorAll(".chip").forEach(function(x){x.classList.toggle("active",x===b)});
+    apply();
+    if(activeCat!=="all"){var sec=catsEl.querySelector('.cat[data-cat="'+activeCat+'"]');if(sec)window.scrollTo({top:0});}
+  });
+  qEl.addEventListener("input",function(){query=qEl.value;if(query)
+    {activeCat="all";chipsEl.querySelectorAll(".chip").forEach(function(x){x.classList.toggle("active",x.getAttribute("data-cat")==="all")});}
+    apply();});
+
+  apply();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Expense Leak Finder — AI Profit Garden</title>
+<meta name="description" content="Spot silent subscriptions and costs quietly draining your profit — no shame, just clarity." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   AI PROFIT GARDEN — SHARED STYLE BLOCK (v1)  [identical across all apps]
+   ============================================================ */
+:root{
+  --olive:#2F4A33;--olive-deep:#22351F;--sage:#7BA68A;--sage-soft:#E4EEE6;
+  --gold:#C2954A;--gold-soft:#F3E6CF;--cream:#FBFAF6;--ink:#2C2C28;
+  --paper:#FFFFFF;--line:#E7E3D8;--muted:#6E6E64;--danger:#B4543A;--danger-soft:#F6E3DC;
+  --ring:rgba(123,166,138,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:14px;--radius-lg:22px;--radius-sm:10px;
+  --shadow:0 6px 22px rgba(47,74,51,.08);--shadow-lg:0 16px 40px rgba(47,74,51,.14);--maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 480px at 100% -5%,rgba(123,166,138,.16),transparent 60%),radial-gradient(820px 460px at -10% 8%,rgba(194,149,74,.10),transparent 55%)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:20px 18px 72px}
+a{color:var(--olive);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.app-header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--olive) 0%,var(--olive-deep) 100%);color:#F3F1E7;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.app-header::after{content:"";position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,149,74,.34),transparent 68%);pointer-events:none}
+.brandmark{flex:0 0 auto;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:50%}
+.brandmark svg{width:30px;height:30px;display:block}
+.app-titles{position:relative;z-index:1;min-width:0}
+.app-eyebrow{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:var(--gold-soft);opacity:.95;margin-bottom:3px}
+.app-title{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.15;color:#fff;letter-spacing:.2px}
+.app-sub{font-size:.9rem;color:rgba(243,241,231,.82);margin-top:4px}
+.app-footer{text-align:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.app-footer .leaf{color:var(--sage);font-weight:700}
+.app-footer .tag{font-family:var(--serif);color:var(--olive);font-style:italic}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.section-title{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--olive);margin-bottom:4px}
+.section-note{font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.verse{background:var(--sage-soft);border-left:4px solid var(--sage);border-radius:var(--radius-sm);padding:12px 16px;margin-top:16px;font-family:var(--serif);font-style:italic;color:#3C5240;font-size:.95rem}
+.verse cite{display:block;font-style:normal;font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-top:6px}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:6px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem;margin-left:2px}
+.input,.select,textarea.input{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:#A6A399}
+.input:focus,.select:focus,textarea.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px var(--ring)}
+.input.error{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+textarea.input{min-height:96px;resize:vertical}
+.input-money{position:relative}
+.input-money > span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.input-money .input{padding-left:30px}
+.err-text{color:var(--danger);font-size:.8rem;margin-top:5px;display:none}
+.err-text.show{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.96rem;cursor:pointer;border:none;border-radius:999px;padding:13px 24px;transition:transform .08s,box-shadow .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,#B07F38 100%);color:#fff;box-shadow:0 6px 16px rgba(194,149,74,.32)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(194,149,74,.42)}
+.btn-olive{background:var(--olive);color:#fff}
+.btn-olive:hover{background:var(--olive-deep)}
+.btn-ghost{background:transparent;color:var(--olive);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--sage);background:var(--sage-soft)}
+.btn-block{width:100%}.btn-sm{padding:9px 16px;font-size:.86rem}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+.badge-sage{background:var(--sage-soft);color:#3C5240}
+.badge-gold{background:var(--gold-soft);color:#7A5520}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.stat{background:linear-gradient(135deg,var(--sage-soft),#fff);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .label{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat .value{font-family:var(--serif);font-weight:700;font-size:1.9rem;color:var(--olive);line-height:1.1;margin-top:4px}
+.stat .value.pos{color:#2F7A4E}.stat .value.neg{color:var(--danger)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--sage),var(--olive));transition:width .5s ease}
+.item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:none}
+.item .grow{flex:1;min-width:0}.item .grow strong{display:block}.item .grow small{color:var(--muted)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;border-radius:8px;font-size:.9rem}
+.icon-btn:hover{background:var(--danger-soft);color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:26px 14px}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:8px;opacity:.6}
+.callout{border-radius:var(--radius);padding:13px 16px;font-size:.9rem;margin-top:14px}
+.callout-info{background:var(--gold-soft);color:#7A5520}
+.callout-warn{background:var(--danger-soft);color:var(--danger)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--olive);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);transition:opacity .25s,transform .25s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row > *{flex:1;min-width:140px}
+.muted{color:var(--muted)}.center{text-align:center}
+.mt-0{margin-top:0}.mt-s{margin-top:8px}.mt{margin-top:16px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* ---- App-specific touches ---- */
+[hidden]{display:none!important}
+.add-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:560px){ .add-grid{grid-template-columns:2fr 1fr 1.2fr} }
+.item .grow .meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px}
+.item.leak{background:linear-gradient(90deg,var(--danger-soft),transparent 70%);border-radius:var(--radius);padding-left:12px;margin-left:-12px}
+.annual{font-family:var(--serif);font-weight:700;color:var(--olive);white-space:nowrap;text-align:right}
+.annual small{display:block;font-family:var(--sans);font-weight:400;font-size:.74rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <div class="brandmark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 29C16 21 16 13 19 7" stroke="#E4EEE6" stroke-width="1.7" stroke-linecap="round"/>
+        <g fill="#9FC5AC">
+          <ellipse cx="11.4" cy="20.5" rx="3.1" ry="1.7" transform="rotate(-32 11.4 20.5)"/>
+          <ellipse cx="20.6" cy="17.5" rx="3.1" ry="1.7" transform="rotate(32 20.6 17.5)"/>
+          <ellipse cx="12.6" cy="14.5" rx="3" ry="1.6" transform="rotate(-30 12.6 14.5)"/>
+          <ellipse cx="20" cy="11.4" rx="3" ry="1.6" transform="rotate(34 20 11.4)"/>
+        </g>
+        <circle cx="19.2" cy="7.4" r="2.5" fill="#C2954A"/>
+        <circle cx="22.6" cy="9.8" r="1.9" fill="#C2954A"/>
+      </svg>
+    </div>
+    <div class="app-titles">
+      <div class="app-eyebrow">AI Profit Garden</div>
+      <h1 class="app-title">Expense Leak Finder</h1>
+      <p class="app-sub">Spot the silent costs quietly draining your profit.</p>
+    </div>
+  </header>
+
+  <!-- ADD -->
+  <section class="card">
+    <h2 class="section-title">Let's gather your recurring costs</h2>
+    <p class="section-note">Add each subscription or recurring expense. No shame here — every business has a few of these hiding in the soil. We'll gently flag the ones you barely use.</p>
+
+    <form id="form" novalidate>
+      <div class="add-grid">
+        <div class="field" style="margin-bottom:0">
+          <label for="name">What is it?</label>
+          <input id="name" class="input" type="text" placeholder="e.g. Design tool" autocomplete="off" aria-describedby="name-err" />
+          <div class="err-text" id="name-err">Please give it a name.</div>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="cost">Monthly cost</label>
+          <div class="input-money"><span>$</span>
+            <input id="cost" class="input" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-describedby="cost-err" />
+          </div>
+          <div class="err-text" id="cost-err">Enter a cost above 0.</div>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="freq">How often used?</label>
+          <select id="freq" class="select">
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly" selected>Monthly</option>
+            <option value="Rarely">Rarely</option>
+            <option value="Never">Never</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-row mt">
+        <button type="submit" class="btn btn-primary">+ Add expense</button>
+        <button type="button" class="btn btn-ghost" id="clear-all">Clear all</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- STATS -->
+  <section class="card" id="stats-card" hidden aria-live="polite">
+    <div class="stat-grid">
+      <div class="stat"><div class="label">Total monthly spend</div><div class="value" id="s-month">$0</div></div>
+      <div class="stat"><div class="label">Total annual spend</div><div class="value" id="s-year">$0</div></div>
+      <div class="stat"><div class="label">Potential yearly savings</div><div class="value neg" id="s-save">$0</div></div>
+    </div>
+    <div id="r-message" class="callout callout-info mt"></div>
+    <div class="verse" id="r-verse" hidden>
+      “Be sure you know the condition of your flocks, give careful attention to your herds.”
+      <cite>Proverbs 27:23 · tend what you have</cite>
+    </div>
+  </section>
+
+  <!-- LIST -->
+  <section class="card">
+    <h2 class="section-title">Your recurring costs</h2>
+    <p class="section-note">Items marked <span class="badge badge-danger">Likely leak</span> are rarely or never used — gentle candidates to cancel.</p>
+    <div id="list"></div>
+  </section>
+
+  <footer class="app-footer">
+    <p class="tag">Grow a flourishing business.</p>
+    <p>AI Profit Garden <span class="leaf">🌿</span> grow a flourishing business</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="apg_expense_leak_v1";
+  var $=function(s,el){return (el||document).querySelector(s)};
+  var listEl=$("#list"), statsCard=$("#stats-card");
+  var items=[];
+
+  function money(n){
+    var neg=n<0; n=Math.abs(n);
+    var s="$"+n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+    return neg?"-"+s:s;
+  }
+  function num(v){ var n=parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show")},1900);}
+  function clearErr(id){ $("#"+id).classList.remove("error"); $("#"+id+"-err").classList.remove("show"); }
+  function showErr(id){ $("#"+id).classList.add("error"); $("#"+id+"-err").classList.add("show"); }
+  function isLeak(freq){ return freq==="Rarely" || freq==="Never"; }
+
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(items)); }catch(e){} }
+  function load(){ try{ items=JSON.parse(localStorage.getItem(KEY)||"[]")||[]; }catch(e){ items=[]; } }
+
+  function freqBadge(freq){
+    if(isLeak(freq)) return '<span class="badge badge-danger">Likely leak</span>';
+    if(freq==="Daily"||freq==="Weekly") return '<span class="badge badge-sage">'+freq+'</span>';
+    return '<span class="badge badge-gold">'+freq+'</span>';
+  }
+
+  function render(){
+    /* list */
+    if(!items.length){
+      listEl.innerHTML='<div class="empty"><span class="ico">🌱</span>No expenses added yet. Add your first subscription above — even the small ones add up over a year.</div>';
+    }else{
+      listEl.innerHTML="";
+      items.forEach(function(it,i){
+        var annual=it.cost*12;
+        var row=document.createElement("div");
+        row.className="item"+(isLeak(it.freq)?" leak":"");
+        row.innerHTML=
+          '<div class="grow"><strong>'+escapeHtml(it.name)+'</strong>'+
+          '<div class="meta">'+money(it.cost)+'/mo · '+freqBadge(it.freq)+'</div></div>'+
+          '<div class="annual">'+money(annual)+'<small>per year</small></div>'+
+          '<button class="icon-btn" aria-label="Remove '+escapeHtml(it.name)+'">✕</button>';
+        $(".icon-btn",row).onclick=function(){ items.splice(i,1); save(); render(); toast("Removed"); };
+        listEl.appendChild(row);
+      });
+    }
+
+    /* stats */
+    if(!items.length){ statsCard.hidden=true; return; }
+    statsCard.hidden=false;
+    var monthly=items.reduce(function(a,e){return a+e.cost},0);
+    var annual=monthly*12;
+    var savings=items.filter(function(e){return isLeak(e.freq)})
+                     .reduce(function(a,e){return a+e.cost*12},0);
+    var leakCount=items.filter(function(e){return isLeak(e.freq)}).length;
+
+    $("#s-month").textContent=money(monthly);
+    $("#s-year").textContent=money(annual);
+    $("#s-save").textContent=money(savings);
+
+    var msg=$("#r-message"), verse=$("#r-verse");
+    if(leakCount===0){
+      msg.className="callout callout-info mt";
+      msg.textContent="Wonderful — nothing flagged as a leak. Everything you're paying for is earning its place. That's good stewardship.";
+      verse.hidden=true;
+    }else{
+      msg.className="callout callout-warn mt";
+      msg.textContent="You've got "+leakCount+" item"+(leakCount>1?"s":"")+" you rarely or never use. Cancelling "+(leakCount>1?"them":"it")+" could free up "+money(savings)+" a year — money that could go toward your pay, your savings, or growing your business. No rush, no shame: just one small, freeing decision at a time.";
+      verse.hidden=false;
+    }
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+
+  $("#form").addEventListener("submit",function(e){
+    e.preventDefault();
+    clearErr("name"); clearErr("cost");
+    var ok=true, firstBad=null;
+    var name=$("#name").value.trim();
+    var cost=num($("#cost").value);
+    if(name===""){ showErr("name"); ok=false; firstBad=firstBad||"name"; }
+    if($("#cost").value.trim()==="" || cost<=0){ showErr("cost"); ok=false; firstBad=firstBad||"cost"; }
+    if(!ok){ $("#"+firstBad).focus(); return; }
+
+    items.push({name:name,cost:cost,freq:$("#freq").value});
+    save(); render();
+    $("#name").value=""; $("#cost").value=""; $("#freq").value="Monthly";
+    $("#name").focus();
+    toast("Added ✓");
+  });
+
+  $("#clear-all").onclick=function(){
+    if(!items.length){ toast("Nothing to clear"); return; }
+    items=[]; save(); render();
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    toast("Cleared 🌿");
+  };
+
+  load(); render();
+})();
+</script>
+</body>
+</html>
